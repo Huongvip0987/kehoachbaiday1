@@ -1,0 +1,27 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỨ TỰ ƯU TIÊN</span>
+    <h2>Thứ tự ưu tiên phép toán – Giải từng bước</h2>
+    <div class="two-col" style="margin-top:10px">
+      <div class="info-box">
+        <h4>📊 Bảng ưu tiên (cao → thấp)</h4>
+        <table class="name-table" style="font-size:0.82em">
+          <tr><th>Mức</th><th>Phép toán</th><th>Hướng</th></tr>
+          <tr><td style="color:#FFD43B">1</td><td><code>( )</code> Ngoặc</td><td>trong → ngoài</td></tr>
+          <tr><td style="color:#4fc3f7">2</td><td><code>**</code> Lũy thừa</td><td>← phải → trái</td></tr>
+          <tr><td style="color:#b5cea8">3</td><td><code>* / // %</code></td><td>trái → phải</td></tr>
+          <tr><td style="color:#ce9178">4</td><td><code>+ -</code></td><td>trái → phải</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>🧮 Giải ví dụ SGK tr.93</h4>
+        <pre style="margin:0"><code class="language-python">3/2 + 4*2**4 - 5//2**2
+# B1: ** trước: 2**4=16; 2**2=4
+# B2: Nhân/chia: 3/2=1.5; 4*16=64; 5//4=1
+# B3: Cộng/trừ: 1.5+64-1 = 64.5
+
+4**2**3   # Lũy thừa: phải → trái!
+# = 4**(2**3) = 4**8 = 65536
+# Khác: (4**2)**3 = 16**3 = 4096</code></pre>
+      </div>
+    </div>
+  </section>

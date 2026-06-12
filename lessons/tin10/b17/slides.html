@@ -1,0 +1,819 @@
+<!-- ══════════ SLIDE 1: TITLE ══════════ -->
+<section class="slide-title" data-background-color="#0a0f1e">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="deco-star s1">⭐</span>
+    <span class="deco-star s2">✨</span>
+    <span class="deco-star s3">🌟</span>
+    <span class="deco-code c1">x = 10</span>
+    <span class="deco-code c2">print()</span>
+    <span class="deco-code c3">+=</span>
+    <span class="deco-code c4">if</span>
+    <span class="deco-ruler">📐</span>
+  </div>
+  <div class="badge">TIN HỌC 10 · KẾT NỐI TRI THỨC · 2 TIẾT</div>
+  <h1>BÀI 17</h1>
+  <h2>Biến và Lệnh Gán</h2>
+  <div class="py-snake">🐍</div>
+  <div class="title-chips">
+    <span class="chip">🔢 Biến trong Python</span>
+    <span class="chip">⬅ Lệnh gán</span>
+    <span class="chip">➕ Phép toán</span>
+    <span class="chip">🔑 Từ khóa</span>
+  </div>
+  <div class="meta">SGK trang 91 – 96 &nbsp;·&nbsp; Lớp 10</div>
+</section>
+
+<!-- ══════════ NHÓM: KHỞI ĐỘNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">00</div>
+    <h2>Khởi Động</h2>
+    <div class="sec-sub">Biến trong toán học và trong lập trình</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <!-- Slide 03 – GIỮ NGUYÊN nội dung gốc (người dùng đã tùy chỉnh) -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KHỞI ĐỘNG</span>
+    <h2>Biến trong toán học… và trong lập trình</h2>
+    <div class="math-box">
+      Bạn đã biết:<br>
+      <div class="formula">(a + b)² = a² + 2ab + b²</div>
+      <small style="color:#aaa;font-style:normal;font-size:0.6em">a, b là ký hiệu đại diện cho <em>bất kỳ</em> số nào</small>
+    </div>
+    <div class="question-box" style="border-color:#4caf50">
+      <strong style="color:#4caf50">💡 Gợi mở:</strong> Trong <span class="highlight-word">Python</span>, chúng ta dùng <span class="highlight-word">biến</span> để lưu giá trị và tái sử dụng – giống như ẩn số trong toán.
+    </div>
+  </section>
+
+  <!-- Slide 04 – MỚI: Định nghĩa biến toán học vs lập trình -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KHỞI ĐỘNG</span>
+    <h2>Biến trong toán học và lập trình là gì?</h2>
+    <div class="two-col" style="margin-top:10px;gap:24px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:var(--py-yellow);font-size:0.9em">📐 Biến trong Toán học</h4>
+        <p style="font-size:0.75em;color:#dde4f0;line-height:1.8;margin:0 0 10px">
+          <strong style="color:#fff">Biến</strong> là ký hiệu đại diện cho một <span class="highlight-word">giá trị chưa xác định</span> hoặc có thể thay đổi.
+        </p>
+        <div class="math-box" style="font-size:0.85em;padding:14px;margin:0">
+          <div class="formula" style="font-size:1em">(a + b)² = a² + 2ab + b²</div>
+          <small style="color:#aaa;font-style:normal;font-size:0.7em">a, b đại diện cho <em>bất kỳ</em> số nào</small>
+        </div>
+        <p style="font-size:0.72em;color:#aaa;margin:8px 0 0;line-height:1.6">
+          → Một công thức dùng được cho <em>mọi</em> bộ số a, b nhờ có biến.
+        </p>
+      </div>
+      <div class="info-box" style="border-color:rgba(33,150,243,0.45)">
+        <h4 style="color:#4fc3f7;font-size:0.9em">💻 Biến trong Lập trình</h4>
+        <p style="font-size:0.75em;color:#dde4f0;line-height:1.8;margin:0 0 10px">
+          <strong style="color:#fff">Biến</strong> là tên của một <span class="highlight-word">ô nhớ</span> trong máy tính dùng để <span class="highlight-word">lưu trữ dữ liệu</span>. Giá trị có thể thay đổi trong quá trình chạy.
+        </p>
+        <pre style="margin:0"><code class="language-python">diem = 8.5      # lưu số thực
+ten  = "An"     # lưu xâu ký tự
+tuoi = 16       # lưu số nguyên</code></pre>
+        <p style="font-size:0.72em;color:#aaa;margin:8px 0 0;line-height:1.6">
+          → Một chương trình dùng lại <em>cùng tên biến</em> nhiều lần, giá trị tự cập nhật.
+        </p>
+      </div>
+    </div>
+    <div class="question-box" style="border-color:#4caf50;margin-top:12px;font-size:0.72em">
+      <strong style="color:#4caf50">🔑 Điểm giống nhau:</strong>
+      Cả hai đều là <span class="highlight-word">ký hiệu thay thế cho giá trị</span> — toán học dùng để biểu diễn công thức tổng quát, lập trình dùng để lưu và xử lý dữ liệu.
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-khoi-02 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-khoi-02">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi thảo luận – Khởi động</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+
+  <!-- Slide 1-3: Biến trong cuộc sống thực tế -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KHỞI ĐỘNG</span>
+    <h2>Biến xuất hiện khắp nơi trong cuộc sống!</h2>
+    <div class="summary-grid" style="margin-top:14px">
+      <div class="summary-card">
+        <h4>🎮 Trong Game</h4>
+        <ul>
+          <li><code>diem = 0</code> — điểm số</li>
+          <li><code>mang_song = 3</code> — số mạng</li>
+          <li><code>level = 1</code> — cấp độ</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>📊 Trong Excel</h4>
+        <ul>
+          <li>Ô A1, B2… đóng vai trò "biến"</li>
+          <li>Giá trị thay đổi → công thức tự cập nhật</li>
+          <li><code>=A1+B1</code> ↔ <code>z = x + y</code></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🌡️ Trong Thực tế</h4>
+        <ul>
+          <li><code>nhiet_do = 36.5</code></li>
+          <li><code>gia_xang = 24000</code></li>
+          <li><code>toc_do = 60</code></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🤖 Trong App / AI</h4>
+        <ul>
+          <li><code>ten = "Hương"</code></li>
+          <li><code>so_tin_nhan = 127</code></li>
+          <li><code>trang_thai = "online"</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-box" style="font-size:0.72em;margin-top:8px">
+      <strong>💡 Kết luận:</strong> Lập trình chỉ là cách nói chuyện với máy tính bằng ngôn ngữ chính xác hơn mà thôi!
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 1: BIẾN VÀ LỆNH GÁN ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">01</div>
+    <h2>Biến và Lệnh Gán</h2>
+    <div class="sec-sub">Biến là gì · Lệnh gán đơn · Lệnh gán đồng thời · Quy tắc đặt tên</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Biến là gì?</h2>
+    <p style="font-size:0.8em;color:#ccc;margin-bottom:16px">
+      <strong style="color:#fff">Biến</strong> là tên của một <span class="highlight-word">vùng nhớ</span> dùng để lưu giá trị. Giá trị có thể <span class="highlight-word">thay đổi</span> khi chạy chương trình.
+    </p>
+    <div class="mem-demo">
+      <div class="mem-box delay1"><div class="mem-name">n</div><div class="mem-val">5</div><div class="mem-type">int</div></div>
+      <div class="mem-box delay2" style="border-color:#ce9178"><div class="mem-name" style="background:#7d4a38">ten</div><div class="mem-val" style="color:#ce9178;font-size:0.9em">"An"</div><div class="mem-type">str</div></div>
+      <div class="mem-box delay3" style="border-color:#b5cea8"><div class="mem-name" style="background:#3a5c3a">diem</div><div class="mem-val" style="color:#b5cea8">8.5</div><div class="mem-type">float</div></div>
+    </div>
+    <div class="two-col" style="margin-top:14px">
+      <div class="info-box">
+        <h4>🏷️ Đặc điểm</h4>
+        <ul>
+          <li>Mỗi biến có một <strong>tên</strong> và một <strong>giá trị</strong></li>
+          <li>Python <strong>tự xác định kiểu</strong> theo giá trị gán</li>
+          <li>Giá trị có thể thay đổi nhiều lần</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>🆚 So với IDLE / VS Code</h4>
+        <ul>
+          <li>Python KHÔNG cần khai báo kiểu trước</li>
+          <li>Khác với Pascal: <code>var x: integer;</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-bien-01 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-bien-01">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi kiểm tra – Biến là gì?</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Lệnh gán đơn</h2>
+    <pre><code class="language-python"># Cú pháp:  &lt;biến&gt; = &lt;biểu thức&gt;
+
+x = 5          # Gán số nguyên
+y = "Tin học"  # Gán xâu ký tự
+z = 3.14       # Gán số thực
+
+# Dấu = trong Python là LỆNH GÁN, không phải so sánh!
+x = x + 1      # x nhận giá trị mới: 5 + 1 = 6</code></pre>
+    <div class="mem-demo" style="margin-top:16px">
+      <div class="mem-box" style="animation:fadeInUp 0.5s ease">
+        <div class="mem-name">x</div><div class="mem-val">5</div><div class="mem-type">int</div>
+      </div>
+      <div class="assign-arrow">→</div>
+      <div class="mem-box" style="animation:fadeInUp 0.5s ease 0.4s;opacity:0">
+        <div class="mem-name">x</div><div class="mem-val" style="color:#4caf50">6</div><div class="mem-type">int</div>
+      </div>
+    </div>
+    <p style="font-size:0.7em;color:var(--text-dim);text-align:center">Sau lệnh <code style="color:var(--py-yellow);font-family:var(--font-code)">x = x + 1</code>, giá trị x thay đổi từ <strong style="color:#fff">5</strong> → <strong style="color:#4caf50">6</strong></p>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">ĐẶC TRƯNG CỦA PYTHON</span>
+    <h2>Lệnh gán đồng thời</h2>
+    <pre><code class="language-python"># Gán nhiều biến cùng lúc – đặc trưng của Python!
+x, y, z = 10, 5, 1
+
+# Ứng dụng tuyệt vời: hoán đổi 2 biến (không cần biến trung gian)
+a, b = 3, 7
+a, b = b, a   # Sau lệnh này: a = 7, b = 3</code></pre>
+    <div class="simultaneous-demo">
+      <div class="sim-vals">
+        <div class="sim-val d1">x</div><div class="sim-val d2">y</div><div class="sim-val d3">z</div>
+      </div>
+      <div class="sim-arrow">⬅</div>
+      <div class="sim-vals">
+        <div class="sim-val d1" style="color:#b5cea8">10</div>
+        <div class="sim-val d2" style="color:#b5cea8">5</div>
+        <div class="sim-val d3" style="color:#b5cea8">1</div>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:12px">
+      <strong>🤔 Thử nghĩ:</strong> Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">x, y = y, x</code> khi x=10, y=7 sẽ cho kết quả gì? → <em>x=7, y=10</em>
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-bien-03 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-bien-03">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi – Lệnh gán &amp; Hoán đổi</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">QUY TẮC</span>
+    <h2>Quy tắc đặt tên biến</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Bấm nút 👁 ở từng dòng để hiện đáp án của dòng đó.</p>
+      <table class="name-table">
+        <tr><th>Tên biến</th><th>Hợp lệ?</th><th>Lý do</th></tr>
+        <tr class="pq-item"><td>_tong <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Bắt đầu bằng dấu gạch dưới</td></tr>
+        <tr class="pq-item"><td>diem10 <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Chữ + số, không bắt đầu bằng số</td></tr>
+        <tr class="pq-item"><td>ho_ten <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Chỉ dùng chữ, số, dấu _</td></tr>
+        <tr class="pq-item"><td>9xy <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Bắt đầu bằng <strong>số</strong></td></tr>
+        <tr class="pq-item"><td>lop 10A <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Có <strong>dấu cách</strong></td></tr>
+        <tr class="pq-item"><td>gia$tien <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Có ký tự đặc biệt <strong>$</strong></td></tr>
+        <tr class="pq-item"><td>if <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Trùng <strong>từ khóa</strong> của Python</td></tr>
+        <tr class="pq-item"><td>Diem ≠ diem <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Python phân biệt <strong>hoa/thường</strong></td></tr>
+      </table>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.7em">
+      <strong>📌 Quy tắc ghi nhớ:</strong> Chỉ dùng <span class="highlight-word">chữ cái, số, dấu _</span> &nbsp;·&nbsp; Không bắt đầu bằng số &nbsp;·&nbsp; Không trùng từ khóa &nbsp;·&nbsp; Phân biệt hoa/thường
+    </div>
+  </section>
+  <section data-background-color="#0a0f1e" data-pg="demo_bien"></section>
+
+  <!-- Slide 2-6: Kiểu dữ liệu của biến -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Kiểu dữ liệu của biến trong Python</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <table class="op-table">
+          <tr><th>Kiểu</th><th>Tên gọi</th><th>Ví dụ</th></tr>
+          <tr><td>int</td><td>Số nguyên</td><td>tuoi = 16</td></tr>
+          <tr><td>float</td><td>Số thực</td><td>diem = 8.5</td></tr>
+          <tr><td>str</td><td>Xâu ký tự</td><td>ten = "An"</td></tr>
+          <tr><td>bool</td><td>Lôgic</td><td>dung = True</td></tr>
+        </table>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡</strong> Hàm <code style="font-family:var(--font-code);color:var(--py-yellow)">type(x)</code> trả về kiểu dữ liệu hiện tại của biến x.
+        </div>
+      </div>
+      <div>
+        <pre><code class="language-python">x = 5
+print(type(x))   # &lt;class 'int'&gt;
+
+y = 3.14
+print(type(y))   # &lt;class 'float'&gt;
+
+s = "Python"
+print(type(s))   # &lt;class 'str'&gt;
+
+b = True
+print(type(b))   # &lt;class 'bool'&gt;</code></pre>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>⚠️ Lưu ý:</strong> Không thể thực hiện phép toán giữa các biến khác kiểu. Ví dụ: <code style="font-family:var(--font-code);color:#f87171">z = 5 + "abc"</code> → <span style="color:#f87171">TypeError!</span> Phải đổi kiểu trước: <code style="font-family:var(--font-code);color:var(--py-yellow)">str(5) + "abc"</code>
+    </div>
+  </section>
+
+  <!-- Slide 2-7: Gán nhiều biến = một giá trị & toán tử kết hợp -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Gán nhiều biến = một giá trị · Toán tử kết hợp</h2>
+    <pre><code class="language-python"># Gán nhiều biến cùng MỘT giá trị
+a = b = 5          # Cả a và b đều bằng 5
+a = b * 2          # a = 10 (vế phải tính trước!)
+c = (a - b)**2     # c = (10-5)^2 = 25</code></pre>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box">
+        <h4>🔄 Phân tích x = x + 1</h4>
+        <ul>
+          <li>Bước 1: Tính vế phải → <code>x + 1</code></li>
+          <li>Bước 2: Gán kết quả vào <code>x</code></li>
+          <li>Nên dù trông "vô nghĩa" về toán học, lệnh gán này <strong>hợp lệ</strong>!</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>⚡ Toán tử gán kết hợp</h4>
+        <ul>
+          <li><code>x += 1</code> &nbsp;≡&nbsp; <code>x = x + 1</code></li>
+          <li><code>x -= 2</code> &nbsp;≡&nbsp; <code>x = x - 2</code></li>
+          <li><code>x *= 3</code> &nbsp;≡&nbsp; <code>x = x * 3</code></li>
+          <li><code>x //= 2</code> ≡&nbsp; <code>x = x // 2</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2-8: Bài tập Hoạt động 1 -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LUYỆN TẬP</span>
+    <h2>Bài tập – Hoạt động 1 (SGK tr.92–93)</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự làm trước, rồi bấm nút 👁 ở từng dòng / câu hỏi để hiện đáp án của nó.</p>
+      <div class="two-col" style="margin-top:6px">
+        <div class="info-box">
+          <h4>📝 Tên biến nào hợp lệ?</h4>
+          <table class="name-table" style="font-size:0.82em">
+            <tr class="pq-item"><td>_name <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td></tr>
+            <tr class="pq-item"><td>12abc <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">bắt đầu số</td></tr>
+            <tr class="pq-item"><td>My country <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">có dấu cách</td></tr>
+            <tr class="pq-item"><td>m123&amp;b <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">ký tự &amp;</td></tr>
+            <tr class="pq-item"><td>xyzABC <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td></tr>
+          </table>
+        </div>
+        <div class="info-box">
+          <h4>🧮 Tính giá trị biến</h4>
+          <pre style="margin:0"><code class="language-python">x = 10
+y = x**2 - 1
+x = x/2 + y
+
+a, b = 2, 3
+a, b = a+b, a-b</code></pre>
+          <div class="question-box pq-item" style="margin-top:6px;font-size:0.7em">
+            <strong>❓</strong> Tính x, y, a, b. Vì sao x là số thực chứ không phải số nguyên? <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+            <div class="pq-hide" style="margin-top:6px;font-size:1em;color:#4caf50;font-weight:600">
+              ✅ y = 99 · x = 104.0 · a = 5 · b = −1<br>
+              <span style="color:var(--text-dim);font-weight:400">x là số thực (float) vì có dùng phép chia <code>/</code></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 2: PHÉP TOÁN ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">02</div>
+    <h2>Phép Toán trên Kiểu Dữ Liệu</h2>
+    <div class="sec-sub">Số nguyên · Số thực · Xâu ký tự · Thứ tự ưu tiên</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÉP TOÁN</span>
+    <h2>Phép toán trên kiểu số</h2>
+    <table class="op-table">
+      <tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ (a=10, b=3)</th><th>Kết quả</th></tr>
+      <tr><td>+</td><td>Cộng</td><td>a + b</td><td>13</td></tr>
+      <tr><td>-</td><td>Trừ</td><td>a - b</td><td>7</td></tr>
+      <tr><td>*</td><td>Nhân</td><td>a * b</td><td>30</td></tr>
+      <tr><td>/</td><td>Chia thực</td><td>a / b</td><td>3.3333…</td></tr>
+      <tr><td>//</td><td>Chia nguyên</td><td>a // b</td><td>3</td></tr>
+      <tr><td>%</td><td>Chia lấy dư</td><td>a % b</td><td>1</td></tr>
+      <tr><td>**</td><td>Lũy thừa</td><td>a ** b</td><td>1000</td></tr>
+    </table>
+    <div class="question-box" style="font-size:0.7em;margin-top:10px">
+      <strong>🔢 Thứ tự ưu tiên:</strong> &nbsp; <code style="font-family:var(--font-code);color:var(--py-yellow)">**</code> &gt; <code style="font-family:var(--font-code);color:var(--py-yellow)">* / // %</code> &gt; <code style="font-family:var(--font-code);color:var(--py-yellow)">+ -</code> &nbsp;·&nbsp; Dùng ngoặc <code style="font-family:var(--font-code);color:var(--py-yellow)">()</code> để thay đổi thứ tự
+    </div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÉP TOÁN XÂU</span>
+    <h2>Phép toán trên xâu ký tự</h2>
+    <pre><code class="language-python">s1 = "Tin học"
+s2 = " 10"
+
+# + : nối chuỗi
+print(s1 + s2)        # → Tin học 10
+
+# * n : lặp chuỗi n lần
+print("Ha! " * 3)     # → Ha! Ha! Ha!
+print("=" * 20)        # → ====================
+
+# Kết hợp + và * (dấu * tính trước!)
+print("" * 9 + "Ok")           # → Ok (xâu rỗng lặp mấy lần vẫn rỗng)
+print("5" + "0" * 4)           # → 50000</code></pre>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>⚠️ Lưu ý:</strong> Không thể cộng số với xâu: <code style="font-family:var(--font-code);color:#f87171">x = 5 + "abc"</code> → <span style="color:#f87171">TypeError!</span><br>
+      Muốn ghép số vào chuỗi, dùng <code style="font-family:var(--font-code);color:var(--py-yellow)">str(x) + "abc"</code> hoặc <code style="font-family:var(--font-code);color:var(--py-yellow)">f"{x}abc"</code>
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-phep-01 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-phep-01">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi – Phép toán số &amp; xâu</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+  <section data-background-color="#0a0f1e" data-pg="demo_pheptoan"></section>
+
+  <!-- CQ Slide: 10-17-phep-03 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-phep-03">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi ôn nhanh đầu Tiết 2</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+
+  <!-- Slide 3-4: Chia nguyên // và lấy dư % -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÉP TOÁN ĐẶC BIỆT</span>
+    <h2>Chia nguyên <code style="font-size:0.85em">//</code> và Lấy dư <code style="font-size:0.85em">%</code></h2>
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <table class="op-table">
+          <tr><th>Phép toán</th><th>Ví dụ</th><th>Kết quả</th><th>Giải thích</th></tr>
+          <tr><td>//</td><td>17 // 5</td><td style="color:#4caf50">3</td><td>Thương nguyên</td></tr>
+          <tr><td>%</td><td>17 % 5</td><td style="color:#4caf50">2</td><td>Số dư</td></tr>
+          <tr><td>//</td><td>10 // 3</td><td style="color:#4caf50">3</td><td>Bỏ phần lẻ</td></tr>
+          <tr><td>%</td><td>10 % 2</td><td style="color:#4caf50">0</td><td>Chia hết!</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>🌍 Ứng dụng thực tế</h4>
+        <ul>
+          <li>Kiểm tra số chẵn: <code>n % 2 == 0</code></li>
+          <li>Đổi giây → phút : giây</li>
+        </ul>
+        <pre style="margin-top:8px"><code class="language-python">tong_giay = 135
+phut = tong_giay // 60   # 2
+giay = tong_giay % 60    # 15
+print(phut, "phút", giay, "giây")
+# → 2 phút 15 giây</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3-5: Thứ tự ưu tiên – giải từng bước -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỨ TỰ ƯU TIÊN</span>
+    <h2>Thứ tự ưu tiên phép toán – Giải từng bước</h2>
+    <div class="two-col" style="margin-top:10px">
+      <div class="info-box">
+        <h4>📊 Bảng ưu tiên (cao → thấp)</h4>
+        <table class="name-table" style="font-size:0.82em">
+          <tr><th>Mức</th><th>Phép toán</th><th>Hướng</th></tr>
+          <tr><td style="color:#FFD43B">1</td><td><code>( )</code> Ngoặc</td><td>trong → ngoài</td></tr>
+          <tr><td style="color:#4fc3f7">2</td><td><code>**</code> Lũy thừa</td><td>← phải → trái</td></tr>
+          <tr><td style="color:#b5cea8">3</td><td><code>* / // %</code></td><td>trái → phải</td></tr>
+          <tr><td style="color:#ce9178">4</td><td><code>+ -</code></td><td>trái → phải</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>🧮 Giải ví dụ SGK tr.93</h4>
+        <pre style="margin:0"><code class="language-python">3/2 + 4*2**4 - 5//2**2
+# B1: ** trước: 2**4=16; 2**2=4
+# B2: Nhân/chia: 3/2=1.5; 4*16=64; 5//4=1
+# B3: Cộng/trừ: 1.5+64-1 = 64.5
+
+4**2**3   # Lũy thừa: phải → trái!
+# = 4**(2**3) = 4**8 = 65536
+# Khác: (4**2)**3 = 16**3 = 4096</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3-6: Câu hỏi củng cố SGK tr.94 -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÂU HỎI CỦNG CỐ</span>
+    <h2>Kiểm tra nhanh – SGK trang 94</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Em hãy tự tính trước, rồi bấm nút 👁 ở từng câu để kiểm tra đáp án.</p>
+      <ul class="task-list">
+        <li class="pq-item">
+          <span class="task-label">Câu 1a</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">(12 - 10//2)**2 - 1</code> cho kết quả bao nhiêu?
+          <br><span class="pq-hide">→ 10//2=5 → 12−5=7 → 7²=49 → 49−1 = <strong style="color:#4caf50;font-size:1.35em">48</strong></span></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Câu 1b</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">30//12 - 5/2</code> cho kết quả bao nhiêu?
+          <br><span class="pq-hide">→ 30//12=2, 5/2=2.5 → 2−2.5 = <strong style="color:#4caf50;font-size:1.35em">−0.5</strong></span></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Xâu 2a</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">"" * 20 + "010"</code> cho xâu gì?
+          <br><span class="pq-hide">→ "" × 20 = "" (rỗng) → nối "010" = <strong style="color:#4caf50;font-size:1.35em">"010"</strong></span></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Xâu 2b</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">"10" + "0" * 5</code> cho xâu gì?
+          <br><span class="pq-hide">→ "0"×5="00000" → "10"+"00000" = <strong style="color:#4caf50;font-size:1.35em">"1000000"</strong></span></div>
+        </li>
+      </ul>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 3: TỪ KHOÁ ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">03</div>
+    <h2>Từ Khoá (Keywords)</h2>
+    <div class="sec-sub">35 từ khóa Python · Không dùng làm tên biến</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">TỪ KHÓA PYTHON</span>
+    <h2>Từ khóa (Keywords)</h2>
+    <p style="font-size:0.75em;color:#ccc;margin-bottom:10px">
+      Từ khóa là các từ <span class="highlight-word">đặc biệt của Python</span> – <strong>không được dùng làm tên biến!</strong>
+    </p>
+    <div class="keyword-grid">
+      <span class="kw-chip">False</span><span class="kw-chip">None</span><span class="kw-chip">True</span>
+      <span class="kw-chip">and</span><span class="kw-chip">as</span><span class="kw-chip">assert</span>
+      <span class="kw-chip">async</span><span class="kw-chip">await</span><span class="kw-chip">break</span>
+      <span class="kw-chip">class</span><span class="kw-chip">continue</span><span class="kw-chip">def</span>
+      <span class="kw-chip special">del</span><span class="kw-chip special">elif</span><span class="kw-chip special">else</span>
+      <span class="kw-chip special">except</span><span class="kw-chip">finally</span><span class="kw-chip">for</span>
+      <span class="kw-chip special">from</span><span class="kw-chip">global</span><span class="kw-chip special">if</span>
+      <span class="kw-chip">import</span><span class="kw-chip">in</span><span class="kw-chip">is</span>
+      <span class="kw-chip">lambda</span><span class="kw-chip">nonlocal</span><span class="kw-chip">not</span>
+      <span class="kw-chip">or</span><span class="kw-chip">pass</span><span class="kw-chip">raise</span>
+      <span class="kw-chip special">return</span><span class="kw-chip">try</span><span class="kw-chip special">while</span>
+      <span class="kw-chip">with</span><span class="kw-chip">yield</span>
+    </div>
+    <div class="two-col" style="margin-top:10px">
+      <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.3);border-radius:8px;padding:10px;font-size:0.72em">
+        ❌ <code style="font-family:var(--font-code);color:#f87171">if = 12</code> → <span style="color:#f87171">SyntaxError</span><br>
+        ❌ <code style="font-family:var(--font-code);color:#f87171">with = "chiều rộng"</code> → <span style="color:#f87171">SyntaxError</span>
+      </div>
+      <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);border-radius:8px;padding:10px;font-size:0.72em">
+        ✅ <code style="font-family:var(--font-code);color:#4caf50">_if = 12</code> → Hợp lệ<br>
+        ✅ <code style="font-family:var(--font-code);color:#4caf50">true = 5</code> → Hợp lệ (<code>True</code> ≠ <code>true</code>)
+      </div>
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-tukh-01 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-tukh-01">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi – Từ khóa Python</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+
+  <!-- Slide 4-2: SyntaxError khi dùng từ khóa -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LỖI THƯỜNG GẶP</span>
+    <h2>SyntaxError – Lỗi khi dùng từ khóa làm tên biến</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <pre><code class="language-python"># Lỗi SyntaxError (SGK tr.95)
+if = 12
+# SyntaxError: invalid syntax
+
+with = "Độ rộng"
+# SyntaxError: invalid syntax
+
+for = 5
+# SyntaxError: invalid syntax</code></pre>
+        <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.3);border-radius:8px;padding:10px;font-size:0.72em;margin-top:8px">
+          ⚠️ Python báo <strong style="color:#f44336">SyntaxError</strong> ngay khi đọc code — trước khi chạy chương trình.
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>✅ Cách đặt tên thay thế</h4>
+        <ul>
+          <li><code>_if = 12</code> &nbsp;← thêm dấu <code>_</code></li>
+          <li><code>chieu_rong = "Độ rộng"</code> &nbsp;← dịch nghĩa</li>
+          <li><code>for_loop = 5</code> &nbsp;← thêm hậu tố</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡</strong> VS Code tô màu <span style="color:#569cd6">xanh dương</span> cho từ khóa — nếu tên biến cũng chuyển màu, đó là từ khóa!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 4-3: Bài tập Hoạt động 3 -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LUYỆN TẬP</span>
+    <h2>Bài tập – Hoạt động 3 (SGK tr.95)</h2>
+    <p style="font-size:0.78em;color:#ccc;margin-bottom:8px">Các tên biến sau có hợp lệ không? Giải thích.</p>
+    <table class="name-table">
+      <tr><th>Tên</th><th>Hợp lệ?</th><th>Giải thích</th></tr>
+      <tr><td>_if</td><td class="valid">Hợp lệ</td><td class="reason">Chỉ có <code>if</code> mới là từ khóa; thêm <code>_</code> → hợp lệ</td></tr>
+      <tr><td>global</td><td class="invalid">Không hợp lệ</td><td class="reason">Là từ khóa Python (khai báo biến toàn cục)</td></tr>
+      <tr><td>nolocal</td><td class="valid">Hợp lệ</td><td class="reason">Từ khóa là <code>nonlocal</code> (khác chính tả)</td></tr>
+      <tr><td>return</td><td class="invalid">Không hợp lệ</td><td class="reason">Là từ khóa Python (trả về giá trị hàm)</td></tr>
+      <tr><td>true</td><td class="valid">Hợp lệ</td><td class="reason">Từ khóa là <code>True</code> (T hoa); <code>true</code> thường ≠ từ khóa</td></tr>
+    </table>
+    <div class="question-box" style="margin-top:10px;font-size:0.7em">
+      <strong>📌 Mẹo:</strong> Khi gõ trong VS Code, từ khóa sẽ được <strong style="color:#569cd6">tô màu xanh</strong> ngay lập tức — đó là dấu hiệu bạn đang vi phạm quy tắc!
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: THỰC HÀNH ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">04</div>
+    <h2>Thực Hành</h2>
+    <div class="sec-sub">Bài tập SGK tr.95–96 · Thực hành trực tiếp trên Python</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỰC HÀNH</span>
+    <h2>Bài tập thực hành (SGK tr.95–96)</h2>
+    <ul class="task-list">
+      <li><span class="task-label">Bài 1a</span><div>Tính <strong>(1 + 2 + 3 + … + 10)³</strong> — dùng toán tử <code>**</code></div></li>
+      <li><span class="task-label">Bài 1b</span><div>Tính <strong>1/2 + 1/3 + 1/4 + 1/5</strong></div></li>
+      <li><span class="task-label">Bài 1c</span><div>Gán <code>x=2, y=5</code>. Tính <strong>(x+y)(x² + y² − 1)</strong></div></li>
+      <li><span class="task-label">Bài 2</span><div>Tính <strong>chu vi và diện tích hình tròn</strong> với bán kính R = 4.5<br><small>Gợi ý: <code>pi = 3.14159</code>, <code>C = 2 * pi * R</code>, <code>S = pi * R * R</code></small></div></li>
+    </ul>
+  </section>
+
+  <!-- Slide 5-2: Nhiệm vụ mở rộng + luyện tập -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỰC HÀNH MỞ RỘNG</span>
+    <h2>Bài tập 1d · Luyện tập · Phát hiện lỗi</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Bấm nút 👁 ở từng bài để hiện đáp án của bài đó.</p>
+      <ul class="task-list">
+        <li class="pq-item">
+          <span class="task-label">Bài 1d</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Gán <code>a=2, b=3, c=4</code>. Tính <strong>(a+b+c)(a+b−c)</strong>
+          <br><small>Gợi ý: <code>(a+b+c)*(a+b-c)</code> <span class="pq-hide">= 9 × 1 = <strong style="color:#4caf50">9</strong></span></small></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Luyện tập</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>In câu nhạc theo SGK tr.96 – Luyện tập:
+          <br><code style="font-family:var(--font-code);color:var(--py-yellow)">print("đồ rê mi " * 3 + "pha son la si đô " * 2)</code>
+          <br><small>Kết quả: <em class="pq-hide">đồ rê mi đồ rê mi đồ rê mi pha son la si đô pha son la si đô</em></small></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Phát hiện lỗi</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh sau có lỗi gì? Sửa như thế nào? <code style="font-family:var(--font-code);color:#f87171">x=1 ; 123a = x+1</code>
+          <br><small class="pq-hide">→ <strong>SyntaxError</strong>: <code>123a</code> bắt đầu bằng số → Sửa: <code style="color:#4caf50">a123 = x + 1</code></small></div>
+        </li>
+      </ul>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: VẬN DỤNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">05</div>
+    <h2>Vận Dụng</h2>
+    <div class="sec-sub">Đổi giây ra ngày / giờ / phút / giây</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Đổi giây ra ngày / giờ / phút / giây</h2>
+    <p style="font-size:0.75em;color:#ccc;margin-bottom:10px">Cho số giây <code style="font-family:var(--font-code);color:var(--py-yellow)">ss = 684500</code>. Viết chương trình đổi ra ngày, giờ, phút, giây.</p>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Em hãy tự tính theo thuật toán bên trái, rồi bấm nút 👁 ở dòng kết quả để kiểm tra.</p>
+      <div class="two-col">
+        <div class="info-box">
+          <h4>🧮 Thuật toán</h4>
+          <ul>
+            <li><code>ngay = ss // 86400</code></li>
+            <li><code>gio = (ss % 86400) // 3600</code></li>
+            <li><code>phut = (ss % 3600) // 60</code></li>
+            <li><code>giay = ss % 60</code></li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>✅ Kết quả mẫu</h4>
+          <ul>
+            <li class="pq-item">684500 giây = <span class="pq-hide"><strong style="color:#fff">7 ngày · 22 giờ · 8 phút · 20 giây</strong></span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></li>
+            <li>1 ngày = 86400 giây</li>
+            <li>1 giờ = 3600 giây</li>
+          </ul>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+
+  <!-- Slide 6-2: Vì sao Python không cần biến tạm? -->
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Tại sao Python không cần biến tạm để hoán đổi?</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box" style="border-color:rgba(244,67,54,0.3)">
+        <h4 style="color:#f87171">❌ Cách cũ (Pascal, C): 3 bước</h4>
+        <pre style="margin:0"><code class="language-python">x = 10; y = 7
+# Cần biến tạm:
+tam = x    # tam = 10
+x = y      # x = 7
+y = tam    # y = 10
+print(x, y)  # 7 10</code></pre>
+      </div>
+      <div class="info-box" style="border-color:rgba(76,175,80,0.3)">
+        <h4 style="color:#4caf50">✅ Python: chỉ 1 dòng!</h4>
+        <pre style="margin:0"><code class="language-python">x, y = 10, 7
+x, y = y, x   # Hoán đổi!
+print(x, y)   # 7 10
+
+# Bí mật: Python tạo tuple (y, x) = (7, 10)
+# trước → rồi gán đồng thời vào x và y.
+# Vế phải tính XONG trước khi gán!</code></pre>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>🤔 Câu hỏi SGK:</strong> Trước lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">x, y = y, x</code> với x=10, y=7 thì x và y là bao nhiêu? Sau lệnh thì sao? Em có nhận xét gì về kết quả?
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: TỔNG KẾT + MỞ QUIZ ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">06</div>
+    <h2>Tổng Kết</h2>
+    <div class="sec-sub">Biến · Lệnh Gán · Phép Toán · Từ Khóa</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">TỔNG KẾT BÀI 17</span>
+    <h2>Những gì đã học</h2>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h4>📦 Biến</h4>
+        <ul>
+          <li>Tên của vùng nhớ lưu giá trị</li>
+          <li>Python tự xác định kiểu dữ liệu</li>
+          <li>Giá trị thay đổi được khi chạy</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>⬅ Lệnh Gán</h4>
+        <ul>
+          <li>Đơn: <code>x = &lt;biểu thức&gt;</code></li>
+          <li>Đồng thời: <code>x, y = 1, 2</code></li>
+          <li>Hoán đổi: <code>x, y = y, x</code></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🔢 Phép Toán</h4>
+        <ul>
+          <li>Số: <code>+  -  *  /  //  %  **</code></li>
+          <li>Xâu: <code>+ (nối)  * n (lặp)</code></li>
+          <li>Ưu tiên: <code>**</code> &gt; <code>* / // %</code> &gt; <code>+ -</code></li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🔑 Từ Khóa</h4>
+        <ul>
+          <li>Từ đặc biệt của Python (35 từ)</li>
+          <li>Không được dùng làm tên biến</li>
+          <li>VS Code tô màu từ khóa tự động</li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:12px;font-size:0.7em;text-align:center">
+      📚 <strong>Bài tiếp theo:</strong> Bài 18 – Các lệnh vào ra đơn giản (<code style="font-family:var(--font-code)">input()</code> và <code style="font-family:var(--font-code)">print()</code>)
+    </div>
+  </section>
+
+  <!-- CQ Slide: 10-17-tong-01 -->
+  <section data-background-color="#0a0f1e" data-cq-id="10-17-tong-01">
+    <div class="cq-placeholder-slide">
+      <div class="cq-ph-icon">❓</div>
+      <h2 class="cq-ph-title">Câu hỏi củng cố cuối bài</h2>
+      <p class="cq-ph-hint">Câu hỏi đang hiển thị toàn màn hình…</p>
+    </div>
+  </section>
+  <section class="text-center" data-background-color="#0a0f1e">
+    <span class="section-tag">CỦNG CỐ BÀI HỌC</span>
+    <h2>Trò Chơi: Ai Thông Minh Hơn? 🎮</h2>
+    <div class="demo-hint">
+      <strong>Thử sức với 12 câu hỏi về Bài 17</strong><br>
+      Biến · Lệnh gán · Phép toán · Từ khóa Python
+    </div>
+    <br>
+    <button class="open-quiz-btn" onclick="openGameList()">
+      <span>🎮</span> Chọn trò chơi
+    </button>
+    <div style="font-size:0.65em;color:#555;margin-top:10px">
+      Âm thanh gameshow · Hiệu ứng động · Tính điểm
+    </div>
+  </section>
+</section>

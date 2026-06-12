@@ -1,0 +1,37 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LUYỆN TẬP</span>
+    <h2>Bài tập – Hoạt động 1 (SGK tr.92–93)</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự làm trước, rồi bấm nút 👁 ở từng dòng / câu hỏi để hiện đáp án của nó.</p>
+      <div class="two-col" style="margin-top:6px">
+        <div class="info-box">
+          <h4>📝 Tên biến nào hợp lệ?</h4>
+          <table class="name-table" style="font-size:0.82em">
+            <tr class="pq-item"><td>_name <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td></tr>
+            <tr class="pq-item"><td>12abc <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">bắt đầu số</td></tr>
+            <tr class="pq-item"><td>My country <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">có dấu cách</td></tr>
+            <tr class="pq-item"><td>m123&amp;b <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">ký tự &amp;</td></tr>
+            <tr class="pq-item"><td>xyzABC <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td></tr>
+          </table>
+        </div>
+        <div class="info-box">
+          <h4>🧮 Tính giá trị biến</h4>
+          <pre style="margin:0"><code class="language-python">x = 10
+y = x**2 - 1
+x = x/2 + y
+
+a, b = 2, 3
+a, b = a+b, a-b</code></pre>
+          <div class="question-box pq-item" style="margin-top:6px;font-size:0.7em">
+            <strong>❓</strong> Tính x, y, a, b. Vì sao x là số thực chứ không phải số nguyên? <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+            <div class="pq-hide" style="margin-top:6px;font-size:1em;color:#4caf50;font-weight:600">
+              ✅ y = 99 · x = 104.0 · a = 5 · b = −1<br>
+              <span style="color:var(--text-dim);font-weight:400">x là số thực (float) vì có dùng phép chia <code>/</code></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>

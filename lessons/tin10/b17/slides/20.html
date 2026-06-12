@@ -1,0 +1,21 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÉP TOÁN XÂU</span>
+    <h2>Phép toán trên xâu ký tự</h2>
+    <pre><code class="language-python">s1 = "Tin học"
+s2 = " 10"
+
+# + : nối chuỗi
+print(s1 + s2)        # → Tin học 10
+
+# * n : lặp chuỗi n lần
+print("Ha! " * 3)     # → Ha! Ha! Ha!
+print("=" * 20)        # → ====================
+
+# Kết hợp + và * (dấu * tính trước!)
+print("" * 9 + "Ok")           # → Ok (xâu rỗng lặp mấy lần vẫn rỗng)
+print("5" + "0" * 4)           # → 50000</code></pre>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>⚠️ Lưu ý:</strong> Không thể cộng số với xâu: <code style="font-family:var(--font-code);color:#f87171">x = 5 + "abc"</code> → <span style="color:#f87171">TypeError!</span><br>
+      Muốn ghép số vào chuỗi, dùng <code style="font-family:var(--font-code);color:var(--py-yellow)">str(x) + "abc"</code> hoặc <code style="font-family:var(--font-code);color:var(--py-yellow)">f"{x}abc"</code>
+    </div>
+  </section>

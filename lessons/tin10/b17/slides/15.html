@@ -1,0 +1,34 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Kiểu dữ liệu của biến trong Python</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <table class="op-table">
+          <tr><th>Kiểu</th><th>Tên gọi</th><th>Ví dụ</th></tr>
+          <tr><td>int</td><td>Số nguyên</td><td>tuoi = 16</td></tr>
+          <tr><td>float</td><td>Số thực</td><td>diem = 8.5</td></tr>
+          <tr><td>str</td><td>Xâu ký tự</td><td>ten = "An"</td></tr>
+          <tr><td>bool</td><td>Lôgic</td><td>dung = True</td></tr>
+        </table>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡</strong> Hàm <code style="font-family:var(--font-code);color:var(--py-yellow)">type(x)</code> trả về kiểu dữ liệu hiện tại của biến x.
+        </div>
+      </div>
+      <div>
+        <pre><code class="language-python">x = 5
+print(type(x))   # &lt;class 'int'&gt;
+
+y = 3.14
+print(type(y))   # &lt;class 'float'&gt;
+
+s = "Python"
+print(type(s))   # &lt;class 'str'&gt;
+
+b = True
+print(type(b))   # &lt;class 'bool'&gt;</code></pre>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>⚠️ Lưu ý:</strong> Không thể thực hiện phép toán giữa các biến khác kiểu. Ví dụ: <code style="font-family:var(--font-code);color:#f87171">z = 5 + "abc"</code> → <span style="color:#f87171">TypeError!</span> Phải đổi kiểu trước: <code style="font-family:var(--font-code);color:var(--py-yellow)">str(5) + "abc"</code>
+    </div>
+  </section>

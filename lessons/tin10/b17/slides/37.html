@@ -1,0 +1,28 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Tại sao Python không cần biến tạm để hoán đổi?</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box" style="border-color:rgba(244,67,54,0.3)">
+        <h4 style="color:#f87171">❌ Cách cũ (Pascal, C): 3 bước</h4>
+        <pre style="margin:0"><code class="language-python">x = 10; y = 7
+# Cần biến tạm:
+tam = x    # tam = 10
+x = y      # x = 7
+y = tam    # y = 10
+print(x, y)  # 7 10</code></pre>
+      </div>
+      <div class="info-box" style="border-color:rgba(76,175,80,0.3)">
+        <h4 style="color:#4caf50">✅ Python: chỉ 1 dòng!</h4>
+        <pre style="margin:0"><code class="language-python">x, y = 10, 7
+x, y = y, x   # Hoán đổi!
+print(x, y)   # 7 10
+
+# Bí mật: Python tạo tuple (y, x) = (7, 10)
+# trước → rồi gán đồng thời vào x và y.
+# Vế phải tính XONG trước khi gán!</code></pre>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.72em">
+      <strong>🤔 Câu hỏi SGK:</strong> Trước lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">x, y = y, x</code> với x=10, y=7 thì x và y là bao nhiêu? Sau lệnh thì sao? Em có nhận xét gì về kết quả?
+    </div>
+  </section>

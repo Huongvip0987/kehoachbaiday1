@@ -1,0 +1,28 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÁT HIỆN LỖI</span>
+    <h2>Bài tập 2 – Các lệnh sau có lỗi không?</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự phân tích lỗi trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="two-col" style="margin-top:12px;gap:20px">
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 1 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> 3 + * 5</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Hai toán tử <code>+</code> và <code>*</code> đứng liền nhau — không hợp lệ.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa: <code style="font-family:var(--font-code)">3 * 5</code> hoặc <code style="font-family:var(--font-code)">3 + 5</code></p>
+          </div>
+        </div>
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 2 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> "Ban ten la "Nguyen Viet Anh""</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Dấu <code>"</code> bên trong làm Python hiểu sai điểm kết thúc xâu.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa dùng nháy đơn bên trong:</p>
+            <pre style="margin:4px 0"><code class="language-python">>>> "Ban ten la 'Nguyen Viet Anh'"</code></pre>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>

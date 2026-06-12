@@ -1,0 +1,29 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Đổi giây ra ngày / giờ / phút / giây</h2>
+    <p style="font-size:0.75em;color:#ccc;margin-bottom:10px">Cho số giây <code style="font-family:var(--font-code);color:var(--py-yellow)">ss = 684500</code>. Viết chương trình đổi ra ngày, giờ, phút, giây.</p>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Em hãy tự tính theo thuật toán bên trái, rồi bấm nút 👁 ở dòng kết quả để kiểm tra.</p>
+      <div class="two-col">
+        <div class="info-box">
+          <h4>🧮 Thuật toán</h4>
+          <ul>
+            <li><code>ngay = ss // 86400</code></li>
+            <li><code>gio = (ss % 86400) // 3600</code></li>
+            <li><code>phut = (ss % 3600) // 60</code></li>
+            <li><code>giay = ss % 60</code></li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>✅ Kết quả mẫu</h4>
+          <ul>
+            <li class="pq-item">684500 giây = <span class="pq-hide"><strong style="color:#fff">7 ngày · 22 giờ · 8 phút · 20 giây</strong></span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></li>
+            <li>1 ngày = 86400 giây</li>
+            <li>1 giờ = 3600 giây</li>
+          </ul>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>

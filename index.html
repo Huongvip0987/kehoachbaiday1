@@ -1,0 +1,814 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 17: Biến và Lệnh Gán – Python Lớp 10</title>
+
+<!-- Reveal.js – LOCAL (node_modules) -->
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/reset.css">
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/black.css">
+<!-- Fonts (Google CDN – graceful fallback to system fonts when offline) -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/main.css">
+<script>
+(function(){
+  if(new URLSearchParams(location.search).get('preview')!=='1')return;
+  window._PREVIEW_MODE=true;
+  document.documentElement.classList.add('_preview'); // dùng cho CSS override
+  var s=document.createElement('style');
+  /* Ẩn thanh công cụ; KHÔNG ẩn #cq-overlay / #playground-overlay / #chon-overlay
+     vì setMode() sẽ điều khiển chúng khi nhận postMessage */
+  s.textContent=[
+    '#mode-bar','#toolbar-show-tab','#speech-toggle-btn','#slide-nav-toggle',
+    '#slide-nav','#kichban-overlay','#speech-panel','#game-list-modal',
+    '#zoom-indicator','#obj-font-ctrl','#resize-overlay',
+    '#edit-toolbar','#edit-toast','#export-overlay','#history-panel',
+    '#kb-slide-panel','#slide-nav-toggle'
+  ].join(',')+'{display:none!important}';
+  document.head.appendChild(s);
+})();
+</script>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides"></div>
+</div><!-- end .reveal -->
+
+<script>
+var _LP = 'lessons/' + (new URLSearchParams(location.search).get('lesson') || 'tin10/b17');
+function _sx(p) { var x = new XMLHttpRequest(); x.open('GET', p, false); x.send(); return x.status === 200 ? x.responseText : ''; }
+(function(){
+  var _cb = (typeof performance !== 'undefined' ? Math.floor(performance.now()) : 1);
+  var mf = _sx(_LP + '/slides/manifest.json?_=' + _cb);
+  if (mf) {
+    document.querySelector('.reveal .slides').innerHTML =
+      JSON.parse(mf).map(function(f){ return _sx(_LP + '/slides/' + f); }).join('\n');
+  } else {
+    document.querySelector('.reveal .slides').innerHTML = _sx(_LP + '/slides.html');
+  }
+})();
+eval(_sx(_LP + '/js/init.js'));
+</script>
+
+<!-- ══════════════════════════════════
+     PLAYGROUND OVERLAY
+══════════════════════════════════ -->
+<div id="playground-overlay">
+  <div id="pg-header">
+    <div class="pg-title">
+      <div class="vsc-dot"></div>
+      <span id="pg-title-text">Code Playground · Python</span>
+    </div>
+    <div id="pg-status">
+      <div class="status-dot"></div>
+      <span>Python 3.x sẵn sàng</span>
+    </div>
+    <button class="pg-btn" id="pg-compact-btn" onclick="pg_toggleCompact()" title="Thu gọn / hiện phần chọn lớp, bài và tiêu đề">🔼 Thu gọn</button>
+    <button class="pg-btn success" id="btn-autoplay" onclick="startAutoPlay()" title="Tự động chạy từng bước">
+      ▶ Tự chạy
+    </button>
+    <button class="pg-btn" id="btn-prev" onclick="doPrevStep()" title="Lùi về bước trước (F7)" disabled>
+      ⏮ Lùi
+    </button>
+    <button class="pg-btn primary" id="btn-step" onclick="doStep()" title="Tiến sang bước tiếp theo (F8)">
+      ⏭ Bước tiếp
+    </button>
+    <button class="pg-btn" id="btn-reset" onclick="resetPlayground()">
+      🔄 Xem lại
+    </button>
+    <button onclick="spLoadContextScript('code');toggleSpeechPanel();" title="Mở hộp thoại giảng dạy" style="background:#1e2d3d;border:1px solid #2a3a5a;color:#4fc3f7;border-radius:5px;padding:5px 10px;cursor:pointer;font-size:0.78em;font-weight:700;font-family:inherit">💬</button>
+    <button id="pg-close" onclick="closePlayground()" title="Đóng (Esc)">✕</button>
+  </div>
+
+  <div id="pg-grade-bar">
+    <span class="pg-grade-lbl">Lớp:</span>
+    <button class="pg-grade-btn active" data-grade="10" onclick="pg_switchGrade('10')">Lớp 10</button>
+    <button class="pg-grade-btn" data-grade="11" onclick="pg_switchGrade('11')">Lớp 11</button>
+    <button class="pg-grade-btn" data-grade="12" onclick="pg_switchGrade('12')">Lớp 12</button>
+  </div>
+  <div id="pg-lesson-bar"></div>
+
+  <div id="demo-tabs"></div>
+
+  <div id="pg-main">
+    <div id="pg-editor-pane">
+      <div id="pg-editor-header">
+        <div class="tab">main.py</div>
+        <div class="pg-font-controls" aria-label="Code font size">
+          <span>Code</span>
+          <button type="button" onclick="pgAdjustFont('code', -1)" title="Giảm cỡ chữ code">A-</button>
+          <button type="button" onclick="pgAdjustFont('code', 1)" title="Tăng cỡ chữ code">A+</button>
+          <button type="button" onclick="pgResetFont('code')" title="Cỡ chữ code mặc định">100%</button>
+        </div>
+        <div class="pg-font-controls" aria-label="Output font size">
+          <span>Output</span>
+          <button type="button" onclick="pgAdjustFont('output', -1)" title="Giảm cỡ chữ output">A-</button>
+          <button type="button" onclick="pgAdjustFont('output', 1)" title="Tăng cỡ chữ output">A+</button>
+          <button type="button" onclick="pgResetFont('output')" title="Cỡ chữ output mặc định">100%</button>
+        </div>
+      </div>
+      <div id="code-display"></div>
+      <div id="step-explain-box">
+        <span>💡</span>
+        <span id="step-explain-text">Nhấn <b>▶ Tự chạy</b> hoặc <b>⏭ Bước tiếp</b> để xem code chạy từng dòng...</span>
+      </div>
+      <div id="pg-h-resizer" class="pg-resizer pg-resizer-h" title="Kéo để đổi chiều cao Code / Output"></div>
+      <div id="pg-console">
+        <div id="pg-console-header">Terminal Output</div>
+        <div id="console-lines"></div>
+      </div>
+    </div>
+
+    <div id="pg-v-resizer" class="pg-resizer pg-resizer-v" title="Kéo để đổi độ rộng Code / Variables"></div>
+
+    <div id="pg-right-pane">
+      <div id="pg-mem-header">
+        <span>📦</span> <strong>Bộ nhớ (Variables)</strong>
+        <span style="margin-left:auto;color:#555;font-size:0.9em" id="mem-empty-hint">← Chạy code để xem biến</span>
+      </div>
+      <div id="var-cards-container"></div>
+      <div id="step-indicator">
+        <div id="step-line-info">Sẵn sàng</div>
+        <div id="step-progress"><div id="step-progress-bar"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCRIPTS – tất cả từ local node_modules
+══════════════════════════════════ -->
+<!-- Reveal.js – LOCAL -->
+<script src="./node_modules/reveal.js/dist/reveal.js"></script>
+
+
+<!-- ══════════════════════════════════
+     SCRIPTS – external modules
+══════════════════════════════════ -->
+<script src="./js/state.js"></script>
+<script src="./js/demos.js"></script>
+<script src="./js/reveal-init.js"></script>
+<script src="./js/click-sound.js"></script>
+<script src="./js/syntax.js"></script>
+<script src="./js/slide-font.js"></script>
+<script src="./lessons/catalog.js"></script>
+<script src="./js/library-nav.js"></script>
+<script src="./js/set-mode.js"></script>
+<script src="./js/playground.js"></script>
+<script src="./js/edit-core.js"></script>
+<script src="./js/edit-style.js"></script>
+<script src="./js/edit-history.js"></script>
+<script src="./js/zoom-minimap.js"></script>
+
+<div id="mode-bar">
+  <div id="lib-dropdown-wrap" style="position:relative;border-right:1px solid rgba(255,255,255,0.08);margin-right:4px">
+    <button class="mode-btn" id="btn-library" onclick="toggleLibraryDropdown(event)" title="Chọn bài học" style="color:#7a8599">🏠 Thư viện ▾</button>
+    <div id="lib-dropdown" class="lib-dropdown">
+      <div class="lib-dd-grades" id="lib-dd-grades"></div>
+      <div class="lib-dd-lessons" id="lib-dd-lessons"></div>
+    </div>
+  </div>
+  <button class="mode-btn active" id="btn-slides" onclick="setMode('slides')">📽 Slide</button>
+  <button class="mode-btn" id="btn-cq" onclick="tf_cqOpen()">📚 Thư viện câu hỏi</button>
+  <button class="mode-btn" id="btn-code" onclick="tf_codeOpen()">🖥 Thư viện Playground</button>
+  <button class="mode-btn" id="btn-game" onclick="setMode('game')">🎮 Trò Chơi</button>
+  <button class="mode-btn" id="btn-chon" onclick="setMode('chon')">🎲 Chọn người</button>
+  <button class="mode-btn" id="btn-kichban" onclick="setMode('kichban')">📋 Kịch bản</button>
+  <button class="mode-btn tool-edit-only" id="btn-edit" onclick="document.body.classList.contains('mode-edit') ? setMode('slides') : setMode('edit')" title="Bật/tắt chỉnh sửa slide">✏️ Sửa</button>
+  <button class="mode-btn tool-edit-only" id="btn-id-inspect" onclick="toggleIdInspector()" title="Bật/tắt xem mã định danh · Di chuột để xem · Chuột phải để copy">🔍 Mã định danh</button>
+  <button class="font-btn tool-edit-only" onclick="location.reload()" title="Tải lại trang" style="margin-left:8px">🔄 Reload</button>
+  <button class="font-btn tool-edit-only" onclick="exportToPptx()" title="Xuất tất cả slide ra file PowerPoint (.pptx)" style="margin-left:4px;background:#1a2a4a;border-color:#4fc3f7;color:#4fc3f7;font-weight:700">📊 Xuất PPTX</button>
+  <div id="lesson-timer" onclick="ltToggle()" ondblclick="ltReset()" title="Đồng hồ tiết học 45 phút · Nhấn: tạm dừng/tiếp · Nhấn đúp: reset">⏱ <span id="lt-display">45:00</span></div>
+  <div id="font-ctrl" style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button class="font-btn" onclick="adjustFontSize(-4)" title="Chữ nhỏ hơn">A−</button>
+    <input type="number" id="font-size-label" min="14" max="120" value="28"
+      title="Nhập cỡ chữ mong muốn (px) rồi nhấn Enter"
+      oninput="setFontSizeDirect(this.value)"
+      onkeydown="if(event.key==='Enter'){this.blur();setFontSizeDirect(this.value)}"
+      style="color:#ccc;font-size:0.78em;font-family:monospace;width:50px;text-align:center;background:#1a1a2e;border:1px solid #3a3a5a;border-radius:4px;padding:2px 4px;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;">
+    <button class="font-btn" onclick="adjustFontSize(4)" title="Chữ lớn hơn">A+</button>
+    <button class="font-btn" onclick="resetFontSize()" title="Đặt lại cỡ chữ slide này">↺</button>
+    <button class="font-btn tool-edit-only" onclick="saveEdits()" title="Lưu chỉnh sửa" style="background:#1a4a2a;border-color:#2ecc71;color:#2ecc71;font-weight:700;margin-left:4px">💾 Lưu</button>
+  </div>
+  <button id="toolbar-hide-btn" onclick="toggleToolbar()" title="Ẩn toolbar (Ctrl+`)">▲ Ẩn</button>
+</div>
+
+<div id="toolbar-show-tab" onclick="toggleToolbar()" title="Hiện toolbar (Ctrl+`)">▼ Menu</div>
+
+<div id="obj-font-ctrl">
+  <!-- Header: tên element + đóng -->
+  <div class="ofc-row" style="margin-bottom:6px">
+    <span id="obj-font-label" style="color:#4fc3f7;font-size:10px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700"></span>
+    <button onclick="document.getElementById('obj-font-ctrl').style.display='none'" style="color:#f88;border-color:#f88;padding:1px 6px;font-size:11px">✕</button>
+  </div>
+  <!-- Row 1: cỡ chữ + chiều rộng -->
+  <div class="ofc-row">
+    <span class="ofc-label">A</span>
+    <button onclick="adjustObjFont(-1)">−</button>
+    <input id="obj-font-input" type="number" min="8" max="120" oninput="setObjFont(this.value)" style="width:42px">
+    <button onclick="adjustObjFont(+1)">+</button>
+    <span style="width:1px;background:#444;height:14px;display:inline-block;margin:0 3px"></span>
+    <span class="ofc-label">W</span>
+    <button onclick="adjustObjWidth(-40)" style="font-size:11px" title="Hẹp hơn">◀</button>
+    <span id="obj-width-label" style="color:#aaa;font-size:11px;font-family:monospace;min-width:48px;text-align:center">auto</span>
+    <button onclick="adjustObjWidth(+40)" style="font-size:11px" title="Rộng hơn">▶</button>
+  </div>
+  <hr class="ofc-sep">
+  <!-- Row 2: viền (border) -->
+  <div class="ofc-row" style="flex-wrap:wrap;gap:5px">
+    <span class="ofc-label">▭</span>
+    <select id="obj-border-style" onchange="setObjBorder()" title="Kiểu viền">
+      <option value="solid">Liền</option>
+      <option value="dashed">Gạch</option>
+      <option value="dotted">Chấm</option>
+      <option value="double">Đôi</option>
+      <option value="none">Không</option>
+    </select>
+    <input id="obj-border-width" type="number" min="0" max="20" value="1" oninput="setObjBorder()" style="width:36px" title="Độ dày (px)">
+    <span style="color:#888;font-size:10px">px</span>
+    <input id="obj-border-color" type="color" value="#4fc3f7" onchange="setObjBorder()" title="Màu viền">
+    <span style="width:1px;background:#444;height:14px;display:inline-block;margin:0 2px"></span>
+    <span class="ofc-label" style="color:#aaa">╮</span>
+    <input id="obj-border-radius" type="number" min="0" max="60" value="0" oninput="setObjBorderRadius()" style="width:36px" title="Bo góc (px)">
+    <span style="color:#888;font-size:10px">px</span>
+  </div>
+</div>
+
+<div id="resize-overlay">
+  <span class="rh" data-d="nw"></span>
+  <span class="rh" data-d="n"></span>
+  <span class="rh" data-d="ne"></span>
+  <span class="rh" data-d="e"></span>
+  <span class="rh" data-d="se"></span>
+  <span class="rh" data-d="s"></span>
+  <span class="rh" data-d="sw"></span>
+  <span class="rh" data-d="w"></span>
+</div>
+
+<div id="edit-toolbar">
+  <button id="edit-toggle-btn" onclick="document.getElementById('edit-toolbar').classList.toggle('expanded')" title="Mở/thu thanh công cụ">✏️</button>
+  <div class="toolbar-items">
+    <button id="btn-move-mode" onclick="toggleMoveMode()" title="Bật/tắt chế độ di chuyển đối tượng (Ctrl+M)">🔀 Di chuyển</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="undoEdit()" title="Hoàn tác (Ctrl+Z)">↩ Undo</button>
+    <button onclick="redoEdit()" title="Làm lại (Ctrl+Y)">↪ Redo</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="copySelected()" title="Sao chép phần tử đã chọn (Ctrl+C)">📋 Copy</button>
+    <button onclick="pasteSelected()" title="Dán phần tử (Ctrl+V)">📌 Paste</button>
+    <button onclick="deleteSelected()" title="Xóa phần tử đã chọn (Delete)">🗑 Xóa</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="changeFontSizeEl(+2)" title="Tăng cỡ chữ">A+</button>
+    <button onclick="changeFontSizeEl(-2)" title="Giảm cỡ chữ">A−</button>
+    <button onclick="execEditCmd('bold')"><b>B</b></button>
+    <button onclick="execEditCmd('italic')"><i>I</i></button>
+    <button onclick="execEditCmd('insertLineBreak')" title="Xuống dòng">↵</button>
+    <button onclick="deleteCurrentEl()" title="Xóa dòng/đoạn văn bản">🗑 Dòng</button>
+    <button onclick="resetTransforms()" title="Đặt lại vị trí gốc">⊙ Vị trí gốc</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="saveEdits()" style="background:#1a6b3a;border:1px solid #2ecc71;color:#2ecc71;font-weight:700">💾 Lưu</button>
+    <button id="btn-group" onclick="groupSelected()" disabled style="background:#1a2a1a;border:1px solid #4caf50;color:#4caf50;font-weight:700" title="Gộp các đối tượng đã chọn (Ctrl+Click để chọn nhiều)">🔗 Gộp</button>
+    <button onclick="ungroupSelected()" style="background:#2a1a0a;border:1px solid #ff9800;color:#ff9800;font-weight:700" title="Tách các phần tử con ra khỏi khung">✂️ Tách</button>
+    <button onclick="toggleHistoryPanel()" style="background:#0d1e35;border:1px solid #4fc3f7;color:#4fc3f7;font-weight:700" title="Lịch sử thay đổi slide">📋 Lịch sử</button>
+    <button onclick="deleteCurrentSlide()" style="background:#3a0a0a;border:1px solid #c0392b;color:#e74c3c;font-weight:700" title="Xóa slide hiện tại">🗑 Xóa slide</button>
+    <button onclick="setMode('slides')" style="background:#5a1a1a;border:1px solid #e74c3c;color:#e74c3c;font-weight:700" title="Thoát chỉnh sửa">✖ Thoát</button>
+  </div>
+</div>
+<div id="edit-toast" style="position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:#4fc3f7;color:#000;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:9999">✅ Đã lưu!</div>
+
+<!-- ══ DANH SÁCH TRÒ CHƠI MODAL ══ -->
+<div id="game-list-modal" onclick="if(event.target===this)closeGameList()">
+  <div id="game-list-box">
+    <h2>🎮 Trò Chơi Củng Cố</h2>
+    <p class="game-list-sub">Bài 17 · Biến và Lệnh Gán · Python Lớp 10</p>
+    <div class="game-row">
+      <button class="game-card" onclick="launchGame('quiz')">
+        <span class="game-card-icon">🏆</span>
+        <div class="game-card-info">
+          <h3>Ai Là Triệu Phú?</h3>
+          <p>12 câu hỏi · Biến · Lệnh gán · Phép toán · Từ khóa Python · Âm thanh gameshow</p>
+        </div>
+      </button>
+      <button class="game-rules-btn" onclick="openQuizRules()" title="Xem luật chơi">📜 Luật chơi</button>
+    </div>
+    <button class="game-card" onclick="launchGame('caro')">
+      <span class="game-card-icon">⭕</span>
+      <div class="game-card-info">
+        <h3>Caro Team</h3>
+        <p>Tic-Tac-Toe nhóm · Trả lời đúng để đánh ô · Tung đồng xu chọn đội · 15 câu Bài 17</p>
+      </div>
+    </button>
+    <button id="game-list-close" onclick="closeGameList()">✖ Đóng</button>
+  </div>
+</div>
+
+<!-- ══ LUẬT CHƠI MODAL ══ -->
+<div id="quiz-rules-modal" onclick="if(event.target===this)closeQuizRules()">
+  <div id="quiz-rules-box" data-zoom-keep-overflow="1">
+    <h2>🏆 Luật Chơi – Ai Là Triệu Phú?</h2>
+
+    <div class="rules-section">
+      <div class="rules-goal">🎯 <strong>Mục tiêu:</strong> Trả lời đúng tất cả câu hỏi để trở thành <strong>Triệu Phú Tin Học!</strong></div>
+    </div>
+
+    <div class="rules-section">
+      <div class="rules-heading">📋 Cách chơi</div>
+      <ul class="rules-list">
+        <li>Mỗi lượt, chọn ngẫu nhiên <strong>1 học sinh</strong> lên trả lời</li>
+        <li>Trả lời <strong>đúng</strong> → lên bậc thưởng tiếp theo</li>
+        <li>Trả lời <strong>sai</strong> → trò chơi kết thúc, nhận về mức an toàn gần nhất</li>
+        <li>Trả lời đúng <strong>tất cả</strong> → Triệu Phú! 🎉</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <div class="rules-heading">💰 Bảng thưởng</div>
+      <div class="rules-prizes">
+        <span class="rp-top">$1,000,000 · $500,000 · $250,000</span>
+        <span class="rp-safe">🔒 $125,000 <em>(mức an toàn 2 – câu 9)</em></span>
+        <span>$64,000 · $32,000 · $16,000</span>
+        <span class="rp-safe">🔒 $8,000 <em>(mức an toàn 1 – câu 5)</em></span>
+        <span>$4,000 · $2,000 · $1,000 · $500</span>
+      </div>
+    </div>
+
+    <div class="rules-section rules-lifelines">
+      <div class="rules-heading">🆘 Trợ giúp <em>(mỗi loại dùng 1 lần)</em></div>
+      <div class="rules-ll-row">
+        <div class="rules-ll-item">
+          <span class="rll-icon">50:50</span>
+          <span>Loại bỏ 2 đáp án sai ngẫu nhiên</span>
+        </div>
+        <div class="rules-ll-item">
+          <span class="rll-icon">👥</span>
+          <span>Hỏi khán giả — xem tỉ lệ % bình chọn của cả lớp</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="quiz-rules-close" onclick="closeQuizRules()">✖ Đóng</button>
+  </div>
+</div>
+
+<!-- ══ CHỌN NGƯỜI OVERLAY ══ -->
+<div id="chon-overlay">
+  <div id="chon-header">
+    <div>
+      <h2>🎲 Máy Chọn Ngẫu Nhiên</h2>
+      <div class="info">NVSPTX 3 · HK3 2025–2026 · 39 sinh viên</div>
+    </div>
+    <button onclick="spLoadContextScript('chon');toggleSpeechPanel();" title="Mở hộp thoại giảng dạy" style="margin-left:auto;background:rgba(79,195,247,0.1);border:1px solid #2a3a5a;color:#4fc3f7;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:0.82em;font-weight:700;font-family:inherit">💬 Hộp thoại</button>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="chon-tabs">
+    <div class="chon-tab active" onclick="chon_switchTab(0)">🎰 Chọn 1 người</div>
+    <div class="chon-tab" onclick="chon_switchTab(1)">👥 Chọn N người</div>
+    <div class="chon-tab" onclick="chon_switchTab(2)">🔒 Không trùng lặp</div>
+    <div class="chon-tab" onclick="chon_switchTab(3)">🏷️ Chia nhóm</div>
+    <div class="chon-tab" onclick="chon_switchTab(4)">🎡 Vòng quay</div>
+    <div class="chon-tab" onclick="chon_switchTab(5)">🦆 Đua vịt</div>
+  </div>
+  <!-- Tab 0: Slot -->
+  <div class="chon-panel active" id="cp0">
+    <div class="slot-box">
+      <div class="slot-name" id="cSlotName">???</div>
+    </div>
+    <div style="text-align:center;margin-bottom:14px">
+      <button class="spin-btn" id="cSpinBtn" onclick="chon_doSpin()">🎲 Chọn ngẫu nhiên</button>
+      <button class="ca-btn red" style="margin-left:12px" onclick="chon_resetSpin()">🔄 Reset</button>
+    </div>
+    <div style="text-align:center">
+      <span class="wait-ctrl">⏱ Thời gian chờ: <input type="number" id="cSpinWait" value="2" min="1" max="10"> giây</span>
+    </div>
+    <div class="chon-hist" id="cHist" style="display:none">
+      <h3>Lịch sử</h3>
+      <div class="chon-hist-list" id="cHistList"></div>
+    </div>
+  </div>
+  <!-- Tab 1: Chọn N -->
+  <div class="chon-panel" id="cp1">
+    <div class="chon-controls">
+      <label>Chọn</label>
+      <input type="number" class="cn-input" id="cPickN" value="3" min="1" max="39">
+      <label>người</label>
+      <button class="ca-btn" onclick="chon_pickGroup()">👥 Chọn ngay</button>
+      <button class="ca-btn red" onclick="document.getElementById('cGroupResult').innerHTML=''">🗑 Xóa</button>
+    </div>
+    <div class="chon-result-grid" id="cGroupResult"></div>
+  </div>
+  <!-- Tab 2: Không trùng -->
+  <div class="chon-panel" id="cp2">
+    <div class="pool-header">
+      <button class="ca-btn" onclick="chon_pickFromPool()">🎲 Chọn tiếp</button>
+      <button class="ca-btn red" onclick="chon_resetPool()">🔄 Reset</button>
+      <span class="wait-ctrl">⏱ <input type="number" id="cPoolWait" value="1" min="1" max="10" style="width:48px"> giây</span>
+      <span class="cbadge rem" id="cRemainBadge">Còn lại: 39 / 39</span>
+      <span class="cbadge pck" id="cPickedBadge" style="display:none">Đã chọn: 0</span>
+    </div>
+    <div class="pool-display" id="cPoolDisplay">
+      <div class="pname" id="cPoolName">—</div>
+    </div>
+    <div style="font-size:0.75em;color:#7a8599;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Danh sách sinh viên</div>
+    <div class="st-grid" id="cStudentGrid"></div>
+  </div>
+  <!-- Tab 3: Chia nhóm -->
+  <div class="chon-panel" id="cp3">
+    <div class="chon-controls">
+      <label>Chia thành</label>
+      <input type="number" class="cn-input" id="cNumTeams" value="4" min="2" max="10">
+      <label>nhóm</label>
+      <button class="ca-btn green" onclick="chon_splitTeams()">🏷️ Chia ngay</button>
+      <button class="ca-btn red" onclick="document.getElementById('cTeamGrid').innerHTML=''">🗑 Xóa</button>
+    </div>
+    <div class="team-grid2" id="cTeamGrid"></div>
+  </div>
+
+  <!-- Tab 4: Vòng quay -->
+  <div class="chon-panel" id="cp4">
+    <div class="wheel-arrow"></div>
+    <canvas id="wheelCanvas" width="480" height="480"></canvas>
+    <div class="wheel-winner" id="wheelWinner"></div>
+    <div style="text-align:center;margin-top:4px">
+      <button class="spin-btn" id="wheelSpinBtn" onclick="chon_wheel_spin()">🎡 Quay!</button>
+      <button class="ca-btn red" style="margin-left:12px" onclick="chon_wheel_reset()">🔄 Reset</button>
+    </div>
+  </div>
+
+  <!-- Tab 5: Đua vịt -->
+  <div class="chon-panel" id="cp5">
+    <div class="chon-controls">
+      <label>Số vịt:</label>
+      <input type="number" class="cn-input" id="duckCount" value="8" min="2" max="15">
+      <button class="spin-btn" id="duckStartBtn" onclick="chon_duck_start()">🦆 Bắt đầu đua!</button>
+      <button class="ca-btn red" onclick="chon_duck_reset()">🔄 Reset</button>
+    </div>
+    <div id="duckTrack"></div>
+    <div class="duck-winner" id="duckWinner"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CÂU HỎI ÔN TẬP OVERLAY
+═══════════════════════════════════════════════════════════ -->
+<div id="cq-overlay">
+  <div id="cq-header">
+    <div>
+      <h2>📚 Thư viện câu hỏi – Bài 17 · Lớp 10</h2>
+    </div>
+    <button onclick="spLoadContextScript('cq');toggleSpeechPanel();" title="Mở hộp thoại giảng dạy" style="margin-left:auto;background:rgba(255,212,59,0.08);border:1px solid #3a3010;color:#ffd43b;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:0.82em;font-weight:700;font-family:inherit">💬 Hộp thoại</button>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="cq-mode-bar">
+    <button class="cq-mode-btn active" data-mode="present" onclick="cq_setViewMode('present')">▶ Trình chiếu</button>
+    <button class="cq-mode-btn" data-mode="edit" onclick="cq_setViewMode('edit')">✏️ Sửa</button>
+    <span class="cq-mode-hint">← → để chuyển câu · Space xem đáp án</span>
+  </div>
+  <div class="cq-grade-bar">
+    <span class="cq-grade-lbl">Lớp:</span>
+    <button class="cq-grade-btn active" data-grade="10" onclick="cq_switchGrade('10')">Lớp 10</button>
+    <button class="cq-grade-btn" data-grade="11" onclick="cq_switchGrade('11')">Lớp 11</button>
+    <button class="cq-grade-btn" data-grade="12" onclick="cq_switchGrade('12')">Lớp 12</button>
+  </div>
+  <div class="cq-lesson-bar" id="cq-lesson-bar"></div>
+  <div class="cq-tabs" id="cq-tabs-bar"></div>
+  <!-- Bộ lọc loại câu hỏi -->
+  <div class="cq-filter-bar" id="cq-filter-bar">
+    <span class="cq-filter-lbl">Lọc:</span>
+    <button class="cq-filter-btn active" data-filter="all"   onclick="cq_setFilter('all')">Tất cả <span class="cq-filter-cnt" id="cq-fcnt-all"></span></button>
+    <button class="cq-filter-btn"        data-filter="mc"    onclick="cq_setFilter('mc')">📋 Trắc nghiệm <span class="cq-filter-cnt" id="cq-fcnt-mc"></span></button>
+    <button class="cq-filter-btn"        data-filter="tl"    onclick="cq_setFilter('tl')">✍️ Tự luận <span class="cq-filter-cnt" id="cq-fcnt-tl"></span></button>
+    <button class="cq-filter-btn"        data-filter="fill"  onclick="cq_setFilter('fill')">📝 Điền chỗ trống <span class="cq-filter-cnt" id="cq-fcnt-fill"></span></button>
+    <button class="cq-filter-btn"        data-filter="match" onclick="cq_setFilter('match')">🔗 Nối từ <span class="cq-filter-cnt" id="cq-fcnt-match"></span></button>
+  </div>
+  <!-- Slideshow mode -->
+  <div id="cq-slideshow" class="active">
+    <div class="cqsl-nav">
+      <button class="cqsl-nav-btn" id="cqsl-prev" onclick="cq_slidePrev()">◀ Trước</button>
+      <span class="cqsl-counter" id="cqsl-counter">– / –</span>
+      <button class="cqsl-nav-btn" id="cqsl-next" onclick="cq_slideNext()">Tiếp ▶</button>
+      <button class="cqsl-ans-btn" id="cqsl-ans-btn" onclick="cq_slideToggleAns()">💡 Xem đáp án</button>
+      <button class="cqsl-pres-btn" id="cqsl-pres-btn" onclick="if(this.dataset.id)cq_present(this.dataset.id)" title="Trình chiếu toàn màn hình (F)">⛶ Toàn màn hình</button>
+    </div>
+    <div class="cqsl-body" id="cq-slideshow-body"></div>
+  </div>
+  <!-- Edit mode -->
+  <div class="cq-body" id="cq-edit-body" style="display:none"></div>
+</div>
+
+<!-- Present: hiển thị câu hỏi toàn màn hình -->
+<div id="cq-present">
+  <div class="cqp-step-counter" id="cqp-step-counter"></div>
+  <div id="cqp-countdown-ring" class="cqp-hidden"><span id="cqp-countdown-num">30</span></div>
+  <div id="cqp-type-badge"></div>
+  <div class="cqp-tag" id="cqp-tag"></div>
+  <div class="cqp-q" id="cqp-q"></div>
+  <!-- MC: lưới lựa chọn -->
+  <div class="cqp-opts" id="cqp-opts"></div>
+  <!-- TL: khung đáp án gợi ý -->
+  <div id="cqp-tl-answer"></div>
+  <!-- Fill: danh sách đáp án ô trống -->
+  <div id="cqp-fill-answers" class="cqp-fill-answers"></div>
+  <!-- Match: hai cột nối từ -->
+  <div id="cqp-match-body" class="cqp-match-body"></div>
+  <div id="cqp-student-msg"></div>
+  <div class="cqp-explain" id="cqp-explain"></div>
+  <div class="cqp-actions">
+    <button onclick="cq_presNav(-1)" style="border-color:#5a6a8a;color:#7a8aaa">◀ Trước</button>
+    <button onclick="cq_presNav(1)"  style="border-color:#5a6a8a;color:#7a8aaa">Tiếp ▶</button>
+    <button id="cqp-ans-btn" onclick="cq_presToggleAns()" style="border-color:#2ecc71;color:#2ecc71">💡 Xem đáp án</button>
+    <button id="cqp-next-btn" onclick="cq_presNextAuto()" style="border-color:#4fc3f7;color:#4fc3f7;display:none">⏭ Tiếp theo</button>
+    <button onclick="cq_presGoToLibrary()" style="border-color:#ffd43b;color:#ffd43b">📚 Đổi câu hỏi</button>
+    <button onclick="cq_presClose()" style="border-color:#e74c3c;color:#e74c3c">✖ Đóng</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     KỊCH BẢN OVERLAY – TEACHING DIRECTOR
+═══════════════════════════════════════════════════════════ -->
+<div id="kichban-overlay">
+  <div id="kb-header">
+    <h2>📋 Kịch Bản Bài Dạy</h2>
+    <span class="kb-sub">2 tiết · Ôn tập → Khởi động → Kiến thức → Luyện tập → Vận dụng → Tổng kết</span>
+    <div style="margin-left:auto;display:flex;gap:5px;align-items:center">
+      <button id="kb-left-toggle-btn"   class="ca-btn kb-ptgl active" onclick="kbLeftToggle()">≡ Mục lục</button>
+      <button id="kb-script-toggle-btn" class="ca-btn kb-ptgl active" onclick="kbScriptToggle()">📝 Kịch bản</button>
+      <button id="kb-slidewin-toggle-btn" class="ca-btn kb-ptgl" onclick="kbSlideWinToggle()">👁 Xem trước</button>
+    </div>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="kb-workspace">
+
+    <div class="kb-left">
+      <div class="kb-mục-lục-hdr">📋 Mục lục</div>
+      <div class="kb-dir-ctrl">
+        <button id="kb-dir-play-btn" class="kb-pick-btn spin" onclick="kbDirToggleAutoPlay()">▶ Tự động dạy</button>
+        <button class="kb-pick-btn reset" onclick="kbDirStop()" title="Dừng">⏹</button>
+        <button class="kb-pick-btn" style="border-color:#3a4a5a;color:#5a6a7a;background:transparent;flex:0" onclick="kbDirRestart()" title="Về bước 1">↺</button>
+      </div>
+      <div id="kb-dir-progress"></div>
+      <div class="kb-steps-list" id="kb-dir-list">
+        <div class="kb-empty">Đang tải kịch bản...</div>
+      </div>
+    </div>
+
+    <div id="kb-left-handle" title="Kéo để điều chỉnh độ rộng mục lục"></div>
+
+    <div class="kb-script-panel" id="kb-script-panel">
+      <div class="kb-mục-lục-hdr" style="border-right:none;border-left:1px solid #0e1828">📝 Kịch bản</div>
+      <div class="kb-sp-empty" id="kb-sp-empty">
+        <div style="font-size:2em;margin-bottom:12px">💬</div>
+        Chọn một bước bên trái để xem và chỉnh sửa lời thoại.
+      </div>
+      <div class="kb-sp-content" id="kb-sp-content" style="display:none">
+        <div class="kb-sp-header" id="kb-sp-header"></div>
+        <div class="kb-sp-section-lbl">💬 Lời thoại giáo viên</div>
+        <textarea class="kb-sp-tts" id="kb-sp-tts" rows="6" spellcheck="false"
+          placeholder="Nhập lời thoại cho bước này..."></textarea>
+        <div class="kb-sp-karaoke" id="kb-sp-karaoke" style="display:none"></div>
+        <div class="kb-sp-section-lbl" style="margin-top:14px">📋 Hướng dẫn thực hiện</div>
+        <textarea class="kb-sp-script" id="kb-sp-script" rows="7" spellcheck="false"
+          placeholder="Nhập hướng dẫn thực hiện..."></textarea>
+        <div class="kb-sp-actions">
+          <div class="kb-exec-group">
+            <button class="kb-pick-btn kb-exec-fs"  id="kb-sp-exec-fs-btn" >⛶ All toàn màn hình</button>
+            <button class="kb-pick-btn kb-exec-sim" id="kb-sp-exec-sim-btn">▶ All mô phỏng</button>
+            <button class="kb-pick-btn spin"         id="kb-sp-exec-btn"    >🔊 Đọc bước này</button>
+          </div>
+          <button class="kb-pick-btn" style="border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,0.07)" id="kb-sp-read-btn">🔊 Đọc lời thoại</button>
+          <button class="kb-pick-btn" style="border-color:#2ec4b6;color:#2ec4b6;background:rgba(46,196,182,0.07)" id="kb-sp-save-btn">💾 Lưu</button>
+          <button class="kb-del-step-btn" id="kb-sp-del-btn">🗑 Xóa bước</button>
+        </div>
+        <div class="kb-sp-nav" id="kb-sp-nav"></div>
+        <div id="kb-q-panel"></div>
+        <div id="kb-pg-panel"></div>
+
+      </div>
+    </div>
+
+    <!-- ── Split Handle ── -->
+    <div id="kb-split-handle" title="Kéo để điều chỉnh độ rộng"></div>
+
+    <!-- ── Slide Preview Panel ── -->
+    <div id="kb-slide-panel">
+      <div id="kb-slide-panel-hdr">
+        <span>👁 Xem trước bước</span>
+        <span id="kb-slide-win-info"></span>
+      </div>
+      <div id="kb-slide-panel-body">
+        <iframe id="kb-slide-iframe" allowfullscreen></iframe>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ CONTEXT MENU MỤC LỤC ══ -->
+<div id="kb-ctx-menu">
+  <div class="kb-ctx-info" id="kb-ctx-info"></div>
+  <div class="kb-ctx-sep"></div>
+  <button class="kb-ctx-item kb-ctx-del" onclick="kbCtxDelete()">🗑&nbsp; Xóa bước</button>
+  <div class="kb-ctx-sep"></div>
+  <div class="kb-ctx-label">➕ Thêm sau bước này</div>
+  <button class="kb-ctx-item" onclick="kbCtxAdd('slide')"><span class="kb-ctx-icon">📽</span>Slide</button>
+</div>
+
+
+<script src="./js/kichban.js"></script>
+<script src="./js/minigames.js"></script>
+
+<button id="slide-nav-toggle" onclick="toggleSlideNav()" title="Lộ trình kịch bản (Alt+L)">☰</button>
+
+<div id="slide-nav">
+  <div id="tf-progress"><div id="tf-progress-fill"></div></div>
+  <div id="tf-strip">
+    <div id="tf-phase-dot"></div>
+    <div id="tf-strip-info">
+      <div id="tf-strip-step"><em>Lộ trình</em> · Nhấn Tiếp theo để bắt đầu</div>
+      <div id="tf-strip-meta">Lộ trình slide bài dạy</div>
+    </div>
+  </div>
+  <div id="tf-phases"></div>
+  <div id="tf-list-wrap"><div id="tf-step-list"></div></div>
+  <div id="tf-script-row">
+    <div id="tf-phase-badge">...</div>
+    <div id="tf-script-text">Chọn một bước hoặc nhấn Tiếp theo để bắt đầu.</div>
+    <div id="tf-time-tag"></div>
+  </div>
+  <div id="sn-nav">
+    <button id="sn-btn-prev" onclick="tf_prev()">← Trước</button>
+    <button id="sn-btn-exec" onclick="tf_execute()">▶ Thực hiện</button>
+    <button id="sn-btn-next" onclick="tf_next()">Tiếp theo →</button>
+  </div>
+</div>
+
+<!-- Export PPTX overlay -->
+<div id="export-overlay">
+  <div id="export-box">
+    <h3>📊 Xuất PowerPoint</h3>
+    <div id="export-bar-wrap"><div id="export-bar"></div></div>
+    <div id="export-status">Chuẩn bị...</div>
+  </div>
+</div>
+
+<script src="./js/export-pptx.js"></script>
+
+<!-- Slide History Panel -->
+<div id="history-panel">
+  <div id="hp-header">
+    <span>📋 Lịch sử slide</span>
+    <button id="hp-close" onclick="toggleHistoryPanel()" title="Đóng">✕</button>
+  </div>
+  <div id="hp-list">
+    <div id="hp-empty">Chưa có thao tác nào.<br>Xóa slide sẽ tạo một điểm khôi phục.<br><br>Ctrl+Z để hoàn tác nhanh.</div>
+  </div>
+  <div id="hp-hint">Tối đa 20 điểm khôi phục · Mất khi tải lại trang</div>
+</div>
+
+<!-- Zoom indicator -->
+<div id="zoom-indicator">
+  <span class="zi-pct">100%</span>
+  <span class="zi-hint"></span>
+</div>
+
+<!-- ══════════════════════════════════
+     MODE SELECTOR OVERLAY
+══════════════════════════════════ -->
+
+<script src="./js/app-mode.js"></script>
+
+
+<!-- ══════════════════════════════════
+     SPEECH / DIALOGUE PANEL (right side)
+══════════════════════════════════ -->
+<button id="speech-toggle-btn" onclick="toggleSpeechPanel()" title="Mở hộp thoại giảng dạy">💬</button>
+
+<div id="speech-panel">
+  <div id="sp-resize-handle"></div>
+  <div id="sp-header">
+    <span id="sp-header-title">💬 Hộp Thoại Giảng Dạy</span>
+    <button id="sp-close-btn" onclick="toggleSpeechPanel()" title="Đóng">✕</button>
+  </div>
+
+  <!-- Ngôn ngữ -->
+  <div id="sp-lang-row">
+    <button class="sp-lang-btn active" data-lang="vi-VN" onclick="spSetLang(this)">🇻🇳 Tiếng Việt</button>
+    <button class="sp-lang-btn" data-lang="en-US" onclick="spSetLang(this)">🇺🇸 English</button>
+  </div>
+
+  <!-- Tốc độ + Cao độ -->
+  <div id="sp-rate-row">
+    <span class="sp-range-label">Tốc độ</span>
+    <input type="range" id="sp-rate" min="0.5" max="2" step="0.1" value="0.9"
+           oninput="spUpdateRate(this.value)">
+    <span id="sp-rate-label">0.9×</span>
+  </div>
+  <div id="sp-pitch-row">
+    <span class="sp-range-label">Cao độ</span>
+    <input type="range" id="sp-pitch" min="0.5" max="2" step="0.1" value="1"
+           oninput="spUpdatePitch(this.value)">
+    <span id="sp-pitch-label">1.0</span>
+  </div>
+
+  <!-- Giọng đọc -->
+  <div id="sp-voice-row">
+    <span id="sp-voice-label">Giọng:</span>
+    <select id="sp-voice" onchange="spSelectVoice(this.value)"></select>
+  </div>
+
+  <!-- Thiết bị âm thanh đầu ra -->
+  <div id="sp-device-row">
+    <span class="sp-range-label" style="color:#4fc3f7">🎧</span>
+    <select id="sp-device" onchange="spSelectDevice(this.value)" title="Chọn thiết bị phát âm thanh">
+      <option value="default">🔊 Mặc định hệ thống</option>
+    </select>
+    <button class="sp-dev-btn" onclick="spRefreshDevices()" title="Làm mới danh sách thiết bị">↻</button>
+    <button class="sp-dev-btn" onclick="spTestDevice()" title="Kiểm tra – phát beep qua thiết bị đã chọn">▶</button>
+  </div>
+  <div id="sp-device-badge" class="dev-def">
+    <span class="dbadge-dot"></span>
+    <span id="sp-device-msg">Thiết bị mặc định &nbsp;·&nbsp;
+      <a href="#" onclick="spOpenSoundSettings();return false;" style="color:#4fc3f7;text-decoration:none">Cài đặt Windows</a>
+    </span>
+  </div>
+
+  <!-- Tải lời thoại -->
+  <div id="sp-script-row">
+    <button class="sp-script-btn" id="sp-ctx-btn" onclick="spLoadContextScript()" title="Tải lời thoại cho phần đang hoạt động">📖 Mục này</button>
+    <button class="sp-script-btn" onclick="spLoadAllScripts()" title="Xem toàn bộ lời thoại">📋 Tất cả</button>
+  </div>
+
+  <!-- Đồng hồ tiết học -->
+  <div id="sp-timer-row">
+    <button class="sp-timer-btn" id="sp-timer-start" onclick="ltToggle()" title="Bắt đầu / Tạm dừng">▶</button>
+    <div id="sp-timer-display">45:00</div>
+    <button class="sp-timer-btn" onclick="ltReset()" title="Đặt lại 45 phút">↺</button>
+  </div>
+  <div id="lt-bar-wrap"><div id="lt-bar"></div></div>
+
+  <!-- Karaoke display (hiện khi đang đọc) -->
+  <div id="sp-karaoke-display"></div>
+
+  <!-- Textarea (hiện khi không đọc) -->
+  <textarea id="sp-textarea" spellcheck="false"
+    placeholder="Nhập nội dung cần đọc...&#10;&#10;Nhấn 📖 Mục này để tải lời thoại.&#10;&#10;● Slide này: đọc slide hiện tại + câu hỏi rồi dừng.&#10;● Toàn bài: tự động dạy liên tục đến hết bài."></textarea>
+
+  <!-- Hai nút dạy tách biệt -->
+  <div id="sp-teach-row">
+    <button id="sp-single-btn" class="sp-teach-btn"
+            onclick="spTeachCurrentSlide()"
+            title="Đọc lời thoại slide hiện tại + câu hỏi kiểm tra, rồi dừng lại">🎓 Slide này</button>
+    <button id="sp-autoteach-btn" class="sp-teach-btn"
+            onclick="spToggleAutoTeach()"
+            title="Tự động dạy liên tục từ slide hiện tại đến hết bài">📚 Toàn bài</button>
+  </div>
+
+  <!-- Nút điều khiển -->
+  <div id="sp-btn-row">
+    <button class="sp-btn sp-btn-play"  id="sp-play-btn"  onclick="spRead()">▶ Đọc</button>
+    <button class="sp-btn sp-btn-pause" id="sp-pause-btn" onclick="spPause()" disabled>⏸</button>
+    <button class="sp-btn sp-btn-stop"  id="sp-stop-btn"  onclick="spStop()"  disabled>⏹</button>
+  </div>
+
+  <!-- Trạng thái -->
+  <div id="sp-status">Sẵn sàng</div>
+
+  <!-- Tự đọc khi chuyển slide (thủ công) -->
+  <div id="sp-auto-row">
+    <label>
+      <input type="checkbox" id="sp-auto-read" onchange="spToggleAuto(this.checked)">
+      Tự đọc khi chuyển slide
+    </label>
+  </div>
+
+  <button id="sp-clear-btn" onclick="spClear()">🗑 Xóa nội dung</button>
+</div>
+
+<script src="./js/slide-scripts.js"></script>
+<script>eval(_sx(_LP+'/js/slide-scripts.js'));</script>
+<script src="./js/practice-reveal.js"></script>
+<script src="./js/speech.js"></script>
+<script src="./js/lesson-timer.js"></script>
+<script src="./js/cq-data.js"></script>
+<script src="./js/cq-panel.js"></script>
+<script src="./js/cq-present.js"></script>
+
+<!-- ════════════════════════════════════════
+     KÉO ĐỘ RỘNG SPEECH PANEL
+     – Kéo handle ở cạnh trái panel để thay đổi chiều rộng
+     – Lưu / khôi phục qua localStorage
+════════════════════════════════════════ -->
+<script src="./js/sp-resize.js"></script>
+<script src="./js/teaching-flow.js?v=2"></script>
+<script>eval(_sx(_LP+'/js/teaching-flow.js'));</script>
+
+<script src="./js/kb-preview.js"></script>
+<script src="./js/id-inspector.js"></script>
+
+<div id="id-inspector-tip"></div>
+<div id="id-drag-rect"></div>
+
+</body>
+</html>

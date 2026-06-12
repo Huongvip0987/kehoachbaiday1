@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ai Là Triệu Phú – Bài 17</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  overflow: hidden; background: #060d2b;
+  font-family: 'Segoe UI', Tahoma, sans-serif; color: #fff;
+  height: 100vh; display: flex; flex-direction: column;
+}
+
+/* ── Background GIF ── */
+#quiz-bg-layer {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+/* ── Layout ── */
+#quiz-root {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  height: 100vh; overflow: hidden;
+}
+
+/* ── Header ── */
+#quiz-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px; min-height: 50px; flex-shrink: 0;
+  background: rgba(6,12,44,0.82); border-bottom: 1px solid rgba(108,141,255,0.3);
+}
+#quiz-game-title {
+  font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+  background: linear-gradient(90deg,#f7fbff,#d9e8ff); color: #11214f;
+  border: 2px solid #6c8dff; border-radius: 10px; padding: 8px 16px;
+  font-size: 0.88em; box-shadow: 0 6px 20px rgba(13,24,76,0.5);
+  white-space: nowrap;
+}
+#quiz-game-title.title-reveal { animation: qTitlePop .8s ease-out; }
+@keyframes qTitlePop {
+  0%  { transform:translateY(8px) scale(.95); opacity:0; filter:blur(2px) }
+  70% { transform:translateY(-2px) scale(1.02); opacity:1; filter:blur(0) }
+  100%{ transform:none; opacity:1 }
+}
+#quiz-close-btn {
+  margin-left: auto; background: rgba(255,255,255,0.1); border: none; color: #fff;
+  font-size: 1.1em; width: 30px; height: 30px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+#quiz-close-btn:hover { background: rgba(231,76,60,0.6); }
+#quiz-settings-btn {
+  background: rgba(108,141,255,0.15); border: 1px solid rgba(108,141,255,0.35);
+  color: #c8d4ff; font-size: 0.82em; padding: 5px 12px; border-radius: 8px;
+  cursor: pointer; display: flex; align-items: center; gap: 5px;
+  flex-shrink: 0; transition: all .15s; font-weight: 700; white-space: nowrap;
+  font-family: inherit;
+}
+#quiz-settings-btn:hover  { background: rgba(108,141,255,0.3); color: #fff; }
+#quiz-settings-btn.active { background: rgba(108,141,255,0.4); color: #fff; border-color: #6c8dff; }
+
+/* ── Settings backdrop ── */
+#quiz-settings-backdrop {
+  position: fixed; inset: 0; z-index: 9; display: none;
+}
+#quiz-settings-backdrop.show { display: block; }
+
+/* ── Settings panel (was Actions bar) ── */
+#quiz-actions {
+  position: absolute; top: 50px; left: 0; right: 0; z-index: 10;
+  display: none; flex-direction: column; gap: 8px;
+  padding: 12px 16px; flex-shrink: 0;
+  background: rgba(4,7,32,0.97); border-bottom: 2px solid rgba(108,141,255,0.35);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.55);
+}
+#quiz-actions.open { display: flex; }
+.qz-settings-row {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.qz-settings-lbl {
+  font-size: 0.68em; color: #4a6090; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  white-space: nowrap; min-width: 80px;
+}
+.qz-settings-sep {
+  border: none; border-top: 1px solid rgba(60,80,150,0.25);
+  margin: 2px 0; width: 100%;
+}
+.quiz-btn {
+  border: none; border-radius: 7px; padding: 6px 12px;
+  cursor: pointer; font-weight: 700; font-size: 0.78em;
+  transition: filter .15s; white-space: nowrap;
+}
+.quiz-btn:disabled { opacity: .4; cursor: not-allowed; }
+.quiz-btn-primary   { background: #5f7cff; color: #fff; }
+.quiz-btn-primary:hover   { filter: brightness(1.15); }
+.quiz-btn-secondary { background: #283a78; color: #c8d4ff; border: 1px solid #3a52a8; }
+.quiz-btn-secondary:hover { filter: brightness(1.15); }
+.quiz-btn-audio     { background: #1c2f5e; color: #a0c0ff; border: 1px solid #2a4080; }
+.quiz-btn-audio:hover     { filter: brightness(1.2); }
+
+/* Font-size controls */
+/* ── Lifeline buttons ── */
+.qz-ll-row { display:flex;align-items:center;gap:5px; }
+.qz-ll-lbl { font-size:0.68em;color:#4a6080;font-weight:700;white-space:nowrap;margin-right:2px; }
+.qz-ll-btn {
+  border-radius:8px;padding:5px 11px;font-size:0.78em;font-weight:800;
+  cursor:pointer;border:2px solid #ffd43b;color:#ffd43b;
+  background:rgba(255,212,59,0.08);font-family:inherit;transition:all .18s;
+  white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+}
+.qz-ll-btn:hover:not(.qz-ll-used) { background:rgba(255,212,59,0.22); transform:translateY(-1px); }
+.qz-ll-btn.qz-ll-used {
+  border-color:#2a3a4a;color:#3a4a5a;background:rgba(0,0,0,0.2);
+  cursor:not-allowed;text-decoration:line-through;opacity:.55;
+}
+/* Walk away button */
+.qz-walkaway-btn {
+  border-radius:8px;padding:5px 11px;font-size:0.78em;font-weight:700;
+  cursor:pointer;border:1.5px solid #f44336;color:#f44336;
+  background:rgba(244,67,54,0.07);font-family:inherit;transition:all .15s;
+  white-space:nowrap;
+}
+.qz-walkaway-btn:hover { background:rgba(244,67,54,0.18); }
+
+/* ── Prize ladder – enhanced ── */
+.ql-item.ql-millionaire {
+  background:linear-gradient(135deg,rgba(255,212,59,0.2),rgba(255,160,0,0.1));
+  border-left:3px solid #ffd43b; color:#ffd43b; font-size:0.88em; font-weight:900;
+}
+.ql-item.ql-safe-marker { border-left:3px solid #2ecc71; }
+.ql-item.ql-safe-marker .ql-num { color:#2ecc71; }
+.ql-prize-dollar { color:#e8f0a0; font-family:monospace; font-weight:700; }
+.ql-item.ql-done .ql-prize-dollar { color:#3a5a3a; }
+.ql-item.ql-active .ql-prize-dollar { color:#ffd43b; }
+
+/* ── Audience modal ── */
+#quiz-audience-modal {
+  position:fixed;inset:0;z-index:50;background:rgba(4,8,28,0.88);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;
+}
+#quiz-audience-modal.show { display:flex; }
+#quiz-audience-box {
+  width:min(480px,90vw);background:rgba(14,22,68,0.97);border:1px solid #4a63d2;
+  border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  animation:qIntroRise .35s ease-out;
+}
+#quiz-audience-box h3 { margin:0 0 18px;text-align:center;font-size:1em;color:#ffd43b;font-weight:900;letter-spacing:1px; }
+.qz-aud-row { display:flex;align-items:center;gap:8px;margin-bottom:10px; }
+.qz-aud-label { min-width:22px;font-weight:900;color:#7090c0;font-size:0.9em;text-align:center; }
+.qz-aud-ans-text { font-size:0.78em;color:#a0b4d8;margin-bottom:4px;padding-left:30px; }
+.qz-aud-bar-wrap { flex:1;background:rgba(255,255,255,0.08);border-radius:20px;height:22px;overflow:hidden; }
+.qz-aud-bar {
+  height:100%;border-radius:20px;width:0%;
+  background:linear-gradient(90deg,#3a7bfd,#7c3aed);
+  transition:width .45s cubic-bezier(.4,0,.2,1);
+}
+.qz-aud-pct { min-width:38px;text-align:right;font-family:monospace;font-size:0.88em;color:#c8d4ff;font-weight:700; }
+.qz-aud-input {
+  width:48px;text-align:center;background:rgba(255,255,255,0.07);
+  border:1px solid #3a4d7a;border-radius:6px;color:#e0eaff;
+  font-size:0.9em;font-weight:700;padding:3px 4px;font-family:inherit;
+  -moz-appearance:textfield;
+}
+.qz-aud-input::-webkit-inner-spin-button { -webkit-appearance:none; }
+.qz-aud-input:focus { outline:none;border-color:#4a7aff; }
+#qz-aud-total { text-align:center;font-size:0.78em;color:#6a80a0;margin-top:6px; }
+.qz-aud-close-btn {
+  display:block;width:100%;margin-top:14px;padding:9px;
+  background:rgba(79,195,247,0.1);border:1.5px solid #4fc3f7;color:#4fc3f7;
+  border-radius:9px;font-weight:800;font-size:0.88em;cursor:pointer;font-family:inherit;
+}
+.qz-aud-close-btn:hover { background:rgba(79,195,247,0.22); }
+
+/* ── Game Over overlay ── */
+#quiz-gameover {
+  position:fixed;inset:0;z-index:60;background:rgba(4,5,20,0.92);backdrop-filter:blur(5px);
+  display:none;align-items:center;justify-content:center;
+}
+#quiz-gameover.show { display:flex; }
+#quiz-go-box {
+  width:min(440px,88vw);text-align:center;background:rgba(25,10,30,0.97);
+  border:2px solid #d14a4a;border-radius:20px;padding:30px 24px;
+  box-shadow:0 24px 70px rgba(0,0,0,0.7);animation:qIntroRise .4s ease-out;
+}
+#quiz-go-box .go-emoji { font-size:3.5em;margin-bottom:10px;display:block;animation:bounce 1s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+#quiz-go-box h2 { font-size:1.3em;font-weight:900;color:#f08080;margin:0 0 16px;letter-spacing:0.5px; }
+.go-wrong-answer { font-size:0.78em;color:#f08080;background:rgba(244,67,54,0.08);border:1px solid rgba(244,67,54,0.3);border-radius:8px;padding:8px 14px;margin-bottom:14px; }
+.go-right-answer { font-size:0.82em;color:#7de8a8;background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px 14px;margin-bottom:18px; }
+.go-prize-label { font-size:0.8em;color:#8090a0;margin-bottom:4px; }
+.go-prize-amount { font-size:2.2em;font-weight:900;color:#ffd43b;letter-spacing:-1px;margin-bottom:20px;font-family:monospace; }
+.go-prize-amount.go-zero { color:#f08080; }
+.go-restart-btn {
+  display:inline-block;padding:11px 28px;background:linear-gradient(135deg,#5f7cff,#3a5cdf);
+  color:#fff;border:none;border-radius:10px;font-size:0.92em;font-weight:800;cursor:pointer;font-family:inherit;
+}
+.go-restart-btn:hover { filter:brightness(1.15); }
+
+/* ── Millionaire (secret ending) ── */
+#quiz-millionaire {
+  position:fixed;inset:0;z-index:70;background:radial-gradient(ellipse at 50% 30%,#1a1400,#060308);
+  display:none;align-items:center;justify-content:center;overflow:hidden;
+}
+#quiz-millionaire.show { display:flex; animation:mmFade .8s ease-out; }
+@keyframes mmFade { from{opacity:0} to{opacity:1} }
+#quiz-mm-box {
+  text-align:center;padding:20px;max-width:640px;width:90%;position:relative;z-index:1;
+}
+.mm-top-ring {
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,#ffd43b,#ff8c00);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5em;margin:0 auto 16px;
+  box-shadow:0 0 60px rgba(255,212,59,0.8),0 0 120px rgba(255,140,0,0.4);
+  animation:mmSpin 3s ease-in-out infinite;
+}
+@keyframes mmSpin { 0%,100%{box-shadow:0 0 60px rgba(255,212,59,0.8),0 0 120px rgba(255,140,0,0.4)} 50%{box-shadow:0 0 90px rgba(255,212,59,1),0 0 180px rgba(255,140,0,0.6)} }
+.mm-title {
+  font-size:clamp(1.6em,5vw,2.8em);font-weight:900;letter-spacing:2px;
+  background:linear-gradient(135deg,#ffd43b,#fff,#ffd43b);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin:0 0 8px;text-shadow:none;
+}
+.mm-subtitle { font-size:1em;color:#ff9800;font-weight:700;margin-bottom:18px;letter-spacing:1px; }
+.mm-amount {
+  font-size:clamp(2.5em,8vw,4em);font-weight:900;color:#ffd43b;
+  font-family:monospace;letter-spacing:-2px;
+  text-shadow:0 0 30px rgba(255,212,59,0.8),0 0 60px rgba(255,180,0,0.5);
+  margin-bottom:16px;
+  animation:mmPulse 1.5s ease-in-out infinite;
+}
+@keyframes mmPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+.mm-badge {
+  display:inline-block;background:linear-gradient(135deg,#ffd43b,#ff8c00);
+  color:#1a0800;border-radius:30px;padding:8px 22px;
+  font-weight:900;font-size:0.88em;letter-spacing:1px;
+  box-shadow:0 6px 20px rgba(255,140,0,0.5);margin-bottom:20px;
+}
+.mm-msg { font-size:0.9em;color:#c8d4e8;line-height:1.7;max-width:440px;margin:0 auto 22px; }
+.mm-stars { font-size:1.8em;letter-spacing:6px;margin-bottom:18px; }
+.mm-play-again {
+  padding:12px 32px;background:linear-gradient(135deg,#ffd43b,#ff8c00);
+  color:#1a0800;border:none;border-radius:12px;font-size:1em;font-weight:900;
+  cursor:pointer;font-family:inherit;box-shadow:0 6px 24px rgba(255,180,0,0.5);
+  transition:filter .15s,transform .15s;
+}
+.mm-play-again:hover { filter:brightness(1.1);transform:translateY(-2px); }
+
+/* ── Player Picker ── */
+#qz-player-picker {
+  background: rgba(10,16,58,0.92); border: 1px solid rgba(108,141,255,0.4);
+  border-radius: 14px; padding: 16px 18px; text-align: center; flex-shrink: 0;
+  animation: qBoxIn .35s ease-out;
+}
+#qz-picker-title {
+  font-size: 0.72em; color: #4a6090; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 12px;
+}
+#qz-picker-spin-wrap {
+  background: rgba(4,8,30,0.85); border: 2px solid rgba(108,141,255,0.25);
+  border-radius: 12px; padding: 14px 24px; margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center; min-height: 64px;
+  max-width: 380px;
+}
+#qz-picker-spin-name {
+  font-size: 1.5em; font-weight: 900; color: #c8d4ff; min-height: 1.6em;
+  transition: color .06s;
+}
+#qz-picker-spin-name.qz-spin-final {
+  color: #ffd43b; font-size: 1.8em;
+  text-shadow: 0 0 24px rgba(255,212,59,0.65);
+  animation: qCorrectBounce .55s ease;
+}
+#qz-picker-chosen {
+  font-size: 0.88em; color: #7de8a8; font-weight: 700;
+  margin-bottom: 6px; min-height: 1.4em; letter-spacing: 0.3px;
+}
+#qz-picker-remaining {
+  font-size: 0.68em; color: #3a5070; margin-bottom: 12px;
+}
+#qz-picker-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
+#qz-picker-respin-btn {
+  display: none; padding: 9px 20px; background: transparent;
+  border: 1.5px solid #4a6090; color: #8aaae0; border-radius: 10px;
+  font-size: 0.88em; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: border-color .15s, color .15s;
+}
+#qz-picker-respin-btn:hover { border-color: #4fc3f7; color: #4fc3f7; }
+#qz-picker-reveal-btn {
+  display: none; padding: 10px 30px;
+  background: linear-gradient(135deg,#5f7cff,#3a5cdf);
+  color: #fff; border: none; border-radius: 10px;
+  font-size: 0.95em; font-weight: 800; cursor: pointer; font-family: inherit;
+  transition: filter .15s, transform .15s; box-shadow: 0 4px 16px rgba(63,100,255,0.4);
+}
+#qz-picker-reveal-btn:hover { filter: brightness(1.18); transform: translateY(-2px); }
+/* Picker khi hiện dạng modal (nút header) */
+#qz-pm-backdrop {
+  position: fixed; inset: 0; z-index: 34;
+  background: rgba(4,8,24,0.78); backdrop-filter: blur(4px);
+  display: none;
+}
+#qz-pm-backdrop.show { display: block; }
+#qz-player-picker.pm-modal {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 35; width: min(440px, 90vw);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.7);
+}
+/* Nút chọn người ở header */
+#qz-pick-header-btn {
+  background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.4);
+  color: #7de8a8; font-size: 0.82em; padding: 5px 12px; border-radius: 8px;
+  cursor: pointer; display: flex; align-items: center; gap: 5px;
+  flex-shrink: 0; transition: all .15s; font-weight: 700; white-space: nowrap;
+  font-family: inherit;
+}
+#qz-pick-header-btn:hover { background: rgba(46,204,113,0.25); color: #fff; }
+#qz-picked-display {
+  min-width: 90px; max-width: 180px;
+  padding: 5px 11px; border-radius: 8px;
+  border: 1px solid rgba(255,212,59,0.4);
+  background: rgba(255,212,59,0.08);
+  color: #ffd43b; font-size: 0.82em; font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  flex-shrink: 0; display: none;
+}
+#qz-picked-display.has-name { display: block; }
+@keyframes qPickedPop {
+  0%  { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.06); opacity: 1; }
+  100%{ transform: scale(1);   opacity: 1; }
+}
+/* Player mode settings */
+#qz-pm-toggle-btn {
+  border-radius: 7px; padding: 5px 12px; font-size: 0.78em; font-weight: 800;
+  cursor: pointer; border: 1.5px solid #3a5070; color: #6a8090;
+  background: transparent; font-family: inherit; transition: all .15s; white-space: nowrap;
+}
+#qz-pm-toggle-btn.pm-on { border-color: #2ecc71; color: #2ecc71; background: rgba(46,204,113,0.1); }
+#qz-pm-names {
+  flex: 1; background: rgba(4,8,30,0.85); border: 1px solid rgba(80,110,200,0.35);
+  border-radius: 8px; color: #c8d4ff; font-size: 0.8em; font-family: inherit;
+  padding: 8px 10px; resize: vertical; min-height: 86px; max-height: 160px;
+  line-height: 1.7;
+}
+#qz-pm-names:focus { outline: none; border-color: #6c8dff; }
+#qz-pm-names::placeholder { color: #3a5070; }
+
+/* Set selector */
+.qz-set-row { display:flex;align-items:center;gap:4px; }
+.qz-set-lbl { font-size:0.68em;color:#4a6080;font-weight:700;white-space:nowrap;margin-right:2px; }
+.qz-set-btn { border-radius:7px;padding:5px 11px;font-size:0.75em;font-weight:800;cursor:pointer;border:1.5px solid #2a3a6a;color:#5a7aaa;background:transparent;font-family:inherit;transition:all .15s;white-space:nowrap; }
+.qz-set-btn:hover { border-color:#4a6aaa;color:#8aaae0; }
+.qz-set-btn.qz-set-active { border-color:#ffd43b;color:#ffd43b;background:rgba(255,212,59,0.1); }
+
+.quiz-font-ctrl { display:flex; align-items:center; gap:4px; margin-left:4px; }
+.quiz-font-ctrl span { font-size:0.7em; color:#6a80a0; white-space:nowrap; }
+.quiz-font-btn {
+  background: #1e2d5a; border: 1px solid #3a4d7a; color: #90aacc;
+  border-radius: 5px; padding: 4px 9px; cursor: pointer; font-weight: 800;
+  font-size: 0.82em; transition: all .12s;
+}
+.quiz-font-btn:hover { background: #2a4080; color: #fff; }
+
+#quiz-read-q-btn {
+  background: none; border: 1px solid rgba(90,140,220,0.4);
+  border-radius: 6px; color: #90aacc; cursor: pointer;
+  font-size: 0.82em; padding: 3px 9px; transition: all .15s;
+  white-space: nowrap; margin-left: auto;
+}
+#quiz-read-q-btn:hover { background: #1e2d5a; color: #fff; }
+#quiz-read-q-btn.reading { color: #f0a030; border-color: #f0a030; }
+
+/* ── Body: main + ladder ── */
+#quiz-body-wrap {
+  display: flex; flex: 1; min-height: 0; overflow: hidden;
+}
+
+/* ── Main game area ── */
+#quiz-main {
+  flex: 1; display: flex; flex-direction: column;
+  overflow-y: auto; padding: 10px 14px; gap: 10px;
+  min-width: 0;
+}
+
+/* ── Host panel ── */
+#quiz-host-panel {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: rgba(25,39,98,0.65); border: 1px solid rgba(80,100,200,0.4);
+  border-radius: 12px; padding: 8px 12px; flex-shrink: 0;
+}
+#quiz-host-img {
+  width: 74px; height: 74px; object-fit: cover;
+  border-radius: 10px; border: 2px solid #5062b7; background: #fff;
+  flex-shrink: 0;
+}
+#quiz-host-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+#quiz-host-caption { font-size: 0.83em; color: #dbe2ff; line-height: 1.4; }
+#quiz-explanation {
+  border: 1px solid #2d5e40; background: rgba(22,55,38,0.75);
+  border-radius: 9px; padding: 8px 11px;
+}
+#quiz-explanation.hidden { display: none; }
+#quiz-explanation-title { font-weight: 800; margin-bottom: 4px; color: #7de8a8; font-size: 0.8em; }
+#quiz-explanation-text  { font-size: 0.78em; line-height: 1.55; color: #c6f5da; white-space: pre-wrap; }
+
+/* ── Level / progress bar ── */
+#quiz-level-bar {
+  display: flex; gap: 4px; align-items: center;
+  background: rgba(12,22,65,0.6); border-radius: 8px; padding: 5px 10px;
+  flex-shrink: 0; overflow-x: auto; scrollbar-width: none;
+}
+#quiz-level-bar::-webkit-scrollbar { display: none; }
+.qlb-zone {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.66em; font-weight: 700;
+  padding: 2px 8px; border-radius: 14px; white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all .25s;
+}
+.qlb-zone.zone-start   { border-color: #2a3a6a; color: #5a7aaa; }
+.qlb-zone.zone-mid     { border-color: #3a4a2a; color: #6a9a4a; }
+.qlb-zone.zone-hard    { border-color: #5a3a1a; color: #c0782a; }
+.qlb-zone.zone-final   { border-color: #5a1a1a; color: #d05050; }
+.qlb-zone.zone-active  { border-color: #ffd43b; color: #ffd43b; background: rgba(255,212,59,0.15); box-shadow: 0 0 10px rgba(255,212,59,0.3); }
+.qlb-sep { color: #2a3a5a; font-size: 0.8em; }
+
+/* ── Question box ── */
+#quiz-question-box {
+  background: rgba(20,32,88,0.7); border: 1px solid rgba(90,120,220,0.4);
+  border-radius: 14px; padding: 14px 18px;
+  animation: qBoxIn .35s ease-out;
+}
+@keyframes qBoxIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+#quiz-question-title {
+  font-size: 0.82em; font-weight: 800; color: #ffd43b; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+#quiz-q-progress-bar {
+  height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
+  overflow: hidden; margin-bottom: 10px;
+}
+#quiz-q-progress-fill {
+  height: 100%; background: linear-gradient(90deg,#5f7cff,#a0b8ff);
+  border-radius: 2px; transition: width .4s ease;
+}
+#quiz-question-text {
+  font-size: 1.1em; line-height: 1.6; color: #e8f0ff; font-weight: 600;
+}
+
+/* ── Answers grid ── */
+#quiz-answers {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  flex-shrink: 0;
+}
+.quiz-answer-btn {
+  text-align: left; background: rgba(255,255,255,0.97); color: #182050;
+  border: 2px solid #c8d0f0; border-radius: 11px;
+  padding: 12px 14px; font-size: 0.97em; font-weight: 600;
+  min-height: 56px; cursor: pointer;
+  transition: background .12s, border-color .12s, transform .12s;
+  animation: qAnsIn .3s ease both;
+  display: flex; align-items: center; gap: 10px;
+  line-height: 1.4;
+}
+.quiz-answer-btn .ans-label {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #5f7cff; color: #fff; font-size: 0.88em; font-weight: 900;
+  flex-shrink: 0;
+}
+/* animation-fill-mode:both đã xử lý opacity=0 trong delay — không cần khai báo lại */
+.quiz-answer-btn:nth-child(1) { animation-delay: .05s; }
+.quiz-answer-btn:nth-child(2) { animation-delay: .12s; }
+.quiz-answer-btn:nth-child(3) { animation-delay: .19s; }
+.quiz-answer-btn:nth-child(4) { animation-delay: .26s; }
+@keyframes qAnsIn { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:none} }
+.quiz-answer-btn:hover:not(:disabled) {
+  background: #eef2ff; border-color: #5f7cff; transform: translateY(-1px);
+}
+.quiz-answer-btn.pending {
+  background: #fff4d0; border-color: #ffb347;
+  animation: qPendingPulse 0.8s ease-in-out infinite;
+}
+@keyframes qPendingPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,180,50,0)} 50%{box-shadow:0 0 0 6px rgba(255,180,50,0.3)} }
+.quiz-answer-btn.correct {
+  background: #d4f7e3; border-color: #2fa860; color: #0d4a28;
+  animation: qCorrectBounce .5s ease;
+}
+.quiz-answer-btn.correct .ans-label { background: #2fa860; }
+@keyframes qCorrectBounce { 0%{transform:scale(1)} 40%{transform:scale(1.04)} 100%{transform:scale(1)} }
+.quiz-answer-btn.wrong   {
+  background: #ffe5e5; border-color: #d14a4a; color: #6a0a0a;
+  animation: qWrongShake .4s ease;
+}
+.quiz-answer-btn.wrong .ans-label { background: #d14a4a; }
+@keyframes qWrongShake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)}
+  60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+}
+.quiz-answer-btn:disabled { cursor: default; }
+
+/* ── Meta bar ── */
+#quiz-meta {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  flex-shrink: 0; padding-bottom: 4px;
+}
+.quiz-badge {
+  background: rgba(43,54,117,0.7); border-radius: 999px;
+  padding: 5px 12px; font-size: 0.78em; color: #c8d6ff;
+  border: 1px solid rgba(90,120,200,0.3);
+  display: flex; align-items: center; gap: 5px;
+}
+.quiz-badge strong { color: #ffd43b; }
+
+/* ── Prize Ladder ── */
+#quiz-ladder {
+  width: 168px; min-width: 168px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: rgba(6,10,36,0.88); border-left: 1px solid rgba(80,110,200,0.3);
+  overflow-y: auto; scrollbar-width: thin; scrollbar-color: #1e2d5a transparent;
+}
+#quiz-ladder-title {
+  padding: 8px 12px 5px; font-size: 0.65em; font-weight: 800;
+  color: #4a6090; text-transform: uppercase; letter-spacing: 1px;
+  border-bottom: 1px solid rgba(80,110,200,0.2); flex-shrink: 0;
+}
+.ql-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; font-size: 0.74em; color: #4a6090;
+  border-bottom: 1px solid rgba(40,60,120,0.2);
+  transition: all .25s; flex-shrink: 0;
+}
+.ql-item .ql-num {
+  min-width: 20px; text-align: center; font-size: 0.82em;
+  font-weight: 700; color: #3a5070;
+}
+.ql-item .ql-prize { flex: 1; font-weight: 600; }
+.ql-item.ql-safe { color: #4a8060; border-left: 3px solid #2a5040; }
+.ql-item.ql-safe .ql-num { color: #4a8060; }
+.ql-item.ql-active {
+  background: rgba(255,212,59,0.14); color: #ffd43b;
+  border-left: 3px solid #ffd43b;
+  font-weight: 800; font-size: 0.82em;
+  animation: qlGlow 2s ease-in-out infinite;
+}
+.ql-item.ql-active .ql-num { color: #ffd43b; font-size: 0.9em; }
+@keyframes qlGlow { 0%,100%{background:rgba(255,212,59,0.1)} 50%{background:rgba(255,212,59,0.22)} }
+.ql-item.ql-done { opacity: 0.4; text-decoration: line-through; }
+.ql-divider {
+  padding: 3px 10px; font-size: 0.6em; font-weight: 800;
+  color: #2a3860; text-transform: uppercase; letter-spacing: 0.8px;
+  background: rgba(30,50,100,0.4); border-bottom: 1px solid rgba(80,110,200,0.15);
+  flex-shrink: 0;
+}
+
+/* ── Confetti ── */
+.conf-piece {
+  position: fixed; width: 9px; height: 9px; border-radius: 2px;
+  pointer-events: none; z-index: 9999;
+  animation: confFall 1.3s ease-in forwards;
+}
+@keyframes confFall {
+  0%  { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  100%{ transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Intro overlay ── */
+#quiz-intro-overlay {
+  position: fixed; inset: 0; z-index: 20;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(4,8,24,0.88); backdrop-filter: blur(3px);
+}
+#quiz-intro-overlay.show { display: flex; }
+#quiz-intro-card {
+  width: min(480px,88vw); text-align: center;
+  background: rgba(14,24,78,0.96); border: 1px solid #4a63d2;
+  border-radius: 18px; padding: 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.55); animation: qIntroRise .45s ease-out;
+}
+@keyframes qIntroRise { from{transform:translateY(28px) scale(.96);opacity:0} to{transform:none;opacity:1} }
+#quiz-intro-character {
+  width: min(210px,54vw); max-height: 190px; object-fit: contain;
+  border-radius: 14px; margin: 0 auto 14px; display: block;
+}
+#quiz-intro-title { font-size: 1.05em; font-weight: 800; margin-bottom: 12px; color: #fff; }
+.qz-setup-row { display:flex; align-items:center; gap:8px; margin:10px 0; flex-wrap:wrap; justify-content:center; }
+.qz-setup-lbl { font-size:0.72em; color:#8898c8; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; width:100%; text-align:left; margin-bottom:2px; }
+#qz-setup-start-btn { margin-top:16px; padding:12px 36px; background:linear-gradient(135deg,#5f7cff,#3a5cdf); color:#fff; border:none; border-radius:12px; font-size:1.05em; font-weight:800; cursor:pointer; font-family:inherit; transition:filter .15s; width:100%; }
+#qz-setup-start-btn:hover { filter:brightness(1.15); }
+</style>
+</head>
+<body>
+
+<img id="quiz-bg-layer" src="./assets/quiz/animation%20v%C3%A0o%20game_slow3x.gif" alt="" />
+
+<!-- Setup screen overlay -->
+<div id="quiz-intro-overlay">
+  <div id="quiz-intro-card">
+    <img id="quiz-intro-character" src="./assets/quiz/ch%C3%A0o%20m%E1%BB%ABng.gif" alt="Chào mừng" />
+    <div id="quiz-intro-title">🏆 Ai Là Triệu Phú</div>
+
+    <div class="qz-setup-row">
+      <span class="qz-setup-lbl">📚 Bộ câu hỏi</span>
+      <button class="qz-set-btn qz-setup-set-btn" data-set="b16" onclick="qzSetupSelectSet('b16')">📘 Bài 16</button>
+      <button class="qz-set-btn qz-setup-set-btn qz-set-active" data-set="b17" onclick="qzSetupSelectSet('b17')">🏆 Bài 17</button>
+    </div>
+
+    <div class="qz-setup-row">
+      <span class="qz-setup-lbl">🔢 Số câu</span>
+      <button class="qz-set-btn qz-setup-qc-btn" data-qc="3"  onclick="qzSetupSelectQCount(3)">3</button>
+      <button class="qz-set-btn qz-setup-qc-btn" data-qc="5"  onclick="qzSetupSelectQCount(5)">5</button>
+      <button class="qz-set-btn qz-setup-qc-btn" data-qc="8"  onclick="qzSetupSelectQCount(8)">8</button>
+      <button class="qz-set-btn qz-setup-qc-btn" data-qc="10" onclick="qzSetupSelectQCount(10)">10</button>
+      <button class="qz-set-btn qz-setup-qc-btn qz-set-active" data-qc="0" onclick="qzSetupSelectQCount(0)">Tất cả</button>
+    </div>
+
+    <button id="qz-setup-start-btn" onclick="qzSetupConfirm()">▶️ Bắt đầu!</button>
+  </div>
+</div>
+
+<div id="quiz-root">
+
+  <!-- ── Header ── -->
+  <div id="quiz-header">
+    <div id="quiz-game-title">🏆 AI LÀ TRIỆU PHÚ – BÀI 17</div>
+    <button id="quiz-settings-btn" onclick="qzToggleSettings()" title="Cài đặt">⚙️ Cài đặt</button>
+    <button id="qz-pick-header-btn" onclick="qzManualPick()" title="Chọn ngẫu nhiên học sinh">🎲 Chọn người</button>
+    <div id="qz-picked-display" title="Người được chọn gần nhất"></div>
+    <button id="quiz-close-btn" onclick="closeQuizGame()" title="Đóng (Esc)">✕</button>
+  </div>
+
+  <!-- ── Picker backdrop (modal mode) ── -->
+  <div id="qz-pm-backdrop" onclick="qzCloseManualPick()"></div>
+
+  <!-- ── Settings backdrop ── -->
+  <div id="quiz-settings-backdrop" onclick="qzCloseSettings()"></div>
+
+  <!-- ── Settings panel ── -->
+  <div id="quiz-actions">
+    <!-- Bộ câu hỏi + Điều hướng -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">📚 Bộ câu hỏi</span>
+      <button class="qz-set-btn" data-set="b16" onclick="qzSwitchSet('b16')">📘 Bài 16</button>
+      <button class="qz-set-btn qz-set-active" data-set="b17" onclick="qzSwitchSet('b17')">🏆 Bài 17</button>
+      <div style="flex:1"></div>
+      <button class="quiz-btn quiz-btn-primary"   onclick="quizStart();qzCloseSettings()">▶️ Bắt đầu lại</button>
+      <button class="quiz-btn quiz-btn-secondary" onclick="quizNext();qzCloseSettings()">⏭️ Câu tiếp</button>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Số câu -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">🔢 Số câu</span>
+      <button class="qz-set-btn qz-qc-btn" data-qc="3"  onclick="qzSetQCount(3)">3 câu</button>
+      <button class="qz-set-btn qz-qc-btn" data-qc="5"  onclick="qzSetQCount(5)">5 câu</button>
+      <button class="qz-set-btn qz-qc-btn" data-qc="8"  onclick="qzSetQCount(8)">8 câu</button>
+      <button class="qz-set-btn qz-qc-btn" data-qc="10" onclick="qzSetQCount(10)">10 câu</button>
+      <button class="qz-set-btn qz-qc-btn qz-set-active" data-qc="0" onclick="qzSetQCount(0)">Tất cả</button>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Trợ giúp + Rút lui -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">🎮 Trợ giúp</span>
+      <button class="qz-ll-btn" id="qz-ll-fifty"    onclick="qzUseFiftyFifty();qzCloseSettings()" title="Loại trừ 2 đáp án sai">⚡ 50-50</button>
+      <button class="qz-ll-btn" id="qz-ll-audience" onclick="qzAskAudience();qzCloseSettings()"   title="Hỏi ý kiến khán giả lớp">👥 Hỏi khán giả</button>
+      <button class="qz-walkaway-btn" onclick="qzWalkAway();qzCloseSettings()" title="Rút lui với phần thưởng hiện tại">🚶 Rút lui</button>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Âm thanh -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">🎵 Âm thanh</span>
+      <button class="quiz-btn quiz-btn-primary"   id="quiz-bgm-start-btn" onclick="quizStartBgm()">🎵 Nhạc nền</button>
+      <button class="quiz-btn quiz-btn-secondary" id="quiz-bgm-stop-btn"  onclick="quizStopBgm()" disabled>⏹️ Dừng nhạc</button>
+      <button class="quiz-btn quiz-btn-audio"     id="quiz-audio-btn" onclick="quizToggleAudio()">🔊 Âm thanh: Bật</button>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Cỡ chữ -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">🔤 Cỡ chữ</span>
+      <button class="quiz-font-btn" onclick="qzFontAdjust(-2)" title="Chữ nhỏ hơn">A−</button>
+      <button class="quiz-font-btn" onclick="qzFontAdjust(+2)" title="Chữ lớn hơn">A+</button>
+      <button class="quiz-font-btn" onclick="qzFontReset()" title="Đặt lại cỡ chữ">↺</button>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Tự đọc câu hỏi -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">🔊 Tự đọc</span>
+      <button id="qz-autoread-btn" class="quiz-btn quiz-btn-secondary" onclick="qzToggleAutoRead()">Tự đọc: Tắt</button>
+      <span style="font-size:0.72em;color:#4a6090">Tự đọc câu hỏi khi xuất hiện</span>
+    </div>
+    <hr class="qz-settings-sep">
+    <!-- Chọn người -->
+    <div class="qz-settings-row">
+      <span class="qz-settings-lbl">👥 Học sinh</span>
+      <button id="qz-pm-toggle-btn" onclick="qzTogglePlayerMode()">Bật chế độ</button>
+      <span id="qz-pm-status" style="font-size:0.72em;color:#4a6090">Tự chọn ngẫu nhiên trước mỗi câu hỏi</span>
+    </div>
+  </div>
+
+  <!-- ── Body ── -->
+  <div id="quiz-body-wrap">
+
+    <!-- Main column -->
+    <div id="quiz-main">
+
+      <!-- Host panel -->
+      <div id="quiz-host-panel">
+        <img id="quiz-host-img" src="./assets/quiz/suy%20ngh%C4%A9.gif" alt="MC" />
+        <div id="quiz-host-side">
+          <div id="quiz-host-caption">🎤 Người dẫn chương trình đang theo dõi...</div>
+          <div id="quiz-explanation" class="hidden">
+            <div id="quiz-explanation-title">📘 Giải thích</div>
+            <div id="quiz-explanation-text"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level / progress bar -->
+      <div id="quiz-level-bar">
+        <div class="qlb-zone zone-start" data-zone="start">⭐ Khởi động <small>(1–4)</small></div>
+        <div class="qlb-sep">›</div>
+        <div class="qlb-zone zone-mid"   data-zone="mid">⭐⭐ Căng thẳng <small>(5–8)</small></div>
+        <div class="qlb-sep">›</div>
+        <div class="qlb-zone zone-hard"  data-zone="hard">🔥 Nguy hiểm <small>(9–10)</small></div>
+        <div class="qlb-sep">›</div>
+        <div class="qlb-zone zone-final" data-zone="final">🏆 Triệu phú! <small>(11–12)</small></div>
+      </div>
+
+      <!-- Player Picker (hiển thị khi bật chế độ chọn người) -->
+      <div id="qz-player-picker" style="display:none">
+        <div id="qz-picker-title">🎯 Chọn ngẫu nhiên người trả lời</div>
+        <div id="qz-picker-spin-wrap">
+          <div id="qz-picker-spin-name">...</div>
+        </div>
+        <div id="qz-picker-chosen"></div>
+        <div id="qz-picker-remaining"></div>
+        <div id="qz-picker-actions">
+          <button id="qz-picker-respin-btn" style="display:none" onclick="qzReSpin()">🔄 Đổi người</button>
+          <button id="qz-picker-reveal-btn">📖 Mở câu hỏi</button>
+        </div>
+      </div>
+
+      <!-- Question box -->
+      <div id="quiz-question-box">
+        <div id="quiz-question-title">
+          <span id="quiz-q-num">–</span>
+          <span id="quiz-q-stars"></span>
+          <button id="quiz-read-q-btn" onclick="qzToggleReadQuestion()" title="Đọc câu hỏi to">🔊 Đọc</button>
+        </div>
+        <div id="quiz-q-progress-bar"><div id="quiz-q-progress-fill" style="width:0%"></div></div>
+        <div id="quiz-question-text">Nhấn ▶️ Bắt đầu lại để chơi!</div>
+      </div>
+
+      <!-- Answers -->
+      <div id="quiz-answers"></div>
+
+      <!-- Meta -->
+      <div id="quiz-meta">
+        <span class="quiz-badge">📊 <strong id="quiz-progress-txt">0/0</strong> câu</span>
+        <span class="quiz-badge">🏅 Điểm: <strong id="quiz-score-txt">0</strong></span>
+      </div>
+
+    </div><!-- /quiz-main -->
+
+    <!-- Prize Ladder -->
+    <div id="quiz-ladder">
+      <div id="quiz-ladder-title">🏆 Bảng thưởng</div>
+      <!-- Built by JS -->
+    </div>
+
+  </div><!-- /quiz-body-wrap -->
+
+</div><!-- /quiz-root -->
+
+<!-- ── Audience Modal ── -->
+<div id="quiz-audience-modal">
+  <div id="quiz-audience-box">
+    <h3>🙋 Học sinh dơ tay chọn đáp án</h3>
+    <div id="quiz-audience-bars"></div>
+    <div id="qz-aud-total">Tổng: 0 học sinh</div>
+    <button class="qz-aud-close-btn" onclick="qzCloseAudience()">Đã khảo sát – Đóng lại</button>
+  </div>
+</div>
+
+<!-- ── Game Over ── -->
+<div id="quiz-gameover">
+  <div id="quiz-go-box">
+    <span class="go-emoji">😢</span>
+    <h2>Trò chơi kết thúc!</h2>
+    <div class="go-wrong-answer" id="qz-go-wrong"></div>
+    <div class="go-right-answer" id="qz-go-right"></div>
+    <div class="go-prize-label">Phần thưởng bạn mang về:</div>
+    <div class="go-prize-amount" id="qz-go-prize">$0</div>
+    <button class="go-restart-btn" onclick="document.getElementById('quiz-gameover').classList.remove('show');quizStart()">▶️ Chơi lại từ đầu</button>
+  </div>
+</div>
+
+<!-- ── Millionaire Secret Ending ── -->
+<div id="quiz-millionaire">
+  <div id="quiz-mm-box">
+    <div class="mm-top-ring">🏆</div>
+    <div class="mm-title">TRIỆU PHÚ TIN HỌC!</div>
+    <div class="mm-subtitle" id="mm-subtitle">🐍 PYTHON MASTER · BÀI 17 🐍</div>
+    <div class="mm-stars">⭐⭐⭐⭐⭐</div>
+    <div class="mm-amount">$1,000,000</div>
+    <div class="mm-badge">🎓 HOÀN THÀNH XUẤT SẮC 100%</div>
+    <div class="mm-msg" id="mm-msg">
+      Bạn đã trả lời đúng tất cả câu hỏi về <strong style="color:#ffd43b">Biến và Lệnh Gán Python</strong>!<br>
+      Kiến thức vững chắc, phản xạ tốt — bạn xứng đáng là <strong style="color:#ffd43b">Triệu phú Tin học</strong>! 🎉
+    </div>
+    <button class="mm-play-again" onclick="document.getElementById('quiz-millionaire').classList.remove('show');quizStart()">🔄 Chơi lại</button>
+  </div>
+</div>
+
+<script>
+const QUIZ_ASSET_BASE = './assets/quiz/';
+
+/* ── Danh sách học sinh lớp IN440303 ── */
+const QZ_STUDENTS = [
+  'Nguyễn Thị Thu An','Lê Thị Yến Di','Trần Thị Mỹ Diện',
+  'Bùi Trọng Đức','Lê Đức Duy','Võ Đức Duy',
+  'Nguyễn Chí Hùng','Nguyễn Gia Hưng','Trần Ngọc Hưng','Trần Chí Hướng',
+  'Nguyễn Đăng Khoa','Trần Tiết Khương','Nguyễn Thiên Kiệt',
+  'Phạm Thành Lợi','Lê Hồng Mi',
+  'Nguyễn Huỳnh Nhật Nam','Nguyễn Thành Nam','Lê Thị Ngọc',
+  'Trịnh Trọng Nhả','Nguyễn Thị Yến Nhi','Nguyễn Thị Thùy Như','Trần Thị Huỳnh Như',
+  'Nguyễn Lê Hồng Phát','Phan Nhật Phát','Đặng Thanh Phong',
+  'Quách Thiên Phúc','Nguyễn Thị Kim Phượng','Nguyễn Hồng Quân','Huỳnh Ngọc Quý',
+  'Đỗ Hoàng Sơn','Phạm Thị Thanh Tâm','Lưu Quang Thiện',
+  'Lê Thị Ngọc Trâm','Trương Mỹ Trân',
+  'Nguyễn Thị Tường Vi','Phạm Yến Vi','Đặng Thị Yến Vy',
+  'Trần Thanh Triệu Vỹ','Nguyễn Thị Như Ý',
+];
+
+/* ══ BỘ CÂU HỎI BÀI 16 – Ôn tập Ngôn ngữ lập trình Python ══ */
+const QUIZ_QUESTIONS_B16 = [
+  { title:'Câu 1', text:'Ai đã phát triển ngôn ngữ lập trình Python?',
+    answers:['Wick van Rossum','Rasmus Lerdorf','Guido van Rossum','Niene Stom'],
+    correctAnswer:2,
+    explanation:'Python do Guido van Rossum tạo ra và phát hành lần đầu năm 1991. Rasmus Lerdorf là tác giả của PHP.' },
+
+  { title:'Câu 2', text:'Ngôn ngữ Python được ra mắt lần đầu vào năm nào?',
+    answers:['1995','1972','1981','1991'],
+    correctAnswer:3,
+    explanation:'Python phiên bản 0.9.0 được phát hành năm 1991 bởi Guido van Rossum trên alt.sources.' },
+
+  { title:'Câu 3', text:'Ngôn ngữ nào gần với ngôn ngữ tự nhiên nhất?',
+    answers:['Ngôn ngữ bậc cao','Ngôn ngữ máy','Hợp ngữ (Assembly)','Cả ba đều sai'],
+    correctAnswer:0,
+    explanation:'Ngôn ngữ bậc cao (C, Java, Python…) gần ngôn ngữ tự nhiên nhất, dễ đọc và viết hơn ngôn ngữ máy hay hợp ngữ.' },
+
+  { title:'Câu 4', text:'Ngôn ngữ nào sau đây KHÔNG phải ngôn ngữ bậc cao?',
+    answers:['C/C++','Assembly (Hợp ngữ)','Python','Java'],
+    correctAnswer:1,
+    explanation:'Assembly là ngôn ngữ bậc thấp, gần với ngôn ngữ máy. C/C++, Python, Java đều là ngôn ngữ bậc cao.' },
+
+  { title:'Câu 5', text:'Phần mở rộng đúng của tệp Python là gì?',
+    answers:['.python','.pl','.py','.p'],
+    correctAnswer:2,
+    explanation:'File Python có phần mở rộng .py (ví dụ: hello.py). Đây là quy ước chuẩn của ngôn ngữ Python.' },
+
+  { title:'Câu 6', text:'Giá trị của biểu thức Python sau là bao nhiêu?\n4 + 15 / 5',
+    answers:['7','2','4','1'],
+    correctAnswer:0,
+    explanation:'Phép chia thực hiện trước: 15 / 5 = 3.0 → 4 + 3.0 = 7.0 ≈ 7. Thứ tự ưu tiên: chia trước, cộng sau.' },
+
+  { title:'Câu 7', text:'Điều nào được dùng để xác định một khối mã trong Python?',
+    answers:['Thụt lề (Indentation)','Dấu nháy " "','Dấu ngoặc ( )','Dấu ngoặc [ ]'],
+    correctAnswer:0,
+    explanation:'Python dùng thụt lề (indent) để phân chia khối lệnh, khác với C/Java dùng { }. Đây là đặc điểm quan trọng của Python.' },
+
+  { title:'Câu 8', text:'Thứ tự thực hiện các phép tính trong Python ở đáp án nào đúng?',
+    answers:['/, -, +, *','(*, /) thực hiện trước (+ -)','Từ trái sang phải','(+, -) thực hiện trước (*, /)'],
+    correctAnswer:1,
+    explanation:'Nhân và chia (* /) có ưu tiên cao hơn cộng và trừ (+ -). Cùng mức ưu tiên thì tính từ trái sang phải.' },
+
+  { title:'Câu 9', text:'Giá trị của biểu thức Python sau là bao nhiêu?\n6 – 6 / 2 + 4 * 5 – 6 / 2',
+    answers:['17','20','18','19'],
+    correctAnswer:1,
+    explanation:'Tính ưu tiên: 6/2=3, 4*5=20, 6/2=3 → 6 - 3 + 20 - 3 = 20.' },
+
+  { title:'Câu 10', text:'Câu lệnh sau bị lỗi ở đâu?\n>>> 3 + * 5',
+    answers:['Số 3','Dấu + hoặc *','Chỉ dấu *','Không có lỗi'],
+    correctAnswer:1,
+    explanation:'Lỗi cú pháp: sau toán tử + không thể đặt tiếp toán tử *. Phải viết: 3 * 5 hoặc 3 + 5.' },
+
+  { title:'Câu 11', text:'Để kết thúc một phiên làm việc trong Python, ta có thể làm cách nào?',
+    answers:['Nháy dấu X góc phải màn hình','Gõ lệnh quit() rồi Enter','Sử dụng câu lệnh exit()','Cả ba cách trên đều đúng'],
+    correctAnswer:3,
+    explanation:'Có thể đóng cửa sổ (X), dùng quit() hoặc exit() để thoát Python. Cả ba cách đều hợp lệ.' },
+
+  { title:'Câu 12', text:'Output của lệnh sau là gì?\nprint(1 + 2 + 3 + 4)',
+    answers:['10','15','1 + 2 + 3 + 4','1 + 2 + 3'],
+    correctAnswer:0,
+    explanation:'1 + 2 + 3 + 4 = 10. Python tính biểu thức trong print() rồi in kết quả, không in chuỗi ký tự.' },
+
+  { title:'Câu 13', text:'Phát biểu nào sau đây SAI khi nói về Python?',
+    answers:[
+      'Python là ngôn ngữ lập trình bậc cao',
+      'Python có mã nguồn mở, được nhiều nhà khoa học phát triển',
+      'Python có lệnh phức tạp nên không phổ biến trong giáo dục',
+      'Python có câu lệnh khá gần ngôn ngữ tự nhiên'
+    ],
+    correctAnswer:2,
+    explanation:'Python rất phổ biến trong giáo dục vì cú pháp đơn giản, gần tiếng Anh tự nhiên. Đây là ngôn ngữ số 1 được dạy trong các trường học trên thế giới.' },
+
+  { title:'Câu 14', text:'Chọn phát biểu ĐÚNG về môi trường lập trình Python?',
+    answers:[
+      'Chế độ soạn thảo có dấu nhắc >>>',
+      'Ngoài gõ lệnh trực tiếp và soạn thảo còn có nhiều chế độ khác',
+      'Chế độ gõ lệnh trực tiếp thích hợp cho tính toán và kiểm tra nhanh',
+      'Chế độ gõ lệnh trực tiếp có con trỏ soạn thảo như Word'
+    ],
+    correctAnswer:2,
+    explanation:'Chế độ gõ lệnh trực tiếp (REPL, dấu >>>) dùng để thử nhanh lệnh, tính toán tức thì. Chế độ soạn thảo (Script) dùng để viết chương trình dài.' },
+
+  { title:'Câu 15', text:'Dùng ký hiệu nào trong print() để viết văn bản xuống dòng giữa xâu?',
+    answers:['Cặp dấu nháy đơn \'...\'','Cặp ba dấu nháy kép """..."""','Cặp dấu nháy kép "..."','Không thể thực hiện được'],
+    correctAnswer:1,
+    explanation:'Dùng triple quotes (""" """) cho phép xuống dòng trong chuỗi. Ví dụ: print("""Dòng 1\nDòng 2""").' },
+];
+
+/* ══ BỘ CÂU HỎI BÀI 17 – Biến và Lệnh Gán ══ */
+const QUIZ_QUESTIONS_B17 = [
+  { title:'Câu 1',  text:'Biến trong Python là gì?',
+    answers:['Tên của một vùng nhớ dùng để lưu giá trị','Một hàm đặc biệt trong Python','Một từ khóa bắt buộc phải khai báo','Tên của một file Python'],
+    correctAnswer:0, explanation:'Biến là tên của một vùng nhớ dùng để lưu giá trị. Giá trị có thể thay đổi khi chạy chương trình.' },
+  { title:'Câu 2',  text:'Lệnh gán trong Python dùng ký hiệu nào?',
+    answers:['==',':=','=','<-'], correctAnswer:2,
+    explanation:'Trong Python, dấu = là lệnh gán (không phải so sánh). Dấu == mới là so sánh bằng.' },
+  { title:'Câu 3',  text:'Tên biến nào sau đây HỢP LỆ trong Python?',
+    answers:['12abc','My country','so_luong','m123&b'], correctAnswer:2,
+    explanation:'so_luong hợp lệ vì chỉ dùng chữ cái, số và dấu gạch dưới, không bắt đầu bằng số.' },
+  { title:'Câu 4',  text:'Kết quả của: a, b = 3, 7 rồi a, b = b, a là gì?',
+    answers:['a=3, b=7','a=7, b=3','Lỗi cú pháp','a=7, b=7'], correctAnswer:1,
+    explanation:'Gán đồng thời a, b = b, a hoán đổi hai biến. Kết quả: a=7, b=3.' },
+  { title:'Câu 5',  text:'Phép toán  10 // 3  trong Python cho kết quả?',
+    answers:['3.33','3','1','4'], correctAnswer:1,
+    explanation:'// là chia lấy phần nguyên. 10 // 3 = 3 (bỏ phần lẻ 0.33).' },
+  { title:'Câu 6',  text:'Phép toán  10 % 3  trong Python cho kết quả?',
+    answers:['3','0','1','3.33'], correctAnswer:2,
+    explanation:'% là lấy phần dư. 10 = 3×3 + 1 → 10 % 3 = 1.' },
+  { title:'Câu 7',  text:'Kết quả của biểu thức  2 ** 3  trong Python?',
+    answers:['6','8','5','9'], correctAnswer:1,
+    explanation:'** là lũy thừa. 2 ** 3 = 2³ = 2×2×2 = 8.' },
+  { title:'Câu 8',  text:'Kết quả của:  print("Ha! " * 3)  là?',
+    answers:['"Ha! Ha! Ha! "','"Ha!Ha!Ha!"','"Ha! 3"','Lỗi TypeError'], correctAnswer:0,
+    explanation:'Toán tử * lặp xâu. "Ha! " * 3 = "Ha! Ha! Ha! " (gồm dấu cách cuối).' },
+  { title:'Câu 9',  text:'Từ nào sau đây là từ khóa (keyword) của Python?',
+    answers:['soluong','while','diem','tuoi'], correctAnswer:1,
+    explanation:'while là từ khóa Python. Các từ còn lại là tên biến hợp lệ do người dùng đặt.' },
+  { title:'Câu 10', text:'Thứ tự ưu tiên ĐÚNG trong Python là?',
+    answers:['+ - cao hơn * /','** > *//%  > + -','* / cao hơn **','Tất cả ưu tiên như nhau'],
+    correctAnswer:1, explanation:'Thứ tự: ** (lũy thừa) › *//%  (nhân/chia) › +- (cộng/trừ). Dùng () để thay đổi.' },
+  { title:'Câu 11', text:'Cách tốt nhất để hoán đổi x và y trong Python?',
+    answers:['temp=x; x=y; y=temp','x, y = y, x','swap(x, y)','x=y; y=x'],
+    correctAnswer:1, explanation:'Python hỗ trợ gán đồng thời. x, y = y, x — ngắn gọn, không cần biến trung gian.' },
+  { title:'Câu 12', text:'Điều gì xảy ra khi chạy:  x = 5 + "abc" ?',
+    answers:['x = "5abc"','x = 5','Lỗi TypeError','x = "abc5"'],
+    correctAnswer:2, explanation:'Không thể cộng int với str → TypeError. Dùng str(5) + "abc" hoặc f"{5}abc".' }
+];
+
+/* ── Bộ câu hỏi đang dùng (mặc định B17) ── */
+let QUIZ_QUESTIONS      = QUIZ_QUESTIONS_B17;
+let _qzActiveSet        = 'b17';
+
+function qzSwitchSet(key) {
+  _qzActiveSet   = key;
+  QUIZ_QUESTIONS = key === 'b16' ? QUIZ_QUESTIONS_B16 : QUIZ_QUESTIONS_B17;
+  document.querySelectorAll('.qz-set-btn').forEach(b =>
+    b.classList.toggle('qz-set-active', b.dataset.set === key));
+  const titleEl = document.getElementById('quiz-game-title');
+  if (titleEl) titleEl.textContent = key === 'b16'
+    ? '📘 ÔN TẬP BÀI 16 – PYTHON'
+    : '🏆 AI LÀ TRIỆU PHÚ – BÀI 17';
+  quizStart();
+}
+
+/* ── Bảng thưởng – format đô la kiểu Ai Là Triệu Phú ── */
+const PRIZES = [
+  { label:'$1,000,000', safe:false }, // Q12 ← GRAND PRIZE
+  { label:'$500,000',   safe:false }, // Q11
+  { label:'$250,000',   safe:false }, // Q10
+  { label:'$125,000',   safe:true  }, // Q9  ← SAFE 2
+  { label:'$64,000',    safe:false }, // Q8
+  { label:'$32,000',    safe:false }, // Q7
+  { label:'$16,000',    safe:false }, // Q6
+  { label:'$8,000',     safe:true  }, // Q5  ← SAFE 1
+  { label:'$4,000',     safe:false }, // Q4
+  { label:'$2,000',     safe:false }, // Q3
+  { label:'$1,000',     safe:false }, // Q2
+  { label:'$500',       safe:false }, // Q1
+];
+/* Safe amounts: Q5 → $8,000 · Q9 → $125,000 */
+const SAFE_PRIZES = { 5: '$8,000', 9: '$125,000' };
+
+/* ── State ── */
+const QZ = {
+  fontSize:    { q: 17, ans: 15 },
+  audioEnabled: true,
+  pool: [], currentIndex: -1, score: 0,
+  locked: false, currentSolved: false, wrongAttempts: 0,
+  pendingReveal: null,
+  bgmAudio: null, correctAudio: null, wrongAudio: null,
+  suspenseAudio: null, signalAudio: null,
+  bgPlaying: false,
+  /* Lifelines */
+  lifelines: { fifty: true, audience: true },
+  /* Safe prize guaranteed so far */
+  safeAmount: '$0',
+  /* Player picker mode */
+  pm: { enabled: false, remaining: [], current: null },
+  /* Số câu chơi (null = tất cả) */
+  questionCount: null,
+  /* Tự đọc câu hỏi */
+  autoRead: false
+};
+
+/* ── Helpers ── */
+function qzAsset(n) { return QUIZ_ASSET_BASE + n; }
+
+function qzEnsureAudio() {
+  if (!QZ.bgmAudio) {
+    QZ.bgmAudio = new Audio(qzAsset('nhac_nen_gameshow_ai_la_trieu_phu-www_tiengdong_com.mp3'));
+    QZ.bgmAudio.loop = true; QZ.bgmAudio.volume = 0.42;
+  }
+  if (!QZ.correctAudio) {
+    QZ.correctAudio = new Audio(qzAsset('Am_thanh_tra_loi_dung_ai_la_trieu_phu-www_tiengdong_com.mp3'));
+  }
+  if (!QZ.wrongAudio) {
+    QZ.wrongAudio = new Audio(qzAsset('Am_thanh_tra_loi_sai_ai_la_trieu_phu-www_tiengdong_com.mp3'));
+  }
+  if (!QZ.suspenseAudio) {
+    QZ.suspenseAudio = new Audio(qzAsset('Am_thanh_hoi_hop_ngan-www_tiengdong_com.mp3'));
+    QZ.suspenseAudio.loop = true; QZ.suspenseAudio.volume = 0.55;
+  }
+  if (!QZ.signalAudio) {
+    /* Tín hiệu ngắn khi chuyển câu */
+    QZ.signalAudio = new Audio(qzAsset('Am_thanh_tieng_click_chuot-www_tiengdong_com.mp3'));
+    QZ.signalAudio.volume = 0.8;
+  }
+}
+
+function qzPlay(audio) {
+  if (!audio) return;
+  audio.currentTime = 0;
+  const p = audio.play(); if (p && p.catch) p.catch(() => {});
+}
+
+function qzPlayBgm()         { qzEnsureAudio(); qzPlay(QZ.bgmAudio); QZ.bgPlaying = true;  qzUpdateBgmBtns(); }
+function qzStopBgm(reset)    { if (!QZ.bgmAudio) return; QZ.bgmAudio.pause(); if (reset) QZ.bgmAudio.currentTime = 0; QZ.bgPlaying = false; qzUpdateBgmBtns(); }
+function qzPlayResult(type)  { qzEnsureAudio(); if (!QZ.audioEnabled) return; qzPlay(type === 'correct' ? QZ.correctAudio : QZ.wrongAudio); }
+function qzPlaySuspense()    { qzEnsureAudio(); if (!QZ.audioEnabled || !QZ.suspenseAudio) return; qzPlay(QZ.suspenseAudio); }
+function qzStopSuspense()    { if (QZ.suspenseAudio) { QZ.suspenseAudio.pause(); QZ.suspenseAudio.currentTime = 0; } if (QZ.pendingReveal) { clearTimeout(QZ.pendingReveal); QZ.pendingReveal = null; } }
+function qzPlaySignal()      { qzEnsureAudio(); if (!QZ.audioEnabled) return; qzPlay(QZ.signalAudio); }
+
+function qzUpdateBgmBtns() {
+  document.getElementById('quiz-bgm-start-btn').disabled = QZ.bgPlaying;
+  document.getElementById('quiz-bgm-stop-btn').disabled  = !QZ.bgPlaying;
+}
+
+/* ── Preload ── */
+function qzPreloadImages() {
+  ['suy nghĩ.gif','chào mừng.gif','giải thích.jpg','trả lời sai 1.gif','trả lời sai 2.gif','animation_bg_freeze.png']
+    .forEach(n => { const i = new Image(); i.src = QUIZ_ASSET_BASE + encodeURIComponent(n); });
+}
+
+/* ── Host / Explanation ── */
+function qzSetHostImg(name, caption) {
+  const img = document.getElementById('quiz-host-img');
+  const cap = document.getElementById('quiz-host-caption');
+  if (img) img.src = qzAsset(encodeURIComponent(name));
+  if (cap) cap.textContent = caption || '';
+}
+function qzShowExplanation(text) {
+  document.getElementById('quiz-explanation').classList.remove('hidden');
+  document.getElementById('quiz-explanation-text').textContent = text;
+}
+function qzHideExplanation() {
+  document.getElementById('quiz-explanation').classList.add('hidden');
+  document.getElementById('quiz-explanation-text').textContent = '';
+}
+
+/* ── Font size ── */
+function qzApplyFontSize() {
+  document.getElementById('quiz-question-text').style.fontSize = QZ.fontSize.q + 'px';
+  document.querySelectorAll('.quiz-answer-btn').forEach(b => b.style.fontSize = QZ.fontSize.ans + 'px');
+}
+function qzFontAdjust(delta) {
+  QZ.fontSize.q   = Math.max(11, Math.min(32, QZ.fontSize.q   + delta));
+  QZ.fontSize.ans = Math.max(10, Math.min(28, QZ.fontSize.ans + delta));
+  qzApplyFontSize();
+}
+function qzFontReset() { QZ.fontSize = { q: 17, ans: 15 }; qzApplyFontSize(); }
+
+/* ── Số câu ── */
+function qzSetQCount(n) {
+  QZ.questionCount = n || null;
+  document.querySelectorAll('.qz-qc-btn').forEach(b =>
+    b.classList.toggle('qz-set-active', +b.dataset.qc === (n || 0)));
+}
+
+/* ── Prize Ladder ── */
+function qzBuildLadder() {
+  const el    = document.getElementById('quiz-ladder');
+  const title = document.getElementById('quiz-ladder-title');
+  el.innerHTML = '';
+  el.appendChild(title);
+
+  PRIZES.forEach((p, i) => {
+    const level = PRIZES.length - i; // PRIZES[0]=Q12→level 12, PRIZES[11]=Q1→level 1
+
+    /* Milestone dividers */
+    if (level === 12) {
+      const d = document.createElement('div'); d.className = 'ql-divider';
+      d.innerHTML = '🏆 Mức tối cao';  el.appendChild(d);
+    } else if (level === 9) {
+      const d = document.createElement('div'); d.className = 'ql-divider';
+      d.innerHTML = '🔒 Điểm an toàn 2'; el.appendChild(d);
+    } else if (level === 5) {
+      const d = document.createElement('div'); d.className = 'ql-divider';
+      d.innerHTML = '🔒 Điểm an toàn 1'; el.appendChild(d);
+    }
+
+    const item = document.createElement('div');
+    let cls = 'ql-item';
+    if (level === 12) cls += ' ql-millionaire';
+    else if (p.safe)  cls += ' ql-safe-marker';
+    item.className = cls;
+    item.id = 'ql-' + level;
+    item.innerHTML =
+      `<span class="ql-num">${level === 12 ? '🎯' : level}</span>` +
+      `<span class="ql-prize"><span class="ql-prize-dollar">${p.label}</span></span>`;
+    el.appendChild(item);
+  });
+}
+
+function qzUpdateLadder(currentQ) {
+  // currentQ = 1-indexed question number
+  for (let i = 1; i <= PRIZES.length; i++) {
+    const el = document.getElementById('ql-' + i);
+    if (!el) continue;
+    el.classList.remove('ql-active', 'ql-done');
+    const safe = PRIZES[PRIZES.length - i]?.safe;
+    if (i < currentQ)  { el.classList.add('ql-done'); }
+    if (i === currentQ){ el.classList.add('ql-active'); el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+    if (i > currentQ && !safe) { el.classList.remove('ql-safe'); }
+  }
+}
+
+/* ── Level bar ── */
+function qzUpdateLevelBar(qNum) {
+  const zone = qNum <= 4 ? 'start' : qNum <= 8 ? 'mid' : qNum <= 10 ? 'hard' : 'final';
+  document.querySelectorAll('.qlb-zone').forEach(z => z.classList.toggle('zone-active', z.dataset.zone === zone));
+}
+
+/* ── Stars indicator ── */
+function qzStars(qNum) {
+  if (qNum <= 4)  return '⭐';
+  if (qNum <= 8)  return '⭐⭐';
+  if (qNum <= 10) return '🔥';
+  return '🏆';
+}
+
+/* ── Confetti ── */
+function qzConfetti(x, y) {
+  const colors = ['#ffd43b','#2ecc71','#4fc3f7','#f72585','#ff9800','#a78bfa'];
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf-piece';
+    el.style.cssText = `left:${x + (Math.random()-0.5)*180}px;top:${y}px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.4}s;animation-duration:${1+Math.random()*0.6}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2200);
+  }
+}
+
+/* ── Setup screen ── */
+let _qzSetupSet    = 'b17';
+let _qzSetupQCount = null; // null = tất cả
+
+function qzSetupSelectSet(key) {
+  _qzSetupSet = key;
+  document.querySelectorAll('.qz-setup-set-btn').forEach(b =>
+    b.classList.toggle('qz-set-active', b.dataset.set === key));
+}
+
+function qzSetupSelectQCount(n) {
+  _qzSetupQCount = n || null;
+  document.querySelectorAll('.qz-setup-qc-btn').forEach(b =>
+    b.classList.toggle('qz-set-active', +b.dataset.qc === (n || 0)));
+}
+
+function qzSetupConfirm() {
+  // Áp dụng cài đặt
+  _qzActiveSet   = _qzSetupSet;
+  QUIZ_QUESTIONS = _qzSetupSet === 'b16' ? QUIZ_QUESTIONS_B16 : QUIZ_QUESTIONS_B17;
+  QZ.questionCount = _qzSetupQCount;
+
+  // Đồng bộ UI settings panel
+  document.querySelectorAll('.qz-set-btn[data-set]').forEach(b =>
+    b.classList.toggle('qz-set-active', b.dataset.set === _qzSetupSet));
+  document.querySelectorAll('.qz-qc-btn').forEach(b =>
+    b.classList.toggle('qz-set-active', +b.dataset.qc === (_qzSetupQCount || 0)));
+  const titleEl = document.getElementById('quiz-game-title');
+  if (titleEl) titleEl.textContent = _qzSetupSet === 'b16'
+    ? '📘 ÔN TẬP BÀI 16 – PYTHON' : '🏆 AI LÀ TRIỆU PHÚ – BÀI 17';
+
+  // Bật chế độ chọn người tự động
+  QZ.pm.enabled = true;
+  const pmBtn = document.getElementById('qz-pm-toggle-btn');
+  if (pmBtn) { pmBtn.textContent = 'Tắt chế độ'; pmBtn.classList.add('active'); }
+  const pmStatus = document.getElementById('qz-pm-status');
+  if (pmStatus) pmStatus.textContent = 'Đang bật – Tự chọn ngẫu nhiên trước mỗi câu';
+
+  // Ẩn setup screen
+  document.getElementById('quiz-intro-overlay').classList.remove('show');
+
+  // Khởi động BGM (giống qzRunIntro)
+  qzEnsureAudio();
+  if (QZ.audioEnabled && QZ.bgmAudio && QZ.bgmAudio.paused) {
+    QZ.bgmAudio.loop = false;
+    QZ.bgmAudio.onended = () => {
+      if (QZ.bgmAudio) { QZ.bgmAudio.loop = true; QZ.bgmAudio.onended = null; }
+      QZ.bgPlaying = false; qzUpdateBgmBtns();
+    };
+    qzPlay(QZ.bgmAudio); QZ.bgPlaying = true; qzUpdateBgmBtns();
+  }
+
+  // Hiệu ứng title + đổi background sau 5s
+  const ttl = document.getElementById('quiz-game-title');
+  if (ttl) { ttl.classList.remove('title-reveal'); void ttl.offsetWidth; ttl.classList.add('title-reveal'); }
+  setTimeout(() => {
+    const bg = document.getElementById('quiz-bg-layer');
+    if (bg) bg.src = qzAsset('animation_bg_freeze.png');
+  }, 5000);
+
+  // Bắt đầu (qzRenderQuestion → qzPickPlayer tự kích hoạt vì pm.enabled = true)
+  quizStart();
+}
+
+/* ── Intro ── */
+function qzRunIntro(onDone) {
+  const ov  = document.getElementById('quiz-intro-overlay');
+  const bar = document.getElementById('quiz-intro-bar');
+  const pct = document.getElementById('quiz-intro-percent');
+  if (!ov || !bar) { onDone && onDone(); return; }
+
+  ov.classList.add('show');
+  bar.style.width = '0%';
+  if (pct) pct.textContent = '0%';
+
+  qzEnsureAudio();
+  if (QZ.bgmAudio && QZ.bgmAudio.paused) {
+    QZ.bgmAudio.loop = false;
+    QZ.bgmAudio.onended = () => { if (QZ.bgmAudio) { QZ.bgmAudio.loop = true; QZ.bgmAudio.onended = null; } QZ.bgPlaying = false; qzUpdateBgmBtns(); };
+    qzPlay(QZ.bgmAudio); QZ.bgPlaying = true; qzUpdateBgmBtns();
+  }
+
+  const dur = 3000, t0 = Date.now();
+  const tick = () => {
+    const r = Math.min(1, (Date.now() - t0) / dur);
+    bar.style.width = Math.round(r*100) + '%';
+    if (pct) pct.textContent = Math.round(r*100) + '%';
+    if (r < 1) { requestAnimationFrame(tick); return; }
+    setTimeout(() => {
+      ov.classList.remove('show');
+      setTimeout(() => {
+        const bg = document.getElementById('quiz-bg-layer');
+        if (bg) bg.src = qzAsset('animation_bg_freeze.png');
+      }, 5000);
+      const ttl = document.getElementById('quiz-game-title');
+      if (ttl) { ttl.classList.remove('title-reveal'); void ttl.offsetWidth; ttl.classList.add('title-reveal'); }
+      onDone && onDone();
+    }, 120);
+  };
+  requestAnimationFrame(tick);
+}
+
+/* ── Start game ── */
+function quizStart() {
+  QZ.pool = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5);
+  if (QZ.questionCount && QZ.questionCount < QZ.pool.length)
+    QZ.pool = QZ.pool.slice(0, QZ.questionCount);
+  QZ.currentIndex = 0; QZ.score = 0;
+  QZ.locked = false; QZ.currentSolved = false; QZ.wrongAttempts = 0;
+  QZ.safeAmount = '$0';
+  QZ.lifelines  = { fifty: true, audience: true };
+  QZ.pm.remaining = []; QZ.pm.current = null;
+  qzStopSuspense(); qzHideExplanation();
+  qzSetHostImg('suy nghĩ.gif', '🤔 Cùng suy nghĩ cho câu đầu tiên nào!');
+  qzBuildLadder();
+  qzUpdateLifelineUI();
+  qzRenderQuestion();
+}
+
+/* ── Next question ── FIX: chỉ phát tín hiệu ngắn, không restart BGM ── */
+function quizNext() {
+  if (QZ.currentIndex < 0) return;
+  qzStopSuspense();
+
+  if (QZ.currentIndex >= QZ.pool.length - 1) {
+    qzShowEndScreen(); return;
+  }
+
+  /* Chỉ phát tín hiệu ngắn (click) – KHÔNG tự bật lại nhạc nền */
+  qzPlaySignal();
+
+  QZ.currentIndex++;
+  QZ.locked = false; QZ.currentSolved = false; QZ.wrongAttempts = 0;
+  qzHideExplanation();
+  qzRenderQuestion();
+}
+
+function qzShowEndScreen() {
+  const total = QZ.pool.length;
+  const pct   = Math.round(QZ.score / total * 100);
+  const star  = pct >= 90 ? '🏆' : pct >= 70 ? '🥈' : pct >= 50 ? '🥉' : '📝';
+  const msg   = pct>=90 ? 'Xuất sắc! Triệu phú Tin học!' : pct>=70 ? 'Rất tốt! Cố gắng thêm!' : pct>=50 ? 'Khá! Ôn thêm nhé!' : 'Cần ôn tập thêm!';
+
+  document.getElementById('quiz-question-text').innerHTML =
+    `<div style="text-align:center;font-size:1.4em;font-weight:900;color:#ffd43b;margin:10px 0 6px">${QZ.score}/${total} câu đúng — ${pct}%</div>
+     <div style="text-align:center;color:#7de8a8;font-size:0.95em">${msg}</div>`;
+  document.getElementById('quiz-q-num').textContent = star + ' Kết thúc!';
+  document.getElementById('quiz-q-stars').textContent = '';
+  document.getElementById('quiz-q-progress-fill').style.width = '100%';
+  document.getElementById('quiz-answers').innerHTML = '';
+  document.getElementById('quiz-progress-txt').textContent = total + '/' + total;
+  document.getElementById('quiz-score-txt').textContent = QZ.score;
+  qzStopBgm(false);
+  qzSetHostImg('chào mừng.gif', `🎉 Kết quả: ${QZ.score}/${total} — ${pct}%!`);
+  if (pct >= 70) qzConfetti(window.innerWidth/2, 100);
+}
+
+/* ── Buttons ── */
+function quizStartBgm()  { qzPlayBgm(); }
+function quizStopBgm()   { qzStopBgm(false); }
+function quizToggleAudio() {
+  QZ.audioEnabled = !QZ.audioEnabled;
+  if (!QZ.audioEnabled) { qzStopSuspense(); qzStopBgm(false); }
+  document.getElementById('quiz-audio-btn').textContent = QZ.audioEnabled ? '🔊 Âm thanh: Bật' : '🔇 Âm thanh: Tắt';
+}
+
+/* ── Read question aloud ── */
+let _qzReading = false;
+
+function qzToggleReadQuestion() {
+  if (_qzReading) {
+    spStop();
+    _qzReadStop();
+  } else {
+    qzReadQuestion();
+  }
+}
+
+function qzNormalizeForSpeech(text) {
+  return text
+    .replace(/\*\*/g, ' ')
+    .replace(/\*/g, ' nhân ')
+    .replace(/>=/g, ' lớn hơn hoặc bằng ')
+    .replace(/<=/g, ' nhỏ hơn hoặc bằng ')
+    .replace(/!=/g, ' khác ')
+    .replace(/==/g, ' bằng bằng ')
+    .replace(/>/g, ' lớn hơn ')
+    .replace(/</g, ' nhỏ hơn ')
+    .replace(/=/g, ' bằng ')
+    .replace(/\+/g, ' cộng ')
+    .replace(/-/g, ' trừ ')
+    .replace(/\//g, ' chia ')
+    .replace(/%/g, ' phần trăm ')
+    .replace(/\^/g, ' mũ ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function qzReadQuestion() {
+  const q = QZ.pool[QZ.currentIndex];
+  if (!q) return;
+  _qzReading = true;
+  const btn = document.getElementById('quiz-read-q-btn');
+  if (btn) { btn.textContent = '⏹ Dừng'; btn.classList.add('reading'); }
+
+  spUpdateRate(0.7);
+
+  const labels = ['A', 'B', 'C', 'D'];
+  const parts = [
+    qzNormalizeForSpeech(q.text),
+    ...q.answers.map((a, i) => 'Đáp án ' + labels[i] + '. ' + qzNormalizeForSpeech(a))
+  ];
+
+  let idx = 0;
+  const readNext = () => {
+    if (!_qzReading || idx >= parts.length) { _qzReadStop(); return; }
+    const pause = idx === 0 ? 700 : 500;
+    spReadText(parts[idx++], null, () => { if (_qzReading) setTimeout(readNext, pause); });
+  };
+  readNext();
+}
+
+function _qzReadStop() {
+  _qzReading = false;
+  const btn = document.getElementById('quiz-read-q-btn');
+  if (btn) { btn.textContent = '🔊 Đọc'; btn.classList.remove('reading'); }
+}
+
+/* ── Auto-read toggle ── */
+function qzToggleAutoRead() {
+  QZ.autoRead = !QZ.autoRead;
+  document.getElementById('qz-autoread-btn').textContent = QZ.autoRead ? 'Tự đọc: Bật' : 'Tự đọc: Tắt';
+}
+
+/* ── Render question ── */
+function qzRenderQuestion() {
+  const q   = QZ.pool[QZ.currentIndex];
+  if (!q) return;
+  const num = QZ.currentIndex + 1;
+
+  qzShowQuestionContent(); // reset ẩn/hiện từ lượt trước
+  QZ.pendingReveal = null; QZ.currentSolved = false; QZ.wrongAttempts = 0;
+  qzHideExplanation();
+  qzSetHostImg('suy nghĩ.gif', '🤔 Người dẫn đang chờ lựa chọn của bạn...');
+
+  // Re-animate question box
+  const qBox = document.getElementById('quiz-question-box');
+  qBox.style.animation = 'none'; void qBox.offsetWidth; qBox.style.animation = '';
+
+  document.getElementById('quiz-q-num').textContent = `Câu ${num}/${QZ.pool.length}`;
+  document.getElementById('quiz-q-stars').textContent = ' ' + qzStars(num);
+  document.getElementById('quiz-question-text').textContent = q.text;
+  document.getElementById('quiz-question-text').style.fontSize = QZ.fontSize.q + 'px';
+  document.getElementById('quiz-q-progress-fill').style.width = ((num-1)/QZ.pool.length*100).toFixed(1) + '%';
+  document.getElementById('quiz-progress-txt').textContent = `${num}/${QZ.pool.length}`;
+  document.getElementById('quiz-score-txt').textContent    = QZ.score;
+
+  // Level bar + ladder
+  qzUpdateLevelBar(num);
+  qzUpdateLadder(num);
+
+  // Answers
+  const grid = document.getElementById('quiz-answers');
+  grid.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  q.answers.forEach((ans, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-answer-btn';
+    btn.style.fontSize = QZ.fontSize.ans + 'px';
+    btn.innerHTML = `<span class="ans-label">${labels[idx]}</span><span>${ans}</span>`;
+    btn.addEventListener('click', () => qzAnswer(idx));
+    grid.appendChild(btn);
+  });
+
+  // Kích hoạt chọn người nếu đang bật chế độ tự động
+  qzPickPlayer(false);
+
+  // Reset nút đọc và auto-read
+  _qzReading = false; _qzReadStop();
+  if (QZ.autoRead) setTimeout(qzReadQuestion, 400);
+}
+
+/* ── Answer handling ── */
+function qzAnswer(selIdx) {
+  if (QZ.currentSolved || QZ.locked) return;
+  const q = QZ.pool[QZ.currentIndex]; if (!q) return;
+
+  QZ.locked = true;
+  const btns = document.querySelectorAll('.quiz-answer-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[selIdx].classList.add('pending');
+
+  qzStopBgm(false);
+  qzPlaySuspense();
+
+  QZ.pendingReveal = setTimeout(() => {
+    qzStopSuspense();
+    const correct  = q.correctAnswer;
+    const level    = QZ.currentIndex + 1;     // 1-indexed
+    const prizeIdx = PRIZES.length - level;   // 0-indexed in PRIZES
+
+    if (selIdx === correct) {
+      btns[selIdx].classList.remove('pending');
+      btns[selIdx].classList.add('correct');
+      QZ.score++; QZ.currentSolved = true;
+      document.getElementById('quiz-score-txt').textContent = QZ.score;
+      qzPlayResult('correct');
+      qzSetHostImg('giải thích.jpg', '🎉 Chính xác! Tuyệt vời!');
+
+      // Cập nhật mức an toàn
+      if (SAFE_PRIZES[level]) QZ.safeAmount = SAFE_PRIZES[level];
+
+      // Confetti
+      const rect = btns[selIdx].getBoundingClientRect();
+      qzConfetti(rect.left + rect.width/2, rect.top);
+
+      if (q.explanation) qzShowExplanation(q.explanation);
+      QZ.locked = false;
+
+      // Nếu câu cuối → hiện màn hình triệu phú!
+      if (QZ.currentIndex >= QZ.pool.length - 1) {
+        setTimeout(() => qzShowMillionaire(), 1800);
+      }
+
+    } else {
+      /* ── Sai → dừng game ── */
+      btns[selIdx].classList.remove('pending');
+      btns[selIdx].classList.add('wrong');
+      btns[correct].classList.add('correct');
+      qzPlayResult('wrong');
+      qzSetHostImg('trả lời sai 1.gif', '😢 Rất tiếc! Trò chơi kết thúc!');
+      if (q.explanation) qzShowExplanation(q.explanation);
+      QZ.locked = false;
+      setTimeout(() => qzShowGameOver(
+        QZ.safeAmount,
+        q.answers[selIdx],
+        q.answers[correct]
+      ), 2500);
+    }
+  }, 3000);
+}
+
+/* ════════════════════════════════════
+   LIFELINES
+════════════════════════════════════ */
+
+function qzUpdateLifelineUI() {
+  const f = document.getElementById('qz-ll-fifty');
+  const a = document.getElementById('qz-ll-audience');
+  if (f) f.classList.toggle('qz-ll-used', !QZ.lifelines.fifty);
+  if (a) a.classList.toggle('qz-ll-used', !QZ.lifelines.audience);
+}
+
+/* ── 50-50: ẩn 2 đáp án sai ── */
+function qzUseFiftyFifty() {
+  if (!QZ.lifelines.fifty || QZ.locked || QZ.currentSolved) return;
+  QZ.lifelines.fifty = false;
+  qzUpdateLifelineUI();
+
+  const q    = QZ.pool[QZ.currentIndex]; if (!q) return;
+  const btns = document.querySelectorAll('.quiz-answer-btn');
+  const wrong = [0,1,2,3].filter(i => i !== q.correctAnswer);
+  // Xáo trộn + ẩn 2 cái đầu
+  wrong.sort(() => Math.random() - 0.5);
+  wrong.slice(0, 2).forEach(idx => {
+    btns[idx].style.visibility = 'hidden';
+    btns[idx].disabled = true;
+  });
+  qzSetHostImg('suy nghĩ.gif', '⚡ Đã loại 2 đáp án sai!');
+}
+
+/* ── Hỏi khán giả (dơ tay thực tế) ── */
+function qzAskAudience() {
+  if (!QZ.lifelines.audience || QZ.locked || QZ.currentSolved) return;
+  QZ.lifelines.audience = false;
+  qzUpdateLifelineUI();
+
+  const q = QZ.pool[QZ.currentIndex]; if (!q) return;
+  const labels = ['A','B','C','D'];
+  const barsEl = document.getElementById('quiz-audience-bars');
+
+  barsEl.innerHTML = labels.map((l, i) =>
+    `<div>
+       <div class="qz-aud-ans-text">${l}: ${q.answers[i] || ''}</div>
+       <div class="qz-aud-row">
+         <span class="qz-aud-label">${l}</span>
+         <div class="qz-aud-bar-wrap">
+           <div class="qz-aud-bar" id="qz-aud-bar-${i}" style="width:0%"></div>
+         </div>
+         <span class="qz-aud-pct" id="qz-aud-pct-${i}">0%</span>
+         <input class="qz-aud-input" type="number" min="0" max="99" value="0"
+                id="qz-aud-inp-${i}" oninput="qzUpdateAudienceBars()" />
+       </div>
+     </div>`
+  ).join('');
+
+  document.getElementById('qz-aud-total').textContent = 'Tổng: 0 học sinh';
+  document.getElementById('quiz-audience-modal').classList.add('show');
+  document.getElementById('qz-aud-inp-0').focus();
+  qzSetHostImg('suy nghĩ.gif', '🙋 Cho học sinh dơ tay – nhập số vào từng đáp án!');
+}
+
+function qzUpdateAudienceBars() {
+  const counts = [0,1,2,3].map(i => Math.max(0, parseInt(document.getElementById('qz-aud-inp-' + i)?.value) || 0));
+  const total  = counts.reduce((a, b) => a + b, 0);
+  counts.forEach((c, i) => {
+    const pct = total > 0 ? Math.round(c / total * 100) : 0;
+    document.getElementById('qz-aud-bar-' + i).style.width = pct + '%';
+    document.getElementById('qz-aud-pct-' + i).textContent = total > 0 ? pct + '%' : '–';
+  });
+  document.getElementById('qz-aud-total').textContent = `Tổng: ${total} học sinh`;
+}
+
+function qzCloseAudience() {
+  document.getElementById('quiz-audience-modal').classList.remove('show');
+}
+
+/* ── Rút lui – mang phần thưởng hiện tại về ── */
+function qzWalkAway() {
+  if (QZ.currentIndex < 0) return;
+  qzStopSuspense(); qzStopBgm(false);
+  const level = QZ.currentIndex + 1;
+  const prizeIdx = PRIZES.length - level;
+  const currentPrize = level > 0 ? PRIZES[prizeIdx]?.label : '$0';
+  qzShowGameOver(currentPrize, null, null, true);
+}
+
+/* ════════════════════════════════════
+   GAME OVER
+════════════════════════════════════ */
+function qzShowGameOver(safeAmt, wrongAns, rightAns, isWalkAway) {
+  qzStopBgm(false); qzStopSuspense();
+
+  const prizeEl = document.getElementById('qz-go-prize');
+  const wrongEl = document.getElementById('qz-go-wrong');
+  const rightEl = document.getElementById('qz-go-right');
+
+  prizeEl.textContent = safeAmt || '$0';
+  prizeEl.className   = 'go-prize-amount' + ((!safeAmt || safeAmt === '$0') ? ' go-zero' : '');
+
+  if (isWalkAway) {
+    wrongEl.textContent = '🚶 Bạn đã chủ động rút lui.';
+    rightEl.style.display = 'none';
+    const goBox = document.getElementById('quiz-go-box');
+    goBox.querySelector('.go-emoji').textContent = '💼';
+    goBox.querySelector('h2').textContent = 'Rút lui thành công!';
+  } else {
+    wrongEl.textContent = wrongAns ? '❌ Bạn chọn: ' + wrongAns : '';
+    rightEl.textContent = rightAns ? '✅ Đáp án đúng: ' + rightAns : '';
+    rightEl.style.display = '';
+    const goBox = document.getElementById('quiz-go-box');
+    goBox.querySelector('.go-emoji').textContent = '😢';
+    goBox.querySelector('h2').textContent = 'Trò chơi kết thúc!';
+  }
+
+  document.getElementById('quiz-gameover').classList.add('show');
+}
+
+/* ════════════════════════════════════
+   MILLIONAIRE SECRET ENDING 🏆
+════════════════════════════════════ */
+function qzShowMillionaire() {
+  qzStopBgm(false); qzStopSuspense();
+  qzPlayResult('correct');
+
+  // Cập nhật nội dung theo bài đang chơi
+  const isB16 = _qzActiveSet === 'b16';
+  const subtitle = document.getElementById('mm-subtitle');
+  const msg      = document.getElementById('mm-msg');
+  if (subtitle) subtitle.textContent = isB16
+    ? '🐍 PYTHON MASTER · ÔN TẬP BÀI 16 🐍'
+    : '🐍 PYTHON MASTER · BÀI 17 🐍';
+  if (msg) msg.innerHTML = isB16
+    ? 'Bạn đã ôn tập xuất sắc toàn bộ kiến thức <strong style="color:#ffd43b">Bài 16 – Python cơ bản</strong>!<br>Nền tảng vững chắc — bạn xứng đáng là <strong style="color:#ffd43b">Triệu phú Tin học</strong>! 🎉'
+    : 'Bạn đã trả lời đúng tất cả câu hỏi về <strong style="color:#ffd43b">Biến và Lệnh Gán Python</strong>!<br>Kiến thức vững chắc, phản xạ tốt — bạn xứng đáng là <strong style="color:#ffd43b">Triệu phú Tin học</strong>! 🎉';
+
+  const modal = document.getElementById('quiz-millionaire');
+  modal.classList.add('show');
+  qzSetHostImg('chào mừng.gif', '🏆🎉 TRIỆU PHÚ TIN HỌC! Chúc mừng bạn!');
+
+  /* Pháo giấy liên tục */
+  const burst = () => {
+    for (let i = 0; i < 4; i++) {
+      setTimeout(() => qzConfetti(Math.random() * window.innerWidth, Math.random() * 80 + 20), i * 250);
+    }
+  };
+  burst();
+  const iv = setInterval(burst, 1200);
+  setTimeout(() => clearInterval(iv), 8000);
+}
+
+/* ════════════════════════════════════
+   PLAYER PICKER MODE
+════════════════════════════════════ */
+function qzTogglePlayerMode() {
+  const pm  = QZ.pm;
+  pm.enabled = !pm.enabled;
+  pm.remaining = []; pm.current = null;
+  const btn    = document.getElementById('qz-pm-toggle-btn');
+  const row    = document.getElementById('qz-pm-input-row');
+  const status = document.getElementById('qz-pm-status');
+  if (pm.enabled) {
+    btn.textContent = '✅ Đang bật';
+    btn.classList.add('pm-on');
+    row.style.display = 'flex';
+    status.textContent = '';
+  } else {
+    btn.textContent = 'Bật chế độ';
+    btn.classList.remove('pm-on');
+    row.style.display = 'none';
+    status.textContent = 'Chọn ngẫu nhiên trước mỗi câu';
+    qzShowQuestionContent();
+  }
+}
+
+function qzGetPlayers() { return QZ_STUDENTS; }
+
+/* ── Spin tick sound (Web Audio) ── */
+let _qzTickCtx = null;
+function qzPlaySpinTick(freq) {
+  if (!QZ.audioEnabled) return;
+  try {
+    if (!_qzTickCtx) _qzTickCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = _qzTickCtx.createOscillator();
+    const gain = _qzTickCtx.createGain();
+    osc.connect(gain); gain.connect(_qzTickCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.22, _qzTickCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, _qzTickCtx.currentTime + 0.06);
+    osc.start(); osc.stop(_qzTickCtx.currentTime + 0.07);
+  } catch (e) {}
+}
+
+/* manual=true → hiển thị dạng modal overlay (từ nút header)
+   manual=false → ẩn câu hỏi và hiển thị inline (chế độ tự động) */
+function qzPickPlayer(manual) {
+  const pm = QZ.pm;
+  if (!manual && !pm.enabled) return;
+
+  const allPlayers = qzGetPlayers();
+
+  // Nạp lại khi đã hỏi hết lượt
+  if (pm.remaining.length === 0) pm.remaining = [...allPlayers];
+
+  // Chọn ngẫu nhiên (không trùng)
+  const idx = Math.floor(Math.random() * pm.remaining.length);
+  pm.current = pm.remaining.splice(idx, 1)[0];
+  pm.isManual = !!manual;
+
+  const picker = document.getElementById('qz-player-picker');
+  if (manual) {
+    // Hiển thị dạng modal — không ảnh hưởng câu hỏi đang chơi
+    document.getElementById('qz-pm-backdrop').classList.add('show');
+    picker.classList.add('pm-modal');
+  } else {
+    // Ẩn nội dung câu hỏi để chờ "Mở câu hỏi"
+    document.getElementById('quiz-question-box').style.display = 'none';
+    document.getElementById('quiz-answers').style.display      = 'none';
+    document.getElementById('quiz-meta').style.display         = 'none';
+  }
+  picker.style.display = 'block';
+  picker.style.animation = 'none'; void picker.offsetWidth; picker.style.animation = '';
+
+  const spinEl      = document.getElementById('qz-picker-spin-name');
+  const chosenEl    = document.getElementById('qz-picker-chosen');
+  const remEl       = document.getElementById('qz-picker-remaining');
+  const revBtn      = document.getElementById('qz-picker-reveal-btn');
+  const reSpinBtn   = document.getElementById('qz-picker-respin-btn');
+  spinEl.className = '';
+  chosenEl.textContent = '';
+  revBtn.style.display = 'none';
+  if (reSpinBtn) reSpinBtn.style.display = 'none';
+  remEl.textContent = `Còn lại: ${pm.remaining.length} / ${allPlayers.length} học sinh`;
+
+  // Cập nhật hành động nút reveal theo mode
+  if (manual) {
+    revBtn.textContent = '✅ Đã xem – Đóng';
+    revBtn.onclick = qzCloseManualPick;
+  } else {
+    revBtn.textContent = '📖 Mở câu hỏi';
+    revBtn.onclick = qzRevealQuestion;
+  }
+
+  qzSetHostImg('suy nghĩ.gif', '🎲 Đang chọn ngẫu nhiên...');
+
+  // ── Reveal: slowdown rồi hiện kết quả ──
+  let _spinActive = true;
+  const doReveal = () => {
+    _spinActive = false;
+    let s = 0;
+    const total = 7 + Math.floor(Math.random() * 4);
+    const slowStep = () => {
+      s++;
+      const ph = s / total;
+      spinEl.textContent = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+      qzPlaySpinTick(ph < 0.45 ? 650 : ph < 0.75 ? 500 : 390);
+      if (s < total) { setTimeout(slowStep, ph < 0.45 ? 140 : ph < 0.75 ? 240 : 370); return; }
+      // Hiện kết quả
+      qzPlaySpinTick(320);
+      spinEl.textContent = pm.current;
+      spinEl.classList.add('qz-spin-final');
+      chosenEl.textContent = `🎯 ${pm.current}`;
+      revBtn.style.display = 'inline-block';
+      if (reSpinBtn) reSpinBtn.style.display = 'inline-block';
+      qzSetHostImg('suy nghĩ.gif', manual
+        ? `🎯 Học sinh được chọn: ${pm.current}`
+        : `🎯 ${pm.current} – Nhấn "Mở câu hỏi" để xem!`);
+      const disp = document.getElementById('qz-picked-display');
+      if (disp) {
+        disp.textContent = '🎯 ' + pm.current;
+        disp.classList.add('has-name');
+        disp.style.animation = 'none'; void disp.offsetWidth;
+        disp.style.animation = 'qPickedPop .4s ease-out';
+      }
+    };
+    slowStep();
+  };
+
+  // ── Fast spin loop (chạy liên tục cho đến khi doReveal) ──
+  const fastSpin = () => {
+    if (!_spinActive) return;
+    spinEl.textContent = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+    qzPlaySpinTick(920);
+    setTimeout(fastSpin, 70);
+  };
+  setTimeout(fastSpin, 180);
+
+  // Câu đầu tiên + nhạc đang chạy → doReveal khi nhạc kết thúc
+  // Câu khác (hoặc không có nhạc) → doReveal sau ~3 giây cố định
+  if (!manual && QZ.currentIndex === 0 && QZ.bgPlaying && QZ.bgmAudio) {
+    const prevOnEnded = QZ.bgmAudio.onended;
+    QZ.bgmAudio.onended = function () {
+      if (prevOnEnded) prevOnEnded.call(this);
+      doReveal();
+    };
+  } else {
+    setTimeout(doReveal, 2800 + Math.floor(Math.random() * 400));
+  }
+}
+
+function qzReSpin() {
+  const pm = QZ.pm;
+  if (pm.current) pm.remaining.push(pm.current); // trả người cũ lại pool
+  const wasManual = pm.isManual;
+  qzPickPlayer(wasManual);
+}
+
+function qzManualPick() {
+  // Nếu auto-mode đang chờ "Mở câu hỏi" (câu hỏi bị ẩn) → đổi người thay vì mở modal
+  const qBox = document.getElementById('quiz-question-box');
+  if (QZ.pm.enabled && qBox && qBox.style.display === 'none') {
+    qzReSpin();
+  } else {
+    qzPickPlayer(true);
+  }
+}
+
+function qzCloseManualPick() {
+  const picker = document.getElementById('qz-player-picker');
+  picker.style.display = 'none';
+  picker.classList.remove('pm-modal');
+  document.getElementById('qz-pm-backdrop').classList.remove('show');
+}
+
+function qzRevealQuestion() {
+  document.getElementById('qz-player-picker').style.display = 'none';
+  document.getElementById('quiz-question-box').style.display = '';
+  document.getElementById('quiz-answers').style.display      = '';
+  document.getElementById('quiz-meta').style.display         = '';
+  const caption = QZ.pm.current
+    ? `🤔 ${QZ.pm.current} – Người dẫn đang chờ lựa chọn của bạn...`
+    : '🤔 Người dẫn đang chờ lựa chọn của bạn...';
+  qzSetHostImg('suy nghĩ.gif', caption);
+}
+
+function qzShowQuestionContent() {
+  const picker = document.getElementById('qz-player-picker');
+  picker.style.display = 'none';
+  picker.classList.remove('pm-modal');
+  document.getElementById('qz-pm-backdrop').classList.remove('show');
+  document.getElementById('quiz-question-box').style.display = '';
+  document.getElementById('quiz-answers').style.display      = '';
+  document.getElementById('quiz-meta').style.display         = '';
+}
+
+/* ── Settings panel ── */
+function qzToggleSettings() {
+  const panel    = document.getElementById('quiz-actions');
+  const btn      = document.getElementById('quiz-settings-btn');
+  const backdrop = document.getElementById('quiz-settings-backdrop');
+  const isOpen   = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    btn.classList.remove('active');
+    backdrop.classList.remove('show');
+  } else {
+    panel.classList.add('open');
+    btn.classList.add('active');
+    backdrop.classList.add('show');
+  }
+}
+function qzCloseSettings() {
+  document.getElementById('quiz-actions').classList.remove('open');
+  document.getElementById('quiz-settings-btn').classList.remove('active');
+  document.getElementById('quiz-settings-backdrop').classList.remove('show');
+}
+
+/* ── Close & Keys ── */
+function closeQuizGame() { qzStopBgm(true); qzStopSuspense(); window.close(); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const panel = document.getElementById('quiz-actions');
+    if (panel && panel.classList.contains('open')) { qzCloseSettings(); return; }
+    closeQuizGame();
+  }
+});
+
+/* ── Init ── */
+window.addEventListener('load', () => {
+  qzPreloadImages();
+  qzBuildLadder();
+  document.getElementById('quiz-intro-overlay').classList.add('show');
+});
+</script>
+<script src="./js/zoom-minimap.js"></script>
+<script src="./js/speech.js"></script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!-- ══════════ SLIDE 1: TITLE ══════════ -->
+<section class="slide-title" data-background-color="#0a0f1e">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="deco-star s1">⭐</span>
+    <span class="deco-star s2">✨</span>
+    <span class="deco-star s3">🌟</span>
+    <span class="deco-code c1">print()</span>
+    <span class="deco-code c2">>>></span>
+    <span class="deco-code c3">.py</span>
+    <span class="deco-code c4">for</span>
+    <span class="deco-ruler">📐</span>
+  </div>
+  <div class="badge">TIN HỌC 10 · KẾT NỐI TRI THỨC · 2 TIẾT</div>
+  <h1>BÀI 16</h1>
+  <h2>Ngôn ngữ lập trình bậc cao và Python</h2>
+  <div class="py-snake">🐍</div>
+  <div class="title-chips">
+    <span class="chip">🔤 NNLT bậc cao</span>
+    <span class="chip">🐍 Python</span>
+    <span class="chip">⌨️ Môi trường lập trình</span>
+    <span class="chip">🖨️ Lệnh print()</span>
+  </div>
+  <div class="meta">SGK trang 82 – 90 &nbsp;·&nbsp; Lớp 10</div>
+</section>
+
+<!-- ══════════ NHÓM: KHỞI ĐỘNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">00</div>
+    <h2>Khởi Động</h2>
+    <div class="sec-sub">So sánh các loại ngôn ngữ lập trình</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KHỞI ĐỘNG</span>
+    <h2>Ba loại ngôn ngữ lập trình</h2>
+    <p style="font-size:0.75em;color:#ccc;margin-bottom:14px">Quan sát ba đoạn chương trình sau — cùng làm một việc: in kí tự "a" ra màn hình</p>
+    <div class="two-col" style="gap:16px">
+      <div class="info-box" style="border-color:rgba(244,67,54,0.4)">
+        <h4 style="color:#f44336;font-size:0.85em">⚙️ Ngôn ngữ máy</h4>
+        <pre style="margin:6px 0"><code class="language-python">10110000 01100001
+11001011 00000000</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Gồm số 0 và 1 — máy tính mới hiểu trực tiếp</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,152,0,0.4)">
+        <h4 style="color:#ff9800;font-size:0.85em">📋 Hợp ngữ (Assembly)</h4>
+        <pre style="margin:6px 0"><code class="language-python">MOV AL, 61h
+INT 21h</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Dùng từ viết tắt tiếng Anh, vẫn còn phức tạp</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,212,59,0.45)">
+        <h4 style="color:#ffd43b;font-size:0.85em">🐍 Python (bậc cao)</h4>
+        <pre style="margin:6px 0"><code class="language-python">print("a")</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Gần với ngôn ngữ tự nhiên — dễ đọc, dễ hiểu</p>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:14px;font-size:0.75em">
+      <strong>🤔 Hãy cho biết:</strong> Câu lệnh trong ngôn ngữ nào <span class="highlight-word">dễ hiểu nhất</span>? Tại sao?
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 1: NNLT BẬC CAO ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">01</div>
+    <h2>Ngôn ngữ lập trình bậc cao</h2>
+    <div class="sec-sub">Định nghĩa · Phân loại · Python · Chương trình dịch</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Ngôn ngữ lập trình bậc cao là gì?</h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box">
+        <h4>📊 Phân loại ngôn ngữ lập trình</h4>
+        <table class="op-table" style="font-size:0.78em">
+          <tr><th>Loại</th><th>Đặc điểm</th><th>Ví dụ</th></tr>
+          <tr><td style="color:#f44336">Ngôn ngữ máy</td><td>Mã nhị phân 0/1</td><td>10110000...</td></tr>
+          <tr><td style="color:#ff9800">Hợp ngữ</td><td>Từ viết tắt (Anh)</td><td>MOV, ADD...</td></tr>
+          <tr><td style="color:#ffd43b">Bậc cao</td><td>Gần ngôn ngữ tự nhiên</td><td>Python, Java...</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>✅ Ưu điểm của NNLT bậc cao</h4>
+        <ul>
+          <li>Câu lệnh <strong>gần với ngôn ngữ tự nhiên</strong></li>
+          <li>Dễ đọc, dễ hiểu, dễ sửa lỗi</li>
+          <li>Không phụ thuộc vào phần cứng cụ thể</li>
+          <li>Một chương trình chạy trên nhiều loại máy</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>📌 Ghi nhớ:</strong> NNLT bậc cao cần được <span class="highlight-word">chương trình dịch</span> chuyển sang ngôn ngữ máy.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Python – Ngôn ngữ lập trình bậc cao phổ biến</h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">🐍 Lịch sử Python</h4>
+        <ul>
+          <li><strong>Tác giả:</strong> Guido van Rossum (Hà Lan)</li>
+          <li><strong>Ra mắt:</strong> năm <strong style="color:#4caf50">1991</strong></li>
+          <li><strong>Mã nguồn mở</strong> — miễn phí, cộng đồng lớn</li>
+          <li>Đa nền tảng: Windows, macOS, Linux</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-color:rgba(79,195,247,0.35)">
+        <h4 style="color:#4fc3f7">⚡ Đặc điểm nổi bật</h4>
+        <ul>
+          <li>Cú pháp <strong>đơn giản</strong>, dễ học</li>
+          <li>Chạy trên máy tính, điện thoại, robot...</li>
+          <li>Thư viện phong phú: AI, khoa học dữ liệu</li>
+          <li>Phổ biến trong <strong>nghiên cứu và giáo dục</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="summary-grid" style="margin-top:12px;grid-template-columns:repeat(4,1fr)">
+      <div class="summary-card"><h4>🤖 AI & ML</h4><p style="font-size:0.72em">TensorFlow, PyTorch</p></div>
+      <div class="summary-card"><h4>📊 Data</h4><p style="font-size:0.72em">Pandas, NumPy</p></div>
+      <div class="summary-card"><h4>🌐 Web</h4><p style="font-size:0.72em">Django, Flask</p></div>
+      <div class="summary-card"><h4>🤖 Robot</h4><p style="font-size:0.72em">Raspberry Pi</p></div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Chương trình dịch</h2>
+    <p style="font-size:0.78em;color:#ccc;margin-bottom:14px">
+      Máy tính chỉ hiểu ngôn ngữ máy → cần <span class="highlight-word">chương trình dịch</span> để chuyển từ NNLT bậc cao sang ngôn ngữ máy.
+    </p>
+    <div class="two-col" style="gap:20px">
+      <div class="info-box" style="border-color:rgba(76,175,80,0.35)">
+        <h4 style="color:#4caf50">📝 Trình biên dịch (Compiler)</h4>
+        <ul>
+          <li>Dịch <strong>toàn bộ</strong> chương trình một lần</li>
+          <li>Tạo ra file thực thi (.exe)</li>
+          <li>Ví dụ: C, C++, Java</li>
+        </ul>
+        <pre style="margin-top:8px"><code class="language-python"># Nguồn .c → dịch → .exe → chạy</code></pre>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">⚡ Trình thông dịch (Interpreter)</h4>
+        <ul>
+          <li>Dịch và chạy <strong>từng dòng</strong> lệnh</li>
+          <li>Dễ kiểm tra, thử nghiệm nhanh</li>
+          <li><strong>Python dùng cách này</strong></li>
+        </ul>
+        <pre style="margin-top:8px"><code class="language-python"># Dòng 1 → dịch → chạy → Dòng 2 → ...</code></pre>
+      </div>
+    </div>
+    <div class="practice-quiz" style="margin-top:12px">
+      <div class="pq-item" style="font-size:0.78em">
+        <p>🤔 <strong>Câu hỏi SGK:</strong> Viết chương trình bằng loại ngôn ngữ lập trình nào dễ nhất?
+        &nbsp;<button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong style="color:#4caf50">C. Ngôn ngữ lập trình bậc cao</strong> — vì cú pháp gần với ngôn ngữ tự nhiên, không cần viết mã nhị phân hay từ viết tắt phức tạp.</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 2: MÔI TRƯỜNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">02</div>
+    <h2>Môi trường lập trình Python</h2>
+    <div class="sec-sub">Dấu nhắc >>> · Gõ lệnh trực tiếp · Soạn thảo chương trình</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Màn hình làm việc của Python</h2>
+    <div style="background:#1e1e2e;border:1px solid #3a3a5a;border-radius:10px;padding:16px;margin:12px 0;font-family:var(--font-code,monospace);font-size:0.82em">
+      <div style="color:#4fc3f7;margin-bottom:8px">Python 3.x.x ... on win32</div>
+      <div style="color:#7a8599">Type "help", "copyright"... for more information.</div>
+      <div style="margin-top:12px">
+        <span style="color:#ffd43b;font-size:1.1em">&gt;&gt;&gt;</span>
+        <span style="color:#ccc"> </span>
+        <span style="display:inline-block;width:10px;height:1em;background:#fff;animation:blink 1s step-end infinite;vertical-align:text-bottom"></span>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box">
+        <h4>🔑 Dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code></h4>
+        <ul>
+          <li>Báo hiệu Python đang chờ nhận lệnh</li>
+          <li>Nhập lệnh → nhấn <kbd>Enter</kbd> để thực hiện</li>
+          <li>Kết quả hiện ngay bên dưới</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>💡 Hai chế độ làm việc</h4>
+        <ul>
+          <li><strong style="color:#4fc3f7">Gõ lệnh trực tiếp</strong> — kiểm tra nhanh</li>
+          <li><strong style="color:#4caf50">Soạn thảo</strong> — viết chương trình hoàn chỉnh</li>
+        </ul>
+        <div style="font-size:0.7em;color:#888;margin-top:8px">
+          Phần mềm: IDLE, PyCharm, Thonny, <strong>VS Code</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CHẾ ĐỘ GÕ LỆNH TRỰC TIẾP</span>
+    <h2>Chế độ gõ lệnh trực tiếp</h2>
+    <p style="font-size:0.78em;color:#ccc;margin-bottom:14px">
+      Gõ lệnh sau dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code> rồi nhấn <kbd>Enter</kbd> — Python thực hiện ngay lập tức.
+    </p>
+    <pre><code class="language-python">>>> 5 + 3
+8
+>>> 10 * 2
+20
+>>> "Xin chào!"
+'Xin chào!'
+>>> print("Học Python thật thú vị!")
+Học Python thật thú vị!</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <div class="info-box" style="border-color:rgba(76,175,80,0.3)">
+        <h4>✅ Dùng khi nào?</h4>
+        <ul>
+          <li>Tính toán nhanh, thử nghiệm lệnh</li>
+          <li>Kiểm tra cú pháp, xem kết quả</li>
+          <li>Học từng lệnh một cách tương tác</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-color:rgba(244,67,54,0.3)">
+        <h4>❌ Hạn chế</h4>
+        <ul>
+          <li>Không lưu được chương trình</li>
+          <li>Không thể viết nhiều dòng lệnh phức tạp</li>
+          <li>Mỗi phiên làm việc phải nhập lại</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CHẾ ĐỘ SOẠN THẢO</span>
+    <h2>Chế độ soạn thảo chương trình</h2>
+    <div class="two-col" style="margin-top:10px;gap:20px">
+      <div>
+        <div class="question-box" style="margin-bottom:10px;font-size:0.72em">
+          <strong>📁 Cách mở:</strong> File → New File (hoặc Ctrl+N)
+        </div>
+        <pre><code class="language-python"># Chuong trinh dau tien
+print("Xin chao!")
+print(5 + 2*7)
+</code></pre>
+        <div style="font-size:0.72em;color:#888;margin-top:8px">
+          📝 Viết mỗi lệnh trên một dòng
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>📌 Các bước thực hiện</h4>
+        <ul>
+          <li>Bước 1: File → <strong>New File</strong> để mở soạn thảo</li>
+          <li>Bước 2: Nhập nội dung chương trình</li>
+          <li>Bước 3: Lưu tệp — <kbd>Ctrl+S</kbd></li>
+          <li>Bước 4: Chạy — <kbd>F5</kbd> (Run/Run Module)</li>
+          <li>Bước 5: Xem kết quả ở cửa sổ Python Shell</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.7em">
+          <strong>💡 Chú ý:</strong> Tệp Python có đuôi <code style="font-family:var(--font-code);color:#ffd43b">.py</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÂU HỎI CỦNG CỐ</span>
+    <h2>Kiểm tra hiểu biết về Môi trường Python</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự trả lời trước, rồi bấm 👁 để xem đáp án.</p>
+      <div class="pq-item">
+        <p><strong>Câu 1:</strong> Dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code> là <em>con trỏ soạn thảo chương trình Python</em>. Đúng hay sai?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong style="color:#f44336">Sai</strong> — <code>>>></code> là <em>dấu nhắc</em> trong chế độ <strong>gõ lệnh trực tiếp</strong>. Con trỏ soạn thảo xuất hiện trong cửa sổ soạn thảo (File → New File), không phải Shell.</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 2:</strong> Việc thực hiện câu lệnh ở hai chế độ có điểm gì <strong>giống</strong> và <strong>khác</strong> nhau?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong>Giống:</strong> đều dùng Python thực hiện, kết quả như nhau. <strong>Khác:</strong> trực tiếp — nhập lệnh → Enter → xem ngay; soạn thảo — viết nhiều lệnh, lưu file .py, nhấn F5 mới chạy.</p>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 3: LỆNH PYTHON ĐẦU TIÊN ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">03</div>
+    <h2>Một số lệnh Python đầu tiên</h2>
+    <div class="sec-sub">Kiểu dữ liệu · Phép toán · Lệnh print()</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 1 · KIỂU DỮ LIỆU</span>
+    <h2>Python tự nhận biết kiểu dữ liệu</h2>
+    <pre><code class="language-python">>>> 5
+5
+>>> 2.6
+2.6
+>>> "hoc sinh lop 10"
+'hoc sinh lop 10'</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <div>
+        <table class="op-table">
+          <tr><th>Nhập vào</th><th>Kiểu</th><th>Tên</th></tr>
+          <tr><td><code>5</code></td><td style="color:#b5cea8">int</td><td>Số nguyên</td></tr>
+          <tr><td><code>2.6</code></td><td style="color:#b5cea8">float</td><td>Số thực</td></tr>
+          <tr><td><code>"abc"</code></td><td style="color:#ce9178">str</td><td>Xâu ký tự</td></tr>
+          <tr><td><code>True</code></td><td style="color:#569cd6">bool</td><td>Lôgic</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>💡 Quan sát</h4>
+        <ul>
+          <li>Nhập số nguyên → Python trả về số nguyên</li>
+          <li>Nhập số thực (có dấu <code>.</code>) → float</li>
+          <li>Chữ giữa <code>"..."</code> → xâu ký tự</li>
+          <li>Python <strong>tự nhận biết</strong> — không cần khai báo kiểu</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 2 · PHÉP TOÁN</span>
+    <h2>Phép toán cơ bản</h2>
+    <pre><code class="language-python">>>> 3 + 7
+10
+>>> 12 * 5
+60
+>>> 10 / 4
+2.5
+>>> 5 / 2
+2.5</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <table class="op-table" style="font-size:0.82em">
+        <tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th><th>Kết quả</th></tr>
+        <tr><td>+</td><td>Cộng</td><td>3 + 7</td><td>10</td></tr>
+        <tr><td>-</td><td>Trừ</td><td>10 - 4</td><td>6</td></tr>
+        <tr><td>*</td><td>Nhân</td><td>12 * 5</td><td>60</td></tr>
+        <tr><td>/</td><td>Chia</td><td>5 / 2</td><td style="color:#b5cea8">2.5 (float!)</td></tr>
+      </table>
+      <div class="info-box">
+        <h4>⚠️ Lưu ý về phép chia</h4>
+        <ul>
+          <li>Phép <code>/</code> luôn trả về <strong>số thực (float)</strong></li>
+          <li><code>5 / 2 = 2.5</code>, không phải 2</li>
+          <li>Dùng <code>//</code> để lấy thương nguyên</li>
+          <li>Dùng <code>%</code> để lấy số dư</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 3 · LỆNH PRINT</span>
+    <h2>Lệnh <code style="font-size:0.85em">print()</code></h2>
+    <pre><code class="language-python">>>> print(12)
+12
+>>> print(10, 3.4 + 4.1, "hoa binh")
+10 7.5 hoa binh
+>>> print("Day ba so chan:", 2, 4, 6)
+Day ba so chan: 2 4 6
+>>> print("3 + 7 =", 3 + 7)
+3 + 7 = 10</code></pre>
+    <div class="question-box" style="margin-top:12px;font-size:0.75em">
+      <strong>📌 Ghi nhớ:</strong> &nbsp;
+      <code style="font-family:var(--font-code);color:#ffd43b">print(v1, v2, ..., vn)</code> — in một hoặc nhiều giá trị, cách nhau <strong>dấu cách</strong>. Có thể tính toán biểu thức trong lệnh print.
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÚ PHÁP</span>
+    <h2>Cú pháp lệnh <code style="font-size:0.85em">print()</code></h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div>
+        <div class="info-box" style="border-color:rgba(255,212,59,0.4)">
+          <h4 style="color:#ffd43b">📌 Cú pháp</h4>
+          <pre style="margin:6px 0"><code class="language-python">print(v1, v2, ..., vn)</code></pre>
+          <ul style="font-size:0.78em;margin-top:8px">
+            <li>v1, v2,..., vn là các giá trị cần in</li>
+            <li>Có thể là số, xâu ký tự, biểu thức</li>
+            <li>Các giá trị cách nhau <strong>dấu cách</strong></li>
+            <li>Mỗi lệnh print() in một <strong>dòng riêng</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <pre><code class="language-python"># In một giá trị
+print(42)
+
+# In nhiều giá trị
+print("Kết quả:", 10 + 5)
+
+# In xâu và biểu thức
+print("PI ≈", 3.14159)
+print("1+2+3 =", 1+2+3)</code></pre>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_print')">
+        <span class="icon">💻</span> Mở Code Playground – Lệnh print()
+      </button>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÂU HỎI CỦNG CỐ</span>
+    <h2>Kiểm tra nhanh – SGK trang 88</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tính nhẩm trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="pq-item">
+        <p><strong>Câu 1a:</strong> Kết quả và kiểu dữ liệu của <code style="font-family:var(--font-code);color:#ffd43b">5 / 2</code>?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ Kết quả: <strong style="color:#4caf50">2.5</strong> — kiểu: <strong>float</strong> (phép <code>/</code> luôn cho kết quả thực)</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 1b:</strong> Kết quả của <code style="font-family:var(--font-code);color:#ffd43b">12 + 1.5</code>?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ Kết quả: <strong style="color:#4caf50">13.5</strong> — kiểu: <strong>float</strong> (int + float → float)</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 2:</strong> Lệnh <code style="font-family:var(--font-code);color:#ffd43b;font-size:0.88em">print("13 + 10*3/2 - 3*2 =", 13 + 10*3/2 - 3*2)</code> in ra gì?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ 10×3=30, 30/2=15.0, 3×2=6 → 13+15.0−6 = <strong style="color:#4caf50">22.0</strong><br>In ra: <em>13 + 10*3/2 - 3*2 = 22.0</em></p>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: THỰC HÀNH ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">04</div>
+    <h2>Thực Hành</h2>
+    <div class="sec-sub">Tạo và chạy chương trình Python đầu tiên</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỰC HÀNH</span>
+    <h2>Nhiệm vụ: Tạo chương trình <code style="font-size:0.8em">Bai1.py</code></h2>
+    <div class="two-col" style="margin-top:10px;gap:20px">
+      <div>
+        <pre><code class="language-python"># Chuong trinh dau tien
+print("Xin chao!")</code></pre>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡 Chú ý:</strong> Dấu <code style="font-family:var(--font-code);color:#888">#</code> bắt đầu dòng <strong>chú thích</strong> — Python bỏ qua, không thực thi.
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>📋 Các bước thực hiện</h4>
+        <ul style="font-size:0.82em">
+          <li><strong>Bước 1:</strong> Khởi động Python (IDLE)</li>
+          <li><strong>Bước 2:</strong> File → <strong>New File</strong></li>
+          <li><strong>Bước 3:</strong> Nhập nội dung chương trình</li>
+          <li><strong>Bước 4:</strong> Lưu: <kbd>Ctrl+S</kbd> → đặt tên <code>Bai1.py</code></li>
+          <li><strong>Bước 5:</strong> Chạy: <kbd>F5</kbd> hoặc Run → Run Module</li>
+          <li><strong>Bước 6:</strong> Xem kết quả ở Python Shell</li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_thuchanh')">
+        <span class="icon">💻</span> Mở Playground – Thực hành Bai1.py
+      </button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: LUYỆN TẬP ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">05</div>
+    <h2>Luyện Tập</h2>
+    <div class="sec-sub">Tính biểu thức · Phát hiện lỗi · Viết lệnh print</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LUYỆN TẬP</span>
+    <h2>Bài tập 1 &amp; 3 (SGK tr.89)</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự tính trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="two-col" style="margin-top:10px;gap:20px">
+        <div class="info-box pq-item">
+          <h4>🧮 Bài 1 – Tính biểu thức <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <table class="name-table" style="font-size:0.8em">
+            <tr><th>Biểu thức</th><th>Kết quả</th></tr>
+            <tr><td><code>10 + 13</code></td><td class="valid pq-hide">23</td></tr>
+            <tr><td><code>20 - 7</code></td><td class="valid pq-hide">13</td></tr>
+            <tr><td><code>3 * 10 - 16</code></td><td class="valid pq-hide">14</td></tr>
+            <tr><td><code>12/5 + 13/6</code></td><td class="valid pq-hide">≈ 4.567</td></tr>
+          </table>
+        </div>
+        <div class="info-box pq-item">
+          <h4>🖨️ Bài 3 – Viết lệnh print() <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <p style="font-size:0.78em;margin:4px 0 6px">a) In: <em>1 × 3 × 5 × 7 = 105</em> &nbsp;·&nbsp; b) In: <em>Bạn Hòa năm nay 16 tuổi.</em></p>
+          <div class="pq-hide">
+            <pre style="margin:0"><code class="language-python"># 3a
+print("1 x 3 x 5 x 7 =", 1*3*5*7)
+
+# 3b
+print("Ban Hoa nam nay 16 tuoi.")</code></pre>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÁT HIỆN LỖI</span>
+    <h2>Bài tập 2 – Các lệnh sau có lỗi không?</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự phân tích lỗi trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="two-col" style="margin-top:12px;gap:20px">
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 1 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> 3 + * 5</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Hai toán tử <code>+</code> và <code>*</code> đứng liền nhau — không hợp lệ.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa: <code style="font-family:var(--font-code)">3 * 5</code> hoặc <code style="font-family:var(--font-code)">3 + 5</code></p>
+          </div>
+        </div>
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 2 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> "Ban ten la "Nguyen Viet Anh""</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Dấu <code>"</code> bên trong làm Python hiểu sai điểm kết thúc xâu.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa dùng nháy đơn bên trong:</p>
+            <pre style="margin:4px 0"><code class="language-python">>>> "Ban ten la 'Nguyen Viet Anh'"</code></pre>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: VẬN DỤNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">06</div>
+    <h2>Vận Dụng</h2>
+    <div class="sec-sub">Triple quotes · Vòng lặp for · In bảng nhân</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Triple quotes và vòng lặp <code style="font-size:0.85em">for</code></h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">🔤 Xâu nhiều dòng – Triple quotes</h4>
+        <pre style="margin:8px 0"><code class="language-python">print("""Khong co viec gi kho
+Chi so long khong ben
+Dao nui va lap bien
+Quyet chi at lam nen""")</code></pre>
+        <p style="font-size:0.7em;color:#aaa">Cặp <code>"""..."""</code> cho phép xâu chứa nhiều dòng — nhấn <kbd>Enter</kbd> giữa xâu.</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(79,195,247,0.35)">
+        <h4 style="color:#4fc3f7">🔄 Vòng lặp for – Bảng nhân 5</h4>
+        <pre style="margin:8px 0"><code class="language-python">for i in range(1, 11):
+    print("5 x", i, "=", 5*i)</code></pre>
+        <p style="font-size:0.7em;color:#aaa">
+          <code>range(1, 11)</code> → i chạy từ 1 đến 10<br>
+          Kết quả: 5×1=5, 5×2=10, ..., 5×10=50
+        </p>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_vandung')">
+        <span class="icon">💻</span> Mở Playground – Vận dụng
+      </button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: TỔNG KẾT ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">07</div>
+    <h2>Tổng Kết</h2>
+    <div class="sec-sub">NNLT bậc cao · Python · Môi trường · print()</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">TỔNG KẾT BÀI 16</span>
+    <h2>Những gì đã học</h2>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h4>🔤 NNLT bậc cao</h4>
+        <ul>
+          <li>Câu lệnh gần ngôn ngữ tự nhiên</li>
+          <li>Cần chương trình dịch (compiler/interpreter)</li>
+          <li>VD: Python, Java, C/C++</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🐍 Python</h4>
+        <ul>
+          <li>Guido van Rossum, Hà Lan, <strong>1991</strong></li>
+          <li>Đơn giản, đa nền tảng, mã nguồn mở</li>
+          <li>Dùng trình thông dịch</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>⌨️ Môi trường</h4>
+        <ul>
+          <li>Dấu nhắc <code>>>></code> — gõ lệnh trực tiếp</li>
+          <li>Soạn thảo — File/New, lưu .py, F5</li>
+          <li>IDLE, VS Code, PyCharm...</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🖨️ Lệnh print()</h4>
+        <ul>
+          <li><code>print(v1, v2, ..., vn)</code></li>
+          <li>In nhiều giá trị, cách nhau dấu cách</li>
+          <li>Có thể tính biểu thức trong print</li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:12px;font-size:0.7em;text-align:center">
+      📚 <strong>Bài tiếp theo:</strong> Bài 17 – Biến và Lệnh Gán (<code style="font-family:var(--font-code)">x = 5</code>, <code style="font-family:var(--font-code)">x, y = y, x</code>)
+    </div>
+  </section>
+
+  <section class="text-center" data-background-color="#0a0f1e">
+    <span class="section-tag">CỦNG CỐ BÀI HỌC</span>
+    <h2>Trò Chơi Củng Cố 🎮</h2>
+    <div class="demo-hint">
+      <strong>Thử sức với câu hỏi về Bài 16</strong><br>
+      NNLT bậc cao · Python · Môi trường · print()
+    </div>
+    <br>
+    <button class="open-quiz-btn" onclick="openGameList()">
+      <span>🎮</span> Chọn trò chơi
+    </button>
+  </section>
+</section>

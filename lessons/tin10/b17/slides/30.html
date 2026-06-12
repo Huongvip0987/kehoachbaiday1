@@ -1,0 +1,31 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LỖI THƯỜNG GẶP</span>
+    <h2>SyntaxError – Lỗi khi dùng từ khóa làm tên biến</h2>
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <pre><code class="language-python"># Lỗi SyntaxError (SGK tr.95)
+if = 12
+# SyntaxError: invalid syntax
+
+with = "Độ rộng"
+# SyntaxError: invalid syntax
+
+for = 5
+# SyntaxError: invalid syntax</code></pre>
+        <div style="background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.3);border-radius:8px;padding:10px;font-size:0.72em;margin-top:8px">
+          ⚠️ Python báo <strong style="color:#f44336">SyntaxError</strong> ngay khi đọc code — trước khi chạy chương trình.
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>✅ Cách đặt tên thay thế</h4>
+        <ul>
+          <li><code>_if = 12</code> &nbsp;← thêm dấu <code>_</code></li>
+          <li><code>chieu_rong = "Độ rộng"</code> &nbsp;← dịch nghĩa</li>
+          <li><code>for_loop = 5</code> &nbsp;← thêm hậu tố</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡</strong> VS Code tô màu <span style="color:#569cd6">xanh dương</span> cho từ khóa — nếu tên biến cũng chuyển màu, đó là từ khóa!
+        </div>
+      </div>
+    </div>
+  </section>

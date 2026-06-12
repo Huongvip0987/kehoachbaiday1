@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài 16: Ngôn ngữ lập trình bậc cao và Python – Lớp 10</title>
+
+<link rel="stylesheet" href="../../../node_modules/reveal.js/dist/reset.css">
+<link rel="stylesheet" href="../../../node_modules/reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="../../../node_modules/reveal.js/dist/theme/black.css">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/main.css">
+<script>
+(function(){
+  if(new URLSearchParams(location.search).get('preview')!=='1')return;
+  window._PREVIEW_MODE=true;
+  document.documentElement.classList.add('_preview');
+  var s=document.createElement('style');
+  s.textContent=[
+    '#mode-bar','#toolbar-show-tab','#speech-toggle-btn','#slide-nav-toggle',
+    '#slide-nav','#kichban-overlay','#speech-panel','#game-list-modal',
+    '#zoom-indicator','#obj-font-ctrl','#resize-overlay',
+    '#edit-toolbar','#edit-toast','#export-overlay','#history-panel',
+    '#kb-slide-panel','#slide-nav-toggle'
+  ].join(',')+'{display:none!important}';
+  document.head.appendChild(s);
+})();
+</script>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════ SLIDE 1: TITLE ══════════ -->
+<section class="slide-title" data-background-color="#0a0f1e">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="deco-star s1">⭐</span>
+    <span class="deco-star s2">✨</span>
+    <span class="deco-star s3">🌟</span>
+    <span class="deco-code c1">print()</span>
+    <span class="deco-code c2">>>></span>
+    <span class="deco-code c3">.py</span>
+    <span class="deco-code c4">for</span>
+    <span class="deco-ruler">📐</span>
+  </div>
+  <div class="badge">TIN HỌC 10 · KẾT NỐI TRI THỨC · 2 TIẾT</div>
+  <h1>BÀI 16</h1>
+  <h2>Ngôn ngữ lập trình bậc cao và Python</h2>
+  <div class="py-snake">🐍</div>
+  <div class="title-chips">
+    <span class="chip">🔤 NNLT bậc cao</span>
+    <span class="chip">🐍 Python</span>
+    <span class="chip">⌨️ Môi trường lập trình</span>
+    <span class="chip">🖨️ Lệnh print()</span>
+  </div>
+  <div class="meta">SGK trang 82 – 90 &nbsp;·&nbsp; Lớp 10</div>
+</section>
+
+<!-- ══════════ NHÓM: KHỞI ĐỘNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">00</div>
+    <h2>Khởi Động</h2>
+    <div class="sec-sub">So sánh các loại ngôn ngữ lập trình</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KHỞI ĐỘNG</span>
+    <h2>Ba loại ngôn ngữ lập trình</h2>
+    <p style="font-size:0.75em;color:#ccc;margin-bottom:14px">Quan sát ba đoạn chương trình sau — cùng làm một việc: in kí tự "a" ra màn hình</p>
+    <div class="two-col" style="gap:16px">
+      <div class="info-box" style="border-color:rgba(244,67,54,0.4)">
+        <h4 style="color:#f44336;font-size:0.85em">⚙️ Ngôn ngữ máy</h4>
+        <pre style="margin:6px 0"><code class="language-python">10110000 01100001
+11001011 00000000</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Gồm số 0 và 1 — máy tính mới hiểu trực tiếp</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,152,0,0.4)">
+        <h4 style="color:#ff9800;font-size:0.85em">📋 Hợp ngữ (Assembly)</h4>
+        <pre style="margin:6px 0"><code class="language-python">MOV AL, 61h
+INT 21h</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Dùng từ viết tắt tiếng Anh, vẫn còn phức tạp</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,212,59,0.45)">
+        <h4 style="color:#ffd43b;font-size:0.85em">🐍 Python (bậc cao)</h4>
+        <pre style="margin:6px 0"><code class="language-python">print("a")</code></pre>
+        <p style="font-size:0.68em;color:#aaa;margin:6px 0 0">Gần với ngôn ngữ tự nhiên — dễ đọc, dễ hiểu</p>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:14px;font-size:0.75em">
+      <strong>🤔 Hãy cho biết:</strong> Câu lệnh trong ngôn ngữ nào <span class="highlight-word">dễ hiểu nhất</span>? Tại sao?
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 1: NNLT BẬC CAO ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">01</div>
+    <h2>Ngôn ngữ lập trình bậc cao</h2>
+    <div class="sec-sub">Định nghĩa · Phân loại · Python · Chương trình dịch</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Ngôn ngữ lập trình bậc cao là gì?</h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box">
+        <h4>📊 Phân loại ngôn ngữ lập trình</h4>
+        <table class="op-table" style="font-size:0.78em">
+          <tr><th>Loại</th><th>Đặc điểm</th><th>Ví dụ</th></tr>
+          <tr><td style="color:#f44336">Ngôn ngữ máy</td><td>Mã nhị phân 0/1</td><td>10110000...</td></tr>
+          <tr><td style="color:#ff9800">Hợp ngữ</td><td>Từ viết tắt (Anh)</td><td>MOV, ADD...</td></tr>
+          <tr><td style="color:#ffd43b">Bậc cao</td><td>Gần ngôn ngữ tự nhiên</td><td>Python, Java...</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>✅ Ưu điểm của NNLT bậc cao</h4>
+        <ul>
+          <li>Câu lệnh <strong>gần với ngôn ngữ tự nhiên</strong></li>
+          <li>Dễ đọc, dễ hiểu, dễ sửa lỗi</li>
+          <li>Không phụ thuộc vào phần cứng cụ thể</li>
+          <li>Một chương trình chạy trên nhiều loại máy</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>📌 Ghi nhớ:</strong> NNLT bậc cao cần được <span class="highlight-word">chương trình dịch</span> chuyển sang ngôn ngữ máy.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Python – Ngôn ngữ lập trình bậc cao phổ biến</h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">🐍 Lịch sử Python</h4>
+        <ul>
+          <li><strong>Tác giả:</strong> Guido van Rossum (Hà Lan)</li>
+          <li><strong>Ra mắt:</strong> năm <strong style="color:#4caf50">1991</strong></li>
+          <li><strong>Mã nguồn mở</strong> — miễn phí, cộng đồng lớn</li>
+          <li>Đa nền tảng: Windows, macOS, Linux</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-color:rgba(79,195,247,0.35)">
+        <h4 style="color:#4fc3f7">⚡ Đặc điểm nổi bật</h4>
+        <ul>
+          <li>Cú pháp <strong>đơn giản</strong>, dễ học</li>
+          <li>Chạy trên máy tính, điện thoại, robot...</li>
+          <li>Thư viện phong phú: AI, khoa học dữ liệu</li>
+          <li>Phổ biến trong <strong>nghiên cứu và giáo dục</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="summary-grid" style="margin-top:12px;grid-template-columns:repeat(4,1fr)">
+      <div class="summary-card"><h4>🤖 AI & ML</h4><p style="font-size:0.72em">TensorFlow, PyTorch</p></div>
+      <div class="summary-card"><h4>📊 Data</h4><p style="font-size:0.72em">Pandas, NumPy</p></div>
+      <div class="summary-card"><h4>🌐 Web</h4><p style="font-size:0.72em">Django, Flask</p></div>
+      <div class="summary-card"><h4>🤖 Robot</h4><p style="font-size:0.72em">Raspberry Pi</p></div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Chương trình dịch</h2>
+    <p style="font-size:0.78em;color:#ccc;margin-bottom:14px">
+      Máy tính chỉ hiểu ngôn ngữ máy → cần <span class="highlight-word">chương trình dịch</span> để chuyển từ NNLT bậc cao sang ngôn ngữ máy.
+    </p>
+    <div class="two-col" style="gap:20px">
+      <div class="info-box" style="border-color:rgba(76,175,80,0.35)">
+        <h4 style="color:#4caf50">📝 Trình biên dịch (Compiler)</h4>
+        <ul>
+          <li>Dịch <strong>toàn bộ</strong> chương trình một lần</li>
+          <li>Tạo ra file thực thi (.exe)</li>
+          <li>Ví dụ: C, C++, Java</li>
+        </ul>
+        <pre style="margin-top:8px"><code class="language-python"># Nguồn .c → dịch → .exe → chạy</code></pre>
+      </div>
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">⚡ Trình thông dịch (Interpreter)</h4>
+        <ul>
+          <li>Dịch và chạy <strong>từng dòng</strong> lệnh</li>
+          <li>Dễ kiểm tra, thử nghiệm nhanh</li>
+          <li><strong>Python dùng cách này</strong></li>
+        </ul>
+        <pre style="margin-top:8px"><code class="language-python"># Dòng 1 → dịch → chạy → Dòng 2 → ...</code></pre>
+      </div>
+    </div>
+    <div class="practice-quiz" style="margin-top:12px">
+      <div class="pq-item" style="font-size:0.78em">
+        <p>🤔 <strong>Câu hỏi SGK:</strong> Viết chương trình bằng loại ngôn ngữ lập trình nào dễ nhất?
+        &nbsp;<button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong style="color:#4caf50">C. Ngôn ngữ lập trình bậc cao</strong> — vì cú pháp gần với ngôn ngữ tự nhiên, không cần viết mã nhị phân hay từ viết tắt phức tạp.</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 2: MÔI TRƯỜNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">02</div>
+    <h2>Môi trường lập trình Python</h2>
+    <div class="sec-sub">Dấu nhắc >>> · Gõ lệnh trực tiếp · Soạn thảo chương trình</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Màn hình làm việc của Python</h2>
+    <div style="background:#1e1e2e;border:1px solid #3a3a5a;border-radius:10px;padding:16px;margin:12px 0;font-family:var(--font-code,monospace);font-size:0.82em">
+      <div style="color:#4fc3f7;margin-bottom:8px">Python 3.x.x ... on win32</div>
+      <div style="color:#7a8599">Type "help", "copyright"... for more information.</div>
+      <div style="margin-top:12px">
+        <span style="color:#ffd43b;font-size:1.1em">&gt;&gt;&gt;</span>
+        <span style="color:#ccc"> </span>
+        <span style="display:inline-block;width:10px;height:1em;background:#fff;animation:blink 1s step-end infinite;vertical-align:text-bottom"></span>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box">
+        <h4>🔑 Dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code></h4>
+        <ul>
+          <li>Báo hiệu Python đang chờ nhận lệnh</li>
+          <li>Nhập lệnh → nhấn <kbd>Enter</kbd> để thực hiện</li>
+          <li>Kết quả hiện ngay bên dưới</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>💡 Hai chế độ làm việc</h4>
+        <ul>
+          <li><strong style="color:#4fc3f7">Gõ lệnh trực tiếp</strong> — kiểm tra nhanh</li>
+          <li><strong style="color:#4caf50">Soạn thảo</strong> — viết chương trình hoàn chỉnh</li>
+        </ul>
+        <div style="font-size:0.7em;color:#888;margin-top:8px">
+          Phần mềm: IDLE, PyCharm, Thonny, <strong>VS Code</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CHẾ ĐỘ GÕ LỆNH TRỰC TIẾP</span>
+    <h2>Chế độ gõ lệnh trực tiếp</h2>
+    <p style="font-size:0.78em;color:#ccc;margin-bottom:14px">
+      Gõ lệnh sau dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code> rồi nhấn <kbd>Enter</kbd> — Python thực hiện ngay lập tức.
+    </p>
+    <pre><code class="language-python">>>> 5 + 3
+8
+>>> 10 * 2
+20
+>>> "Xin chào!"
+'Xin chào!'
+>>> print("Học Python thật thú vị!")
+Học Python thật thú vị!</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <div class="info-box" style="border-color:rgba(76,175,80,0.3)">
+        <h4>✅ Dùng khi nào?</h4>
+        <ul>
+          <li>Tính toán nhanh, thử nghiệm lệnh</li>
+          <li>Kiểm tra cú pháp, xem kết quả</li>
+          <li>Học từng lệnh một cách tương tác</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-color:rgba(244,67,54,0.3)">
+        <h4>❌ Hạn chế</h4>
+        <ul>
+          <li>Không lưu được chương trình</li>
+          <li>Không thể viết nhiều dòng lệnh phức tạp</li>
+          <li>Mỗi phiên làm việc phải nhập lại</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CHẾ ĐỘ SOẠN THẢO</span>
+    <h2>Chế độ soạn thảo chương trình</h2>
+    <div class="two-col" style="margin-top:10px;gap:20px">
+      <div>
+        <div class="question-box" style="margin-bottom:10px;font-size:0.72em">
+          <strong>📁 Cách mở:</strong> File → New File (hoặc Ctrl+N)
+        </div>
+        <pre><code class="language-python"># Chuong trinh dau tien
+print("Xin chao!")
+print(5 + 2*7)
+</code></pre>
+        <div style="font-size:0.72em;color:#888;margin-top:8px">
+          📝 Viết mỗi lệnh trên một dòng
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>📌 Các bước thực hiện</h4>
+        <ul>
+          <li>Bước 1: File → <strong>New File</strong> để mở soạn thảo</li>
+          <li>Bước 2: Nhập nội dung chương trình</li>
+          <li>Bước 3: Lưu tệp — <kbd>Ctrl+S</kbd></li>
+          <li>Bước 4: Chạy — <kbd>F5</kbd> (Run/Run Module)</li>
+          <li>Bước 5: Xem kết quả ở cửa sổ Python Shell</li>
+        </ul>
+        <div class="question-box" style="margin-top:8px;font-size:0.7em">
+          <strong>💡 Chú ý:</strong> Tệp Python có đuôi <code style="font-family:var(--font-code);color:#ffd43b">.py</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÂU HỎI CỦNG CỐ</span>
+    <h2>Kiểm tra hiểu biết về Môi trường Python</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự trả lời trước, rồi bấm 👁 để xem đáp án.</p>
+      <div class="pq-item">
+        <p><strong>Câu 1:</strong> Dấu nhắc <code style="font-family:var(--font-code);color:#ffd43b">>>></code> là <em>con trỏ soạn thảo chương trình Python</em>. Đúng hay sai?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong style="color:#f44336">Sai</strong> — <code>>>></code> là <em>dấu nhắc</em> trong chế độ <strong>gõ lệnh trực tiếp</strong>. Con trỏ soạn thảo xuất hiện trong cửa sổ soạn thảo (File → New File), không phải Shell.</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 2:</strong> Việc thực hiện câu lệnh ở hai chế độ có điểm gì <strong>giống</strong> và <strong>khác</strong> nhau?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ <strong>Giống:</strong> đều dùng Python thực hiện, kết quả như nhau. <strong>Khác:</strong> trực tiếp — nhập lệnh → Enter → xem ngay; soạn thảo — viết nhiều lệnh, lưu file .py, nhấn F5 mới chạy.</p>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM MỤC 3: LỆNH PYTHON ĐẦU TIÊN ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">03</div>
+    <h2>Một số lệnh Python đầu tiên</h2>
+    <div class="sec-sub">Kiểu dữ liệu · Phép toán · Lệnh print()</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 1 · KIỂU DỮ LIỆU</span>
+    <h2>Python tự nhận biết kiểu dữ liệu</h2>
+    <pre><code class="language-python">>>> 5
+5
+>>> 2.6
+2.6
+>>> "hoc sinh lop 10"
+'hoc sinh lop 10'</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <div>
+        <table class="op-table">
+          <tr><th>Nhập vào</th><th>Kiểu</th><th>Tên</th></tr>
+          <tr><td><code>5</code></td><td style="color:#b5cea8">int</td><td>Số nguyên</td></tr>
+          <tr><td><code>2.6</code></td><td style="color:#b5cea8">float</td><td>Số thực</td></tr>
+          <tr><td><code>"abc"</code></td><td style="color:#ce9178">str</td><td>Xâu ký tự</td></tr>
+          <tr><td><code>True</code></td><td style="color:#569cd6">bool</td><td>Lôgic</td></tr>
+        </table>
+      </div>
+      <div class="info-box">
+        <h4>💡 Quan sát</h4>
+        <ul>
+          <li>Nhập số nguyên → Python trả về số nguyên</li>
+          <li>Nhập số thực (có dấu <code>.</code>) → float</li>
+          <li>Chữ giữa <code>"..."</code> → xâu ký tự</li>
+          <li>Python <strong>tự nhận biết</strong> — không cần khai báo kiểu</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 2 · PHÉP TOÁN</span>
+    <h2>Phép toán cơ bản</h2>
+    <pre><code class="language-python">>>> 3 + 7
+10
+>>> 12 * 5
+60
+>>> 10 / 4
+2.5
+>>> 5 / 2
+2.5</code></pre>
+    <div class="two-col" style="margin-top:14px">
+      <table class="op-table" style="font-size:0.82em">
+        <tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th><th>Kết quả</th></tr>
+        <tr><td>+</td><td>Cộng</td><td>3 + 7</td><td>10</td></tr>
+        <tr><td>-</td><td>Trừ</td><td>10 - 4</td><td>6</td></tr>
+        <tr><td>*</td><td>Nhân</td><td>12 * 5</td><td>60</td></tr>
+        <tr><td>/</td><td>Chia</td><td>5 / 2</td><td style="color:#b5cea8">2.5 (float!)</td></tr>
+      </table>
+      <div class="info-box">
+        <h4>⚠️ Lưu ý về phép chia</h4>
+        <ul>
+          <li>Phép <code>/</code> luôn trả về <strong>số thực (float)</strong></li>
+          <li><code>5 / 2 = 2.5</code>, không phải 2</li>
+          <li>Dùng <code>//</code> để lấy thương nguyên</li>
+          <li>Dùng <code>%</code> để lấy số dư</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VÍ DỤ 3 · LỆNH PRINT</span>
+    <h2>Lệnh <code style="font-size:0.85em">print()</code></h2>
+    <pre><code class="language-python">>>> print(12)
+12
+>>> print(10, 3.4 + 4.1, "hoa binh")
+10 7.5 hoa binh
+>>> print("Day ba so chan:", 2, 4, 6)
+Day ba so chan: 2 4 6
+>>> print("3 + 7 =", 3 + 7)
+3 + 7 = 10</code></pre>
+    <div class="question-box" style="margin-top:12px;font-size:0.75em">
+      <strong>📌 Ghi nhớ:</strong> &nbsp;
+      <code style="font-family:var(--font-code);color:#ffd43b">print(v1, v2, ..., vn)</code> — in một hoặc nhiều giá trị, cách nhau <strong>dấu cách</strong>. Có thể tính toán biểu thức trong lệnh print.
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÚ PHÁP</span>
+    <h2>Cú pháp lệnh <code style="font-size:0.85em">print()</code></h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div>
+        <div class="info-box" style="border-color:rgba(255,212,59,0.4)">
+          <h4 style="color:#ffd43b">📌 Cú pháp</h4>
+          <pre style="margin:6px 0"><code class="language-python">print(v1, v2, ..., vn)</code></pre>
+          <ul style="font-size:0.78em;margin-top:8px">
+            <li>v1, v2,..., vn là các giá trị cần in</li>
+            <li>Có thể là số, xâu ký tự, biểu thức</li>
+            <li>Các giá trị cách nhau <strong>dấu cách</strong></li>
+            <li>Mỗi lệnh print() in một <strong>dòng riêng</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <pre><code class="language-python"># In một giá trị
+print(42)
+
+# In nhiều giá trị
+print("Kết quả:", 10 + 5)
+
+# In xâu và biểu thức
+print("PI ≈", 3.14159)
+print("1+2+3 =", 1+2+3)</code></pre>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_print')">
+        <span class="icon">💻</span> Mở Code Playground – Lệnh print()
+      </button>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">CÂU HỎI CỦNG CỐ</span>
+    <h2>Kiểm tra nhanh – SGK trang 88</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tính nhẩm trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="pq-item">
+        <p><strong>Câu 1a:</strong> Kết quả và kiểu dữ liệu của <code style="font-family:var(--font-code);color:#ffd43b">5 / 2</code>?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ Kết quả: <strong style="color:#4caf50">2.5</strong> — kiểu: <strong>float</strong> (phép <code>/</code> luôn cho kết quả thực)</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 1b:</strong> Kết quả của <code style="font-family:var(--font-code);color:#ffd43b">12 + 1.5</code>?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ Kết quả: <strong style="color:#4caf50">13.5</strong> — kiểu: <strong>float</strong> (int + float → float)</p>
+      </div>
+      <div class="pq-item">
+        <p><strong>Câu 2:</strong> Lệnh <code style="font-family:var(--font-code);color:#ffd43b;font-size:0.88em">print("13 + 10*3/2 - 3*2 =", 13 + 10*3/2 - 3*2)</code> in ra gì?
+        <button class="pq-eye" onclick="pqEye(this)">👁</button></p>
+        <p class="pq-hide">→ 10×3=30, 30/2=15.0, 3×2=6 → 13+15.0−6 = <strong style="color:#4caf50">22.0</strong><br>In ra: <em>13 + 10*3/2 - 3*2 = 22.0</em></p>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: THỰC HÀNH ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">04</div>
+    <h2>Thực Hành</h2>
+    <div class="sec-sub">Tạo và chạy chương trình Python đầu tiên</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỰC HÀNH</span>
+    <h2>Nhiệm vụ: Tạo chương trình <code style="font-size:0.8em">Bai1.py</code></h2>
+    <div class="two-col" style="margin-top:10px;gap:20px">
+      <div>
+        <pre><code class="language-python"># Chuong trinh dau tien
+print("Xin chao!")</code></pre>
+        <div class="question-box" style="margin-top:8px;font-size:0.72em">
+          <strong>💡 Chú ý:</strong> Dấu <code style="font-family:var(--font-code);color:#888">#</code> bắt đầu dòng <strong>chú thích</strong> — Python bỏ qua, không thực thi.
+        </div>
+      </div>
+      <div class="info-box">
+        <h4>📋 Các bước thực hiện</h4>
+        <ul style="font-size:0.82em">
+          <li><strong>Bước 1:</strong> Khởi động Python (IDLE)</li>
+          <li><strong>Bước 2:</strong> File → <strong>New File</strong></li>
+          <li><strong>Bước 3:</strong> Nhập nội dung chương trình</li>
+          <li><strong>Bước 4:</strong> Lưu: <kbd>Ctrl+S</kbd> → đặt tên <code>Bai1.py</code></li>
+          <li><strong>Bước 5:</strong> Chạy: <kbd>F5</kbd> hoặc Run → Run Module</li>
+          <li><strong>Bước 6:</strong> Xem kết quả ở Python Shell</li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_thuchanh')">
+        <span class="icon">💻</span> Mở Playground – Thực hành Bai1.py
+      </button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: LUYỆN TẬP ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">05</div>
+    <h2>Luyện Tập</h2>
+    <div class="sec-sub">Tính biểu thức · Phát hiện lỗi · Viết lệnh print</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">LUYỆN TẬP</span>
+    <h2>Bài tập 1 &amp; 3 (SGK tr.89)</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự tính trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="two-col" style="margin-top:10px;gap:20px">
+        <div class="info-box pq-item">
+          <h4>🧮 Bài 1 – Tính biểu thức <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <table class="name-table" style="font-size:0.8em">
+            <tr><th>Biểu thức</th><th>Kết quả</th></tr>
+            <tr><td><code>10 + 13</code></td><td class="valid pq-hide">23</td></tr>
+            <tr><td><code>20 - 7</code></td><td class="valid pq-hide">13</td></tr>
+            <tr><td><code>3 * 10 - 16</code></td><td class="valid pq-hide">14</td></tr>
+            <tr><td><code>12/5 + 13/6</code></td><td class="valid pq-hide">≈ 4.567</td></tr>
+          </table>
+        </div>
+        <div class="info-box pq-item">
+          <h4>🖨️ Bài 3 – Viết lệnh print() <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <p style="font-size:0.78em;margin:4px 0 6px">a) In: <em>1 × 3 × 5 × 7 = 105</em> &nbsp;·&nbsp; b) In: <em>Bạn Hòa năm nay 16 tuổi.</em></p>
+          <div class="pq-hide">
+            <pre style="margin:0"><code class="language-python"># 3a
+print("1 x 3 x 5 x 7 =", 1*3*5*7)
+
+# 3b
+print("Ban Hoa nam nay 16 tuoi.")</code></pre>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">PHÁT HIỆN LỖI</span>
+    <h2>Bài tập 2 – Các lệnh sau có lỗi không?</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Tự phân tích lỗi trước, rồi bấm 👁 kiểm tra.</p>
+      <div class="two-col" style="margin-top:12px;gap:20px">
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 1 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> 3 + * 5</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Hai toán tử <code>+</code> và <code>*</code> đứng liền nhau — không hợp lệ.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa: <code style="font-family:var(--font-code)">3 * 5</code> hoặc <code style="font-family:var(--font-code)">3 + 5</code></p>
+          </div>
+        </div>
+        <div class="info-box pq-item" style="border-color:rgba(244,67,54,0.3)">
+          <h4 style="color:#f44336">Lệnh 2 <button class="pq-eye" onclick="pqEye(this)" style="margin-left:6px">👁</button></h4>
+          <pre style="margin:6px 0"><code class="language-python">>>> "Ban ten la "Nguyen Viet Anh""</code></pre>
+          <div class="pq-hide">
+            <p style="font-size:0.73em;color:#aaa">⚠️ <strong>SyntaxError</strong>: Dấu <code>"</code> bên trong làm Python hiểu sai điểm kết thúc xâu.</p>
+            <p style="font-size:0.73em;color:#4caf50">✅ Sửa dùng nháy đơn bên trong:</p>
+            <pre style="margin:4px 0"><code class="language-python">>>> "Ban ten la 'Nguyen Viet Anh'"</code></pre>
+          </div>
+        </div>
+      </div>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: VẬN DỤNG ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">06</div>
+    <h2>Vận Dụng</h2>
+    <div class="sec-sub">Triple quotes · Vòng lặp for · In bảng nhân</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Triple quotes và vòng lặp <code style="font-size:0.85em">for</code></h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">🔤 Xâu nhiều dòng – Triple quotes</h4>
+        <pre style="margin:8px 0"><code class="language-python">print("""Khong co viec gi kho
+Chi so long khong ben
+Dao nui va lap bien
+Quyet chi at lam nen""")</code></pre>
+        <p style="font-size:0.7em;color:#aaa">Cặp <code>"""..."""</code> cho phép xâu chứa nhiều dòng — nhấn <kbd>Enter</kbd> giữa xâu.</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(79,195,247,0.35)">
+        <h4 style="color:#4fc3f7">🔄 Vòng lặp for – Bảng nhân 5</h4>
+        <pre style="margin:8px 0"><code class="language-python">for i in range(1, 11):
+    print("5 x", i, "=", 5*i)</code></pre>
+        <p style="font-size:0.7em;color:#aaa">
+          <code>range(1, 11)</code> → i chạy từ 1 đến 10<br>
+          Kết quả: 5×1=5, 5×2=10, ..., 5×10=50
+        </p>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_vandung')">
+        <span class="icon">💻</span> Mở Playground – Vận dụng
+      </button>
+    </div>
+  </section>
+</section>
+
+<!-- ══════════ NHÓM: TỔNG KẾT ══════════ -->
+<section data-background-color="#0a0f1e">
+  <section class="section-intro-card" data-background-color="#0a0f1e">
+    <div class="sec-num">07</div>
+    <h2>Tổng Kết</h2>
+    <div class="sec-sub">NNLT bậc cao · Python · Môi trường · print()</div>
+    <div class="nav-hint">↓ bắt đầu</div>
+  </section>
+
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">TỔNG KẾT BÀI 16</span>
+    <h2>Những gì đã học</h2>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <h4>🔤 NNLT bậc cao</h4>
+        <ul>
+          <li>Câu lệnh gần ngôn ngữ tự nhiên</li>
+          <li>Cần chương trình dịch (compiler/interpreter)</li>
+          <li>VD: Python, Java, C/C++</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🐍 Python</h4>
+        <ul>
+          <li>Guido van Rossum, Hà Lan, <strong>1991</strong></li>
+          <li>Đơn giản, đa nền tảng, mã nguồn mở</li>
+          <li>Dùng trình thông dịch</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>⌨️ Môi trường</h4>
+        <ul>
+          <li>Dấu nhắc <code>>>></code> — gõ lệnh trực tiếp</li>
+          <li>Soạn thảo — File/New, lưu .py, F5</li>
+          <li>IDLE, VS Code, PyCharm...</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <h4>🖨️ Lệnh print()</h4>
+        <ul>
+          <li><code>print(v1, v2, ..., vn)</code></li>
+          <li>In nhiều giá trị, cách nhau dấu cách</li>
+          <li>Có thể tính biểu thức trong print</li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:12px;font-size:0.7em;text-align:center">
+      📚 <strong>Bài tiếp theo:</strong> Bài 17 – Biến và Lệnh Gán (<code style="font-family:var(--font-code)">x = 5</code>, <code style="font-family:var(--font-code)">x, y = y, x</code>)
+    </div>
+  </section>
+
+  <section class="text-center" data-background-color="#0a0f1e">
+    <span class="section-tag">CỦNG CỐ BÀI HỌC</span>
+    <h2>Trò Chơi Củng Cố 🎮</h2>
+    <div class="demo-hint">
+      <strong>Thử sức với câu hỏi về Bài 16</strong><br>
+      NNLT bậc cao · Python · Môi trường · print()
+    </div>
+    <br>
+    <button class="open-quiz-btn" onclick="openGameList()">
+      <span>🎮</span> Chọn trò chơi
+    </button>
+  </section>
+</section>
+
+</div><!-- end .slides -->
+</div><!-- end .reveal -->
+
+<!-- ══════════════════════════════════
+     PLAYGROUND OVERLAY (shared)
+══════════════════════════════════ -->
+<div id="playground-overlay">
+  <div id="pg-header">
+    <div class="pg-title">
+      <div class="vsc-dot"></div>
+      <span id="pg-title-text">Code Playground · Python</span>
+    </div>
+    <div id="pg-status">
+      <div class="status-dot"></div>
+      <span>Python 3.x sẵn sàng</span>
+    </div>
+    <button class="pg-btn success" id="btn-autoplay" onclick="startAutoPlay()" title="Tự động chạy từng bước">▶ Tự chạy</button>
+    <button class="pg-btn" id="btn-prev" onclick="doPrevStep()" title="Lùi về bước trước (F7)" disabled>⏮ Lùi</button>
+    <button class="pg-btn primary" id="btn-step" onclick="doStep()" title="Tiến sang bước tiếp theo (F8)">⏭ Bước tiếp</button>
+    <button class="pg-btn" id="btn-reset" onclick="resetPlayground()">🔄 Xem lại</button>
+    <button onclick="spLoadContextScript('code');toggleSpeechPanel();" style="background:#1e2d3d;border:1px solid #2a3a5a;color:#4fc3f7;border-radius:5px;padding:5px 10px;cursor:pointer;font-size:0.78em;font-weight:700;font-family:inherit">💬</button>
+    <button id="pg-close" onclick="closePlayground()" title="Đóng (Esc)">✕</button>
+  </div>
+
+  <div id="demo-tabs">
+    <button class="demo-tab active" data-key="demo_print" onclick="switchDemo('demo_print')">🖨️ Lệnh print()</button>
+    <button class="demo-tab" data-key="demo_thuchanh" onclick="switchDemo('demo_thuchanh')">🛠 Thực Hành</button>
+    <button class="demo-tab" data-key="demo_vandung" onclick="switchDemo('demo_vandung')">🚀 Vận Dụng</button>
+  </div>
+
+  <div id="pg-main">
+    <div id="pg-editor-pane">
+      <div id="pg-editor-header"><div class="tab">main.py</div></div>
+      <div id="code-display"></div>
+      <div id="step-explain-box">
+        <span>💡</span>
+        <span id="step-explain-text">Nhấn <b>▶ Tự chạy</b> hoặc <b>⏭ Bước tiếp</b> để xem code chạy từng dòng...</span>
+      </div>
+      <div id="pg-console">
+        <div id="pg-console-header">Terminal Output</div>
+        <div id="console-lines"></div>
+      </div>
+    </div>
+    <div id="pg-right-pane">
+      <div id="pg-mem-header">
+        <span>📦</span> <strong>Bộ nhớ (Variables)</strong>
+        <span style="margin-left:auto;color:#555;font-size:0.9em" id="mem-empty-hint">← Chạy code để xem biến</span>
+      </div>
+      <div id="var-cards-container"></div>
+      <div id="step-indicator">
+        <div id="step-line-info">Sẵn sàng</div>
+        <div id="step-progress"><div id="step-progress-bar"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reveal.js -->
+<script src="../../../node_modules/reveal.js/dist/reveal.js"></script>
+
+<!-- ══ B16-specific: phải load trước shared JS ══ -->
+<script src="./js/init.js"></script>
+
+<!-- ══ Shared infrastructure ══ -->
+<script src="../../../js/state.js"></script>
+<script src="../../../js/demos.js"></script>
+<script src="../../../js/reveal-init.js"></script>
+<script src="../../../js/click-sound.js"></script>
+<script src="../../../js/syntax.js"></script>
+<script src="../../../js/slide-font.js"></script>
+<script src="../../../lessons/catalog.js"></script>
+<script src="../../../js/library-nav.js"></script>
+<script src="../../../js/set-mode.js"></script>
+<script src="../../../js/playground.js"></script>
+<script src="../../../js/edit-core.js"></script>
+<script src="../../../js/edit-style.js"></script>
+<script src="../../../js/edit-history.js"></script>
+<script src="../../../js/zoom-minimap.js"></script>
+
+<!-- ══ MODE BAR ══ -->
+<div id="mode-bar">
+  <button class="mode-btn" onclick="goToLibrary()" title="Quay về Thư viện bài học" style="border-right:1px solid rgba(255,255,255,0.08);margin-right:4px;color:#7a8599">🏠 Thư viện</button>
+  <button class="mode-btn active" id="btn-slides" onclick="setMode('slides')">📽 Slide</button>
+  <button class="mode-btn" id="btn-cq" onclick="tf_cqOpen()">📚 Thư viện câu hỏi</button>
+  <button class="mode-btn" id="btn-code" onclick="tf_codeOpen()">🎬 Giải thích</button>
+  <button class="mode-btn" id="btn-game" onclick="setMode('game')">🎮 Trò Chơi</button>
+  <button class="mode-btn" id="btn-chon" onclick="setMode('chon')">🎲 Chọn người</button>
+  <button class="mode-btn" id="btn-kichban" onclick="setMode('kichban')">📋 Kịch bản</button>
+  <button class="mode-btn tool-edit-only" id="btn-edit" onclick="document.body.classList.contains('mode-edit') ? setMode('slides') : setMode('edit')" title="Bật/tắt chỉnh sửa slide">✏️ Sửa</button>
+  <button class="font-btn tool-edit-only" onclick="location.reload()" title="Tải lại trang" style="margin-left:8px">🔄 Reload</button>
+  <button class="font-btn tool-edit-only" onclick="exportToPptx()" title="Xuất tất cả slide ra file PowerPoint (.pptx)" style="margin-left:4px;background:#1a2a4a;border-color:#4fc3f7;color:#4fc3f7;font-weight:700">📊 Xuất PPTX</button>
+  <div id="lesson-timer" onclick="ltToggle()" ondblclick="ltReset()" title="Đồng hồ tiết học 45 phút · Nhấn: tạm dừng/tiếp · Nhấn đúp: reset">⏱ <span id="lt-display">45:00</span></div>
+  <div id="font-ctrl" style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+    <button class="font-btn" onclick="adjustFontSize(-4)" title="Chữ nhỏ hơn">A−</button>
+    <input type="number" id="font-size-label" min="14" max="120" value="28"
+      title="Nhập cỡ chữ mong muốn (px) rồi nhấn Enter"
+      oninput="setFontSizeDirect(this.value)"
+      onkeydown="if(event.key==='Enter'){this.blur();setFontSizeDirect(this.value)}"
+      style="color:#ccc;font-size:0.78em;font-family:monospace;width:50px;text-align:center;background:#1a1a2e;border:1px solid #3a3a5a;border-radius:4px;padding:2px 4px;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;">
+    <button class="font-btn" onclick="adjustFontSize(4)" title="Chữ lớn hơn">A+</button>
+    <button class="font-btn" onclick="resetFontSize()" title="Đặt lại cỡ chữ slide này">↺</button>
+    <button class="font-btn tool-edit-only" onclick="saveEdits()" title="Lưu chỉnh sửa" style="background:#1a4a2a;border-color:#2ecc71;color:#2ecc71;font-weight:700;margin-left:4px">💾 Lưu</button>
+  </div>
+  <button id="toolbar-hide-btn" onclick="toggleToolbar()" title="Ẩn toolbar (phím `)">▲ Ẩn</button>
+</div>
+
+<div id="toolbar-show-tab" onclick="toggleToolbar()" title="Hiện toolbar (phím `)">▼ Menu</div>
+
+<!-- obj-font-ctrl, resize-overlay, edit-toolbar (identical to B17) -->
+<div id="obj-font-ctrl">
+  <div class="ofc-row" style="margin-bottom:6px">
+    <span id="obj-font-label" style="color:#4fc3f7;font-size:10px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700"></span>
+    <button onclick="document.getElementById('obj-font-ctrl').style.display='none'" style="color:#f88;border-color:#f88;padding:1px 6px;font-size:11px">✕</button>
+  </div>
+  <div class="ofc-row">
+    <span class="ofc-label">A</span>
+    <button onclick="adjustObjFont(-1)">−</button>
+    <input id="obj-font-input" type="number" min="8" max="120" oninput="setObjFont(this.value)" style="width:42px">
+    <button onclick="adjustObjFont(+1)">+</button>
+    <span style="width:1px;background:#444;height:14px;display:inline-block;margin:0 3px"></span>
+    <span class="ofc-label">W</span>
+    <button onclick="adjustObjWidth(-40)" style="font-size:11px">◀</button>
+    <span id="obj-width-label" style="color:#aaa;font-size:11px;font-family:monospace;min-width:48px;text-align:center">auto</span>
+    <button onclick="adjustObjWidth(+40)" style="font-size:11px">▶</button>
+  </div>
+  <hr class="ofc-sep">
+  <div class="ofc-row" style="flex-wrap:wrap;gap:5px">
+    <span class="ofc-label">▭</span>
+    <select id="obj-border-style" onchange="setObjBorder()">
+      <option value="solid">Liền</option><option value="dashed">Gạch</option>
+      <option value="dotted">Chấm</option><option value="double">Đôi</option><option value="none">Không</option>
+    </select>
+    <input id="obj-border-width" type="number" min="0" max="20" value="1" oninput="setObjBorder()" style="width:36px">
+    <span style="color:#888;font-size:10px">px</span>
+    <input id="obj-border-color" type="color" value="#4fc3f7" onchange="setObjBorder()">
+    <span style="width:1px;background:#444;height:14px;display:inline-block;margin:0 2px"></span>
+    <span class="ofc-label" style="color:#aaa">╮</span>
+    <input id="obj-border-radius" type="number" min="0" max="60" value="0" oninput="setObjBorderRadius()" style="width:36px">
+    <span style="color:#888;font-size:10px">px</span>
+  </div>
+</div>
+
+<div id="resize-overlay">
+  <span class="rh" data-d="nw"></span><span class="rh" data-d="n"></span>
+  <span class="rh" data-d="ne"></span><span class="rh" data-d="e"></span>
+  <span class="rh" data-d="se"></span><span class="rh" data-d="s"></span>
+  <span class="rh" data-d="sw"></span><span class="rh" data-d="w"></span>
+</div>
+
+<div id="edit-toolbar">
+  <button id="edit-toggle-btn" onclick="document.getElementById('edit-toolbar').classList.toggle('expanded')">✏️</button>
+  <div class="toolbar-items">
+    <button id="btn-move-mode" onclick="toggleMoveMode()">🔀 Di chuyển</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="undoEdit()">↩ Undo</button>
+    <button onclick="redoEdit()">↪ Redo</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="copySelected()">📋 Copy</button>
+    <button onclick="pasteSelected()">📌 Paste</button>
+    <button onclick="deleteSelected()">🗑 Xóa</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="changeFontSizeEl(+2)">A+</button>
+    <button onclick="changeFontSizeEl(-2)">A−</button>
+    <button onclick="execEditCmd('bold')"><b>B</b></button>
+    <button onclick="execEditCmd('italic')"><i>I</i></button>
+    <button onclick="deleteCurrentEl()">🗑 Dòng</button>
+    <button onclick="resetTransforms()">⊙ Vị trí gốc</button>
+    <span style="width:1px;background:#444;height:18px;display:inline-block;margin:0 2px"></span>
+    <button onclick="saveEdits()" style="background:#1a6b3a;border:1px solid #2ecc71;color:#2ecc71;font-weight:700">💾 Lưu</button>
+    <button id="btn-group" onclick="groupSelected()" disabled style="background:#1a2a1a;border:1px solid #4caf50;color:#4caf50;font-weight:700">🔗 Gộp</button>
+    <button onclick="ungroupSelected()" style="background:#2a1a0a;border:1px solid #ff9800;color:#ff9800;font-weight:700">✂️ Tách</button>
+    <button onclick="toggleHistoryPanel()" style="background:#0d1e35;border:1px solid #4fc3f7;color:#4fc3f7;font-weight:700">📋 Lịch sử</button>
+    <button onclick="deleteCurrentSlide()" style="background:#3a0a0a;border:1px solid #c0392b;color:#e74c3c;font-weight:700">🗑 Xóa slide</button>
+    <button onclick="setMode('slides')" style="background:#5a1a1a;border:1px solid #e74c3c;color:#e74c3c;font-weight:700">✖ Thoát</button>
+  </div>
+</div>
+<div id="edit-toast" style="position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:#4fc3f7;color:#000;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:9999">✅ Đã lưu!</div>
+
+<!-- Game list modal -->
+<div id="game-list-modal" onclick="if(event.target===this)closeGameList()">
+  <div id="game-list-box">
+    <h2>🎮 Trò Chơi Củng Cố</h2>
+    <p class="game-list-sub">Bài 16 · Ngôn ngữ lập trình bậc cao và Python · Lớp 10</p>
+    <button class="game-card" onclick="launchGame('quiz')">
+      <span class="game-card-icon">🏆</span>
+      <div class="game-card-info">
+        <h3>Ai Là Triệu Phú?</h3>
+        <p>Câu hỏi về NNLT bậc cao · Python · Môi trường · print()</p>
+      </div>
+    </button>
+    <button class="game-card" onclick="launchGame('caro')">
+      <span class="game-card-icon">⭕</span>
+      <div class="game-card-info">
+        <h3>Caro Team</h3>
+        <p>Tic-Tac-Toe nhóm · Trả lời đúng để đánh ô · Bài 16</p>
+      </div>
+    </button>
+    <button id="game-list-close" onclick="closeGameList()">✖ Đóng</button>
+  </div>
+</div>
+
+<!-- Chọn người overlay (shared, identical) -->
+<div id="chon-overlay">
+  <div id="chon-header">
+    <div>
+      <h2>🎲 Máy Chọn Ngẫu Nhiên</h2>
+      <div class="info">NVSPTX 3 · HK3 2025–2026 · 39 sinh viên</div>
+    </div>
+    <button onclick="spLoadContextScript('chon');toggleSpeechPanel();" style="margin-left:auto;background:rgba(79,195,247,0.1);border:1px solid #2a3a5a;color:#4fc3f7;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:0.82em;font-weight:700;font-family:inherit">💬 Hộp thoại</button>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="chon-tabs">
+    <div class="chon-tab active" onclick="chon_switchTab(0)">🎰 Chọn 1 người</div>
+    <div class="chon-tab" onclick="chon_switchTab(1)">👥 Chọn N người</div>
+    <div class="chon-tab" onclick="chon_switchTab(2)">🔒 Không trùng lặp</div>
+    <div class="chon-tab" onclick="chon_switchTab(3)">🏷️ Chia nhóm</div>
+    <div class="chon-tab" onclick="chon_switchTab(4)">🎡 Vòng quay</div>
+    <div class="chon-tab" onclick="chon_switchTab(5)">🦆 Đua vịt</div>
+  </div>
+  <div class="chon-panel active" id="cp0">
+    <div class="slot-box"><div class="slot-name" id="cSlotName">???</div></div>
+    <div style="text-align:center;margin-bottom:14px">
+      <button class="spin-btn" id="cSpinBtn" onclick="chon_doSpin()">🎲 Chọn ngẫu nhiên</button>
+      <button class="ca-btn red" style="margin-left:12px" onclick="chon_resetSpin()">🔄 Reset</button>
+    </div>
+    <div style="text-align:center">
+      <span class="wait-ctrl">⏱ Thời gian chờ: <input type="number" id="cSpinWait" value="2" min="1" max="10"> giây</span>
+    </div>
+    <div class="chon-hist" id="cHist" style="display:none">
+      <h3>Lịch sử</h3><div class="chon-hist-list" id="cHistList"></div>
+    </div>
+  </div>
+  <div class="chon-panel" id="cp1">
+    <div class="chon-controls">
+      <label>Chọn</label><input type="number" class="cn-input" id="cPickN" value="3" min="1" max="39"><label>người</label>
+      <button class="ca-btn" onclick="chon_pickGroup()">👥 Chọn ngay</button>
+      <button class="ca-btn red" onclick="document.getElementById('cGroupResult').innerHTML=''">🗑 Xóa</button>
+    </div>
+    <div class="chon-result-grid" id="cGroupResult"></div>
+  </div>
+  <div class="chon-panel" id="cp2">
+    <div class="pool-header">
+      <button class="ca-btn" onclick="chon_pickFromPool()">🎲 Chọn tiếp</button>
+      <button class="ca-btn red" onclick="chon_resetPool()">🔄 Reset</button>
+      <span class="wait-ctrl">⏱ <input type="number" id="cPoolWait" value="1" min="1" max="10" style="width:48px"> giây</span>
+      <span class="cbadge rem" id="cRemainBadge">Còn lại: 39 / 39</span>
+      <span class="cbadge pck" id="cPickedBadge" style="display:none">Đã chọn: 0</span>
+    </div>
+    <div class="pool-display" id="cPoolDisplay"><div class="pname" id="cPoolName">—</div></div>
+    <div style="font-size:0.75em;color:#7a8599;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Danh sách sinh viên</div>
+    <div class="st-grid" id="cStudentGrid"></div>
+  </div>
+  <div class="chon-panel" id="cp3">
+    <div class="chon-controls">
+      <label>Chia thành</label><input type="number" class="cn-input" id="cNumTeams" value="4" min="2" max="10"><label>nhóm</label>
+      <button class="ca-btn green" onclick="chon_splitTeams()">🏷️ Chia ngay</button>
+      <button class="ca-btn red" onclick="document.getElementById('cTeamGrid').innerHTML=''">🗑 Xóa</button>
+    </div>
+    <div class="team-grid2" id="cTeamGrid"></div>
+  </div>
+  <div class="chon-panel" id="cp4">
+    <div class="wheel-arrow"></div>
+    <canvas id="wheelCanvas" width="480" height="480"></canvas>
+    <div class="wheel-winner" id="wheelWinner"></div>
+    <div style="text-align:center;margin-top:4px">
+      <button class="spin-btn" id="wheelSpinBtn" onclick="chon_wheel_spin()">🎡 Quay!</button>
+      <button class="ca-btn red" style="margin-left:12px" onclick="chon_wheel_reset()">🔄 Reset</button>
+    </div>
+  </div>
+  <div class="chon-panel" id="cp5">
+    <div class="chon-controls">
+      <label>Số vịt:</label><input type="number" class="cn-input" id="duckCount" value="8" min="2" max="15">
+      <button class="spin-btn" id="duckStartBtn" onclick="chon_duck_start()">🦆 Bắt đầu đua!</button>
+      <button class="ca-btn red" onclick="chon_duck_reset()">🔄 Reset</button>
+    </div>
+    <div id="duckTrack"></div><div class="duck-winner" id="duckWinner"></div>
+  </div>
+</div>
+
+<!-- CQ Overlay – tabs khớp với CQ_DATA của B16 -->
+<div id="cq-overlay">
+  <div id="cq-header">
+    <div>
+      <h2>📚 Thư viện câu hỏi – Bài 16</h2>
+      <div style="font-size:0.75em;color:#7a8599">NVSPTX 3 · HK3 2025–2026 · Tin học 10</div>
+    </div>
+    <button onclick="spLoadContextScript('cq');toggleSpeechPanel();" style="margin-left:auto;background:rgba(255,212,59,0.08);border:1px solid #3a3010;color:#ffd43b;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:0.82em;font-weight:700;font-family:inherit">💬 Hộp thoại</button>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="cq-mode-bar">
+    <button class="cq-mode-btn active" data-mode="present" onclick="cq_setViewMode('present')">▶ Trình chiếu</button>
+    <button class="cq-mode-btn" data-mode="edit" onclick="cq_setViewMode('edit')">✏️ Sửa</button>
+    <span class="cq-mode-hint">← → để chuyển câu · Space xem đáp án</span>
+  </div>
+  <div class="cq-tabs">
+    <div class="cq-tab active" onclick="cq_switchTab(0)">📖 Ôn tập bài trước</div>
+    <div class="cq-tab" onclick="cq_switchTab(1)">⚡ Khởi động</div>
+    <div class="cq-tab" onclick="cq_switchTab(2)">🔤 NNLT bậc cao</div>
+    <div class="cq-tab" onclick="cq_switchTab(3)">⌨️ Môi trường Python</div>
+    <div class="cq-tab" onclick="cq_switchTab(4)">🖨️ Lệnh print()</div>
+    <div class="cq-tab" onclick="cq_switchTab(5)">🛠 Thực Hành</div>
+    <div class="cq-tab" onclick="cq_switchTab(6)">🚀 Vận Dụng</div>
+  </div>
+  <div class="cq-filter-bar" id="cq-filter-bar">
+    <span class="cq-filter-lbl">Lọc:</span>
+    <button class="cq-filter-btn active" data-filter="all"   onclick="cq_setFilter('all')">Tất cả <span class="cq-filter-cnt" id="cq-fcnt-all"></span></button>
+    <button class="cq-filter-btn"        data-filter="mc"    onclick="cq_setFilter('mc')">📋 Trắc nghiệm <span class="cq-filter-cnt" id="cq-fcnt-mc"></span></button>
+    <button class="cq-filter-btn"        data-filter="tl"    onclick="cq_setFilter('tl')">✍️ Tự luận <span class="cq-filter-cnt" id="cq-fcnt-tl"></span></button>
+    <button class="cq-filter-btn"        data-filter="fill"  onclick="cq_setFilter('fill')">📝 Điền chỗ trống <span class="cq-filter-cnt" id="cq-fcnt-fill"></span></button>
+    <button class="cq-filter-btn"        data-filter="match" onclick="cq_setFilter('match')">🔗 Nối từ <span class="cq-filter-cnt" id="cq-fcnt-match"></span></button>
+  </div>
+  <div id="cq-slideshow" class="active">
+    <div class="cqsl-nav">
+      <button class="cqsl-nav-btn" id="cqsl-prev" onclick="cq_slidePrev()">◀ Trước</button>
+      <span class="cqsl-counter" id="cqsl-counter">– / –</span>
+      <button class="cqsl-nav-btn" id="cqsl-next" onclick="cq_slideNext()">Tiếp ▶</button>
+      <button class="cqsl-ans-btn" id="cqsl-ans-btn" onclick="cq_slideToggleAns()">💡 Xem đáp án</button>
+      <button class="cqsl-pres-btn" id="cqsl-pres-btn" onclick="if(this.dataset.id)cq_present(this.dataset.id)">⛶ Toàn màn hình</button>
+    </div>
+    <div class="cqsl-body" id="cq-slideshow-body"></div>
+  </div>
+  <div class="cq-body" id="cq-edit-body" style="display:none">
+    <div class="cq-panel active" id="cqp0" data-cat="ontap_truoc"></div>
+    <div class="cq-panel" id="cqp1" data-cat="khoi_dong"></div>
+    <div class="cq-panel" id="cqp2" data-cat="nnlt_bac_cao"></div>
+    <div class="cq-panel" id="cqp3" data-cat="moi_truong"></div>
+    <div class="cq-panel" id="cqp4" data-cat="lenh_python"></div>
+    <div class="cq-panel" id="cqp5" data-cat="thuc_hanh"></div>
+    <div class="cq-panel" id="cqp6" data-cat="van_dung"></div>
+  </div>
+</div>
+
+<div id="cq-present">
+  <div id="cqp-countdown-ring" class="cqp-hidden"><span id="cqp-countdown-num">30</span></div>
+  <div id="cqp-type-badge"></div>
+  <div class="cqp-tag" id="cqp-tag"></div>
+  <div class="cqp-q" id="cqp-q"></div>
+  <div class="cqp-opts" id="cqp-opts"></div>
+  <div id="cqp-tl-answer"></div>
+  <div id="cqp-fill-answers" class="cqp-fill-answers"></div>
+  <div id="cqp-match-body" class="cqp-match-body"></div>
+  <div id="cqp-student-msg"></div>
+  <div class="cqp-explain" id="cqp-explain"></div>
+  <div class="cqp-actions">
+    <button id="cqp-ans-btn" onclick="cq_presToggleAns()" style="border-color:#2ecc71;color:#2ecc71">💡 Xem đáp án</button>
+    <button id="cqp-next-btn" onclick="cq_presNextAuto()" style="border-color:#4fc3f7;color:#4fc3f7;display:none">⏭ Tiếp theo</button>
+    <button onclick="cq_presClose()" style="border-color:#e74c3c;color:#e74c3c">✖ Đóng</button>
+  </div>
+</div>
+
+<!-- Kịch bản overlay -->
+<div id="kichban-overlay">
+  <div id="kb-header">
+    <h2>📋 Kịch Bản Bài Dạy – Bài 16</h2>
+    <span class="kb-sub">2 tiết · Ôn tập → Khởi động → NNLT bậc cao → Môi trường → print() → Thực hành → Tổng kết</span>
+    <div style="margin-left:auto;display:flex;gap:5px;align-items:center">
+      <button id="kb-left-toggle-btn"   class="ca-btn kb-ptgl active" onclick="kbLeftToggle()">≡ Mục lục</button>
+      <button id="kb-script-toggle-btn" class="ca-btn kb-ptgl active" onclick="kbScriptToggle()">📝 Kịch bản</button>
+      <button id="kb-slidewin-toggle-btn" class="ca-btn kb-ptgl" onclick="kbSlideWinToggle()">👁 Xem trước</button>
+    </div>
+    <button class="ca-btn red" onclick="setMode('slides')">✖ Đóng</button>
+  </div>
+  <div class="kb-workspace">
+    <div class="kb-left">
+      <div class="kb-mục-lục-hdr">📋 Mục lục</div>
+      <div class="kb-dir-ctrl">
+        <button id="kb-dir-play-btn" class="kb-pick-btn spin" onclick="kbDirToggleAutoPlay()">▶ Tự động dạy</button>
+        <button class="kb-pick-btn reset" onclick="kbDirStop()">⏹</button>
+        <button class="kb-pick-btn" style="border-color:#3a4a5a;color:#5a6a7a;background:transparent;flex:0" onclick="kbDirRestart()">↺</button>
+      </div>
+      <div id="kb-dir-progress"></div>
+      <div class="kb-steps-list" id="kb-dir-list"><div class="kb-empty">Đang tải kịch bản...</div></div>
+    </div>
+    <div id="kb-left-handle" title="Kéo để điều chỉnh độ rộng mục lục"></div>
+    <div class="kb-script-panel" id="kb-script-panel">
+      <div class="kb-mục-lục-hdr" style="border-right:none;border-left:1px solid #0e1828">📝 Kịch bản</div>
+      <div class="kb-sp-empty" id="kb-sp-empty">
+        <div style="font-size:2em;margin-bottom:12px">💬</div>
+        Chọn một bước bên trái để xem và chỉnh sửa lời thoại.
+      </div>
+      <div class="kb-sp-content" id="kb-sp-content" style="display:none">
+        <div class="kb-sp-header" id="kb-sp-header"></div>
+        <div class="kb-sp-section-lbl">💬 Lời thoại giáo viên</div>
+        <textarea class="kb-sp-tts" id="kb-sp-tts" rows="6" spellcheck="false" placeholder="Nhập lời thoại cho bước này..."></textarea>
+        <div class="kb-sp-karaoke" id="kb-sp-karaoke" style="display:none"></div>
+        <div class="kb-sp-section-lbl" style="margin-top:14px">📋 Hướng dẫn thực hiện</div>
+        <textarea class="kb-sp-script" id="kb-sp-script" rows="7" spellcheck="false" placeholder="Nhập hướng dẫn thực hiện..."></textarea>
+        <div class="kb-sp-actions">
+          <div class="kb-exec-group">
+            <button class="kb-pick-btn kb-exec-fs"  id="kb-sp-exec-fs-btn">⛶ All toàn màn hình</button>
+            <button class="kb-pick-btn kb-exec-sim" id="kb-sp-exec-sim-btn">▶ All mô phỏng</button>
+            <button class="kb-pick-btn spin"         id="kb-sp-exec-btn">🔊 Đọc bước này</button>
+          </div>
+          <button class="kb-pick-btn" style="border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,0.07)" id="kb-sp-read-btn">🔊 Đọc lời thoại</button>
+          <button class="kb-pick-btn" style="border-color:#2ec4b6;color:#2ec4b6;background:rgba(46,196,182,0.07)" id="kb-sp-save-btn">💾 Lưu</button>
+          <button class="kb-del-step-btn" id="kb-sp-del-btn">🗑 Xóa bước</button>
+        </div>
+        <div class="kb-sp-nav" id="kb-sp-nav"></div>
+      </div>
+    </div>
+    <div id="kb-split-handle" title="Kéo để điều chỉnh độ rộng"></div>
+    <div id="kb-slide-panel">
+      <div id="kb-slide-panel-hdr">
+        <span>👁 Xem trước bước</span><span id="kb-slide-win-info"></span>
+      </div>
+      <div id="kb-slide-panel-body">
+        <iframe id="kb-slide-iframe" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="kb-ctx-menu">
+  <div class="kb-ctx-info" id="kb-ctx-info"></div>
+  <div class="kb-ctx-sep"></div>
+  <button class="kb-ctx-item kb-ctx-del" onclick="kbCtxDelete()">🗑&nbsp; Xóa bước</button>
+  <div class="kb-ctx-sep"></div>
+  <div class="kb-ctx-label">➕ Thêm sau bước này</div>
+  <button class="kb-ctx-item" onclick="kbCtxAdd('slide')"><span class="kb-ctx-icon">📽</span>Slide</button>
+  <button class="kb-ctx-item" onclick="kbCtxAdd('cq')"   ><span class="kb-ctx-icon">❓</span>Câu hỏi</button>
+  <button class="kb-ctx-item" onclick="kbCtxAdd('chon')" ><span class="kb-ctx-icon">🎲</span>Chọn người</button>
+  <button class="kb-ctx-item" onclick="kbCtxAdd('code')" ><span class="kb-ctx-icon">💻</span>Giải thích code</button>
+</div>
+
+<!-- ══ Rendering engines (shared) ══ -->
+<script src="../../../js/kichban.js"></script>
+<script src="../../../js/minigames.js"></script>
+<!-- ══ B16-specific: lời thoại + câu hỏi ══ -->
+<script src="./js/slide-scripts.js"></script>
+<script src="../../../js/speech.js"></script>
+<script src="../../../js/lesson-timer.js"></script>
+<script src="../../../js/cq-data.js"></script>
+<script src="../../../js/cq-panel.js"></script>
+<script src="../../../js/cq-present.js"></script>
+<script src="../../../js/sp-resize.js"></script>
+<!-- ══ B16 teaching flow (thay cho ../../../js/teaching-flow.js) ══ -->
+<script src="./js/teaching-flow.js"></script>
+
+<button id="slide-nav-toggle" onclick="toggleSlideNav()" title="Lộ trình kịch bản">☰</button>
+
+<div id="slide-nav">
+  <div id="tf-progress"><div id="tf-progress-fill"></div></div>
+  <div id="tf-strip">
+    <div id="tf-phase-dot"></div>
+    <div id="tf-strip-info">
+      <div id="tf-strip-step"><em>Lộ trình</em> · Nhấn Tiếp theo để bắt đầu</div>
+      <div id="tf-strip-meta">24 bước · ~90 phút · 6 giai đoạn</div>
+    </div>
+  </div>
+  <div id="tf-phases"></div>
+  <div id="tf-list-wrap"><div id="tf-step-list"></div></div>
+  <div id="tf-script-row">
+    <div id="tf-phase-badge">...</div>
+    <div id="tf-script-text">Chọn một bước hoặc nhấn Tiếp theo để bắt đầu.</div>
+    <div id="tf-time-tag"></div>
+  </div>
+  <div id="sn-nav">
+    <button id="sn-btn-prev" onclick="tf_prev()">← Trước</button>
+    <button id="sn-btn-exec" onclick="tf_execute()">▶ Thực hiện</button>
+    <button id="sn-btn-next" onclick="tf_next()">Tiếp theo →</button>
+  </div>
+</div>
+
+<!-- Export PPTX -->
+<div id="export-overlay">
+  <div id="export-box">
+    <h3>📊 Xuất PowerPoint</h3>
+    <div id="export-bar-wrap"><div id="export-bar"></div></div>
+    <div id="export-status">Chuẩn bị...</div>
+  </div>
+</div>
+<script src="../../../js/export-pptx.js"></script>
+
+<!-- History Panel -->
+<div id="history-panel">
+  <div id="hp-header">
+    <span>📋 Lịch sử slide</span>
+    <button id="hp-close" onclick="toggleHistoryPanel()">✕</button>
+  </div>
+  <div id="hp-list">
+    <div id="hp-empty">Chưa có thao tác nào.<br>Xóa slide sẽ tạo một điểm khôi phục.<br><br>Ctrl+Z để hoàn tác nhanh.</div>
+  </div>
+  <div id="hp-hint">Tối đa 20 điểm khôi phục · Mất khi tải lại trang</div>
+</div>
+
+<!-- Zoom indicator -->
+<div id="zoom-indicator">
+  <span class="zi-pct">100%</span><span class="zi-hint"></span>
+</div>
+
+<script src="../../../js/app-mode.js"></script>
+
+<!-- Speech Panel -->
+<button id="speech-toggle-btn" onclick="toggleSpeechPanel()" title="Mở hộp thoại giảng dạy">💬</button>
+<div id="speech-panel">
+  <div id="sp-resize-handle"></div>
+  <div id="sp-header">
+    <span id="sp-header-title">💬 Hộp Thoại Giảng Dạy</span>
+    <button id="sp-close-btn" onclick="toggleSpeechPanel()">✕</button>
+  </div>
+  <div id="sp-lang-row">
+    <button class="sp-lang-btn active" data-lang="vi-VN" onclick="spSetLang(this)">🇻🇳 Tiếng Việt</button>
+    <button class="sp-lang-btn" data-lang="en-US" onclick="spSetLang(this)">🇺🇸 English</button>
+  </div>
+  <div id="sp-rate-row">
+    <span class="sp-range-label">Tốc độ</span>
+    <input type="range" id="sp-rate" min="0.5" max="2" step="0.1" value="0.9" oninput="spUpdateRate(this.value)">
+    <span id="sp-rate-label">0.9×</span>
+  </div>
+  <div id="sp-pitch-row">
+    <span class="sp-range-label">Cao độ</span>
+    <input type="range" id="sp-pitch" min="0.5" max="2" step="0.1" value="1" oninput="spUpdatePitch(this.value)">
+    <span id="sp-pitch-label">1.0</span>
+  </div>
+  <div id="sp-voice-row">
+    <span id="sp-voice-label">Giọng:</span>
+    <select id="sp-voice" onchange="spSelectVoice(this.value)"></select>
+  </div>
+  <div id="sp-device-row">
+    <span class="sp-range-label" style="color:#4fc3f7">🎧</span>
+    <select id="sp-device" onchange="spSelectDevice(this.value)">
+      <option value="default">🔊 Mặc định hệ thống</option>
+    </select>
+    <button class="sp-dev-btn" onclick="spRefreshDevices()">↻</button>
+    <button class="sp-dev-btn" onclick="spTestDevice()">▶</button>
+  </div>
+  <div id="sp-device-badge" class="dev-def">
+    <span class="dbadge-dot"></span>
+    <span id="sp-device-msg">Thiết bị mặc định &nbsp;·&nbsp;
+      <a href="#" onclick="spOpenSoundSettings();return false;" style="color:#4fc3f7;text-decoration:none">Cài đặt Windows</a>
+    </span>
+  </div>
+  <div id="sp-script-row">
+    <button class="sp-script-btn" id="sp-ctx-btn" onclick="spLoadContextScript()" title="Tải lời thoại cho phần đang hoạt động">📖 Mục này</button>
+    <button class="sp-script-btn" onclick="spLoadAllScripts()">📋 Tất cả</button>
+  </div>
+  <div id="sp-timer-row">
+    <button class="sp-timer-btn" id="sp-timer-start" onclick="ltToggle()">▶</button>
+    <div id="sp-timer-display">45:00</div>
+    <button class="sp-timer-btn" onclick="ltReset()">↺</button>
+  </div>
+  <div id="lt-bar-wrap"><div id="lt-bar"></div></div>
+  <div id="sp-karaoke-display"></div>
+  <textarea id="sp-textarea" spellcheck="false"
+    placeholder="Nhập nội dung cần đọc...&#10;&#10;Nhấn 📖 Mục này để tải lời thoại."></textarea>
+  <div id="sp-teach-row">
+    <button id="sp-single-btn" class="sp-teach-btn" onclick="spTeachCurrentSlide()">🎓 Slide này</button>
+    <button id="sp-autoteach-btn" class="sp-teach-btn" onclick="spToggleAutoTeach()">📚 Toàn bài</button>
+  </div>
+  <div id="sp-btn-row">
+    <button class="sp-btn sp-btn-play"  id="sp-play-btn"  onclick="spRead()">▶ Đọc</button>
+    <button class="sp-btn sp-btn-pause" id="sp-pause-btn" onclick="spPause()" disabled>⏸</button>
+    <button class="sp-btn sp-btn-stop"  id="sp-stop-btn"  onclick="spStop()"  disabled>⏹</button>
+  </div>
+  <div id="sp-status">Sẵn sàng</div>
+  <div id="sp-auto-row">
+    <label>
+      <input type="checkbox" id="sp-auto-read" onchange="spToggleAuto(this.checked)">
+      Tự đọc khi chuyển slide
+    </label>
+  </div>
+  <button id="sp-clear-btn" onclick="spClear()">🗑 Xóa nội dung</button>
+</div>
+
+<script src="../../../js/kb-preview.js"></script>
+
+</body>
+</html>

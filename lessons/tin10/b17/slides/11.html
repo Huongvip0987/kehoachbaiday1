@@ -1,0 +1,24 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">ĐẶC TRƯNG CỦA PYTHON</span>
+    <h2>Lệnh gán đồng thời</h2>
+    <pre><code class="language-python"># Gán nhiều biến cùng lúc – đặc trưng của Python!
+x, y, z = 10, 5, 1
+
+# Ứng dụng tuyệt vời: hoán đổi 2 biến (không cần biến trung gian)
+a, b = 3, 7
+a, b = b, a   # Sau lệnh này: a = 7, b = 3</code></pre>
+    <div class="simultaneous-demo">
+      <div class="sim-vals">
+        <div class="sim-val d1">x</div><div class="sim-val d2">y</div><div class="sim-val d3">z</div>
+      </div>
+      <div class="sim-arrow">⬅</div>
+      <div class="sim-vals">
+        <div class="sim-val d1" style="color:#b5cea8">10</div>
+        <div class="sim-val d2" style="color:#b5cea8">5</div>
+        <div class="sim-val d3" style="color:#b5cea8">1</div>
+      </div>
+    </div>
+    <div class="question-box" style="margin-top:12px">
+      <strong>🤔 Thử nghĩ:</strong> Lệnh <code style="font-family:var(--font-code);color:var(--py-yellow)">x, y = y, x</code> khi x=10, y=7 sẽ cho kết quả gì? → <em>x=7, y=10</em>
+    </div>
+  </section>

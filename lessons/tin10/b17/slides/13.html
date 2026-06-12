@@ -1,0 +1,23 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">QUY TẮC</span>
+    <h2>Quy tắc đặt tên biến</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Bấm nút 👁 ở từng dòng để hiện đáp án của dòng đó.</p>
+      <table class="name-table">
+        <tr><th>Tên biến</th><th>Hợp lệ?</th><th>Lý do</th></tr>
+        <tr class="pq-item"><td>_tong <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Bắt đầu bằng dấu gạch dưới</td></tr>
+        <tr class="pq-item"><td>diem10 <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Chữ + số, không bắt đầu bằng số</td></tr>
+        <tr class="pq-item"><td>ho_ten <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Chỉ dùng chữ, số, dấu _</td></tr>
+        <tr class="pq-item"><td>9xy <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Bắt đầu bằng <strong>số</strong></td></tr>
+        <tr class="pq-item"><td>lop 10A <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Có <strong>dấu cách</strong></td></tr>
+        <tr class="pq-item"><td>gia$tien <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Có ký tự đặc biệt <strong>$</strong></td></tr>
+        <tr class="pq-item"><td>if <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="invalid pq-hide">Không hợp lệ</td><td class="reason pq-hide">Trùng <strong>từ khóa</strong> của Python</td></tr>
+        <tr class="pq-item"><td>Diem ≠ diem <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button></td><td class="valid pq-hide">Hợp lệ</td><td class="reason pq-hide">Python phân biệt <strong>hoa/thường</strong></td></tr>
+      </table>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+    <div class="question-box" style="margin-top:10px;font-size:0.7em">
+      <strong>📌 Quy tắc ghi nhớ:</strong> Chỉ dùng <span class="highlight-word">chữ cái, số, dấu _</span> &nbsp;·&nbsp; Không bắt đầu bằng số &nbsp;·&nbsp; Không trùng từ khóa &nbsp;·&nbsp; Phân biệt hoa/thường
+    </div>
+  </section>

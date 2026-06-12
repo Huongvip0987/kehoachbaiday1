@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kho Bài Giảng · Tin học THPT</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #080d1a;
+  --bg2:     #0d1628;
+  --bg3:     #111e30;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text:    #dde4f0;
+  --dim:     #7a8599;
+  --accent:  #4fc3f7;
+  --gold:    #ffd43b;
+  --green:   #4caf50;
+  --font:    'Be Vietnam Pro', system-ui, sans-serif;
+  --code:    'JetBrains Mono', monospace;
+}
+
+html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font); }
+
+/* ── Layout ── */
+#lib-layout { display: flex; flex-direction: column; height: 100vh; }
+
+/* ── Header ── */
+#lib-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #090e1c 0%, #0d1628 100%);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  user-select: none;
+}
+#lib-hero { font-size: 2em; line-height: 1; filter: drop-shadow(0 0 8px rgba(79,195,247,0.4)); }
+#lib-head-text { flex: 1; }
+#lib-title { font-size: 1.05em; font-weight: 800; color: var(--accent); letter-spacing: 0.4px; }
+#lib-subtitle { font-size: 0.71em; color: var(--dim); margin-top: 3px; }
+
+/* ── Search ── */
+#lib-search-wrap { position: relative; }
+#lib-search {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.84em;
+  padding: 8px 14px 8px 36px;
+  width: 230px;
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+#lib-search::placeholder { color: var(--dim); }
+#lib-search:focus { border-color: var(--accent); background: rgba(79,195,247,0.05); }
+#lib-search-ico {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  color: var(--dim); font-size: 0.9em; pointer-events: none;
+}
+
+/* ── Grade tabs ── */
+#lib-tabs {
+  display: flex;
+  padding: 0 28px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 2px;
+}
+.lib-tab {
+  padding: 11px 22px;
+  font-size: 0.87em;
+  font-weight: 700;
+  color: var(--dim);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+  user-select: none;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lib-tab:hover { color: var(--text); }
+.lib-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-badge {
+  font-size: 0.72em;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: rgba(79,195,247,0.1);
+  color: var(--dim);
+  transition: background .2s, color .2s;
+}
+.lib-tab.active .tab-badge { background: rgba(79,195,247,0.2); color: var(--accent); }
+
+/* ── Scrollable body ── */
+#lib-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #1e3050 transparent;
+}
+#lib-body::-webkit-scrollbar { width: 5px; }
+#lib-body::-webkit-scrollbar-thumb { background: #1e3050; border-radius: 3px; }
+
+/* ── Recent strip ── */
+#lib-recent {
+  display: none;
+  margin-bottom: 24px;
+}
+.recent-hdr {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+#recent-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.recent-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  background: rgba(79,195,247,0.07);
+  border: 1px solid rgba(79,195,247,0.2);
+  border-radius: 20px;
+  font-size: 0.78em;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.recent-chip:hover { background: rgba(79,195,247,0.14); border-color: var(--accent); }
+.rc-grade { font-size: 0.75em; color: var(--dim); font-family: var(--code); }
+.rc-title { color: var(--text); font-weight: 600; }
+
+/* ── Topic section ── */
+.topic-section { margin-bottom: 26px; }
+.topic-hdr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg2);
+  border-radius: 8px;
+  border-left: 4px solid var(--tc, var(--accent));
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+  margin-bottom: 12px;
+}
+.topic-hdr:hover { background: var(--bg3); }
+.topic-icon { font-size: 1.15em; }
+.topic-name { flex: 1; font-size: 0.86em; font-weight: 700; color: var(--tc, var(--accent)); }
+.topic-meta-txt { font-size: 0.7em; color: var(--dim); }
+.topic-chev { color: var(--dim); font-size: 0.75em; transition: transform .2s; }
+.topic-section.collapsed .topic-chev { transform: rotate(-90deg); }
+.topic-section.collapsed .lesson-grid { display: none; }
+
+/* ── Lesson grid ── */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 10px;
+}
+
+/* ── Lesson card ── */
+.lc {
+  position: relative;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 13px 11px;
+  display: flex;
+  flex-direction: column;
+  min-height: 104px;
+  transition: transform .15s, border-color .15s, background .15s, box-shadow .15s;
+}
+.lc.avail {
+  cursor: pointer;
+  border-color: rgba(79,195,247,0.22);
+}
+.lc.avail:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  background: rgba(79,195,247,0.05);
+  box-shadow: 0 6px 22px rgba(79,195,247,0.1);
+}
+.lc.avail:active { transform: none; }
+.lc.soon { opacity: 0.5; }
+
+/* Top accent strip for available cards */
+.lc.avail::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+  background: var(--tc, var(--accent));
+  opacity: 0.7;
+}
+
+.lc-no {
+  font-size: 1.35em;
+  font-weight: 800;
+  font-family: var(--code);
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.lc.soon .lc-no { color: var(--dim); }
+
+.lc-title {
+  font-size: 0.78em;
+  color: var(--text);
+  line-height: 1.45;
+  flex: 1;
+}
+.lc.soon .lc-title { color: var(--dim); }
+
+.lc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.lc-tiets { font-size: 0.67em; color: var(--dim); }
+.lc-badge {
+  font-size: 0.64em;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.2px;
+}
+.lc-badge.avail  { background: rgba(76,175,80,.15); color: var(--green); border: 1px solid rgba(76,175,80,.3); }
+.lc-badge.soon   { background: rgba(100,100,120,.1); color: #555; border: 1px solid rgba(100,100,120,.2); }
+
+/* ── No results ── */
+#lib-no-results {
+  display: none;
+  text-align: center;
+  padding: 64px 0;
+  color: var(--dim);
+}
+#lib-no-results .nr-ico { font-size: 2.8em; margin-bottom: 14px; }
+#lib-no-results .nr-txt { font-size: 0.88em; }
+
+/* ── Footer ── */
+#lib-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 28px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  font-size: 0.74em;
+  color: var(--dim);
+  flex-shrink: 0;
+}
+.fstat { display: flex; align-items: center; gap: 5px; }
+.fstat strong { color: var(--accent); font-size: 1.05em; }
+.fsep { color: var(--border2); }
+
+/* ── Search highlight ── */
+mark { background: rgba(255,212,59,.28); color: inherit; border-radius: 2px; padding: 0 1px; }
+</style>
+</head>
+<body>
+<div id="lib-layout">
+
+  <!-- HEADER -->
+  <header id="lib-header">
+    <div id="lib-hero">🐍</div>
+    <div id="lib-head-text">
+      <div id="lib-title">Kho Bài Giảng Tin Học THPT</div>
+      <div id="lib-subtitle">Kết nối tri thức với cuộc sống · Lớp 10 – 11 – 12</div>
+    </div>
+    <div id="lib-search-wrap">
+      <span id="lib-search-ico">🔍</span>
+      <input id="lib-search" type="text" placeholder="Tìm bài học..." autocomplete="off"
+             oninput="lib_filter(this.value)" onkeydown="lib_searchKey(event)">
+    </div>
+  </header>
+
+  <!-- GRADE TABS -->
+  <div id="lib-tabs">
+    <div class="lib-tab active" data-grade="10" onclick="lib_switchGrade(10)">
+      Lớp 10 <span class="tab-badge" id="tbadge-10"></span>
+    </div>
+    <div class="lib-tab" data-grade="11" onclick="lib_switchGrade(11)">
+      Lớp 11 <span class="tab-badge" id="tbadge-11"></span>
+    </div>
+    <div class="lib-tab" data-grade="12" onclick="lib_switchGrade(12)">
+      Lớp 12 <span class="tab-badge" id="tbadge-12"></span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div id="lib-body">
+
+    <!-- Recently opened -->
+    <div id="lib-recent">
+      <div class="recent-hdr">🕐 Mở gần đây</div>
+      <div id="recent-list"></div>
+    </div>
+
+    <!-- Grade content -->
+    <div id="lib-content"></div>
+    <div id="lib-no-results">
+      <div class="nr-ico">🔍</div>
+      <div class="nr-txt">Không tìm thấy bài học nào phù hợp.<br>Hãy thử từ khoá khác.</div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="lib-footer">
+    <div class="fstat">📚 <strong id="fst-avail">0</strong> bài có sẵn</div>
+    <span class="fsep">·</span>
+    <div class="fstat">⏳ <strong id="fst-soon">0</strong> bài sắp ra</div>
+    <span class="fsep">·</span>
+    <div class="fstat">📖 Kết nối tri thức với cuộc sống</div>
+  </footer>
+
+</div><!-- #lib-layout -->
+
+<script src="./lessons/catalog.js"></script>
+<script>
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+const RECENT_KEY = 'lib_recent_v1';
+let _grade = 10;
+let _query = '';
+let _firstResult = null;  // dùng cho Enter mở bài đầu tiên
+
+// ══════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════
+
+// Được gọi từ onclick của lesson card (dùng data-* attributes)
+function lib_openCard(el) {
+  const gradeNum = parseInt(el.dataset.grade);
+  const topicId  = el.dataset.topic;
+  const no       = parseInt(el.dataset.no);
+  const gradeData = LESSON_CATALOG.grades.find(g => g.grade === gradeNum);
+  const topic     = gradeData && gradeData.topics.find(t => t.id === topicId);
+  const lesson    = topic && topic.lessons.find(l => l.no === no);
+  if (lesson) lib_openLesson(lesson, gradeData);
+}
+
+function lib_openLesson(lesson, grade) {
+  // Lưu vào recently opened
+  try {
+    const recent = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    const entry = { grade: grade.grade, label: grade.label, no: lesson.no, title: lesson.title, path: lesson.path };
+    const deduped = recent.filter(r => r.path !== lesson.path);
+    deduped.unshift(entry);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(deduped.slice(0, 5)));
+  } catch(e) {}
+
+  if (window.navBridge) {
+    window.navBridge.openLesson(lesson.path);
+  } else {
+    window.location.href = lesson.path;
+  }
+}
+
+// ══════════════════════════════════
+// GRADE TAB SWITCH
+// ══════════════════════════════════
+function lib_switchGrade(grade) {
+  _grade = grade;
+  document.querySelectorAll('.lib-tab').forEach(t =>
+    t.classList.toggle('active', parseInt(t.dataset.grade) === grade));
+  lib_render();
+  lib_updateFooter();
+}
+
+// ══════════════════════════════════
+// SEARCH / FILTER
+// ══════════════════════════════════
+function lib_filter(q) {
+  _query = q.trim().toLowerCase();
+  lib_render();
+}
+
+function lib_searchKey(e) {
+  if (e.key === 'Enter' && _firstResult) lib_openLesson(_firstResult.lesson, _firstResult.grade);
+}
+
+// ══════════════════════════════════
+// RENDER
+// ══════════════════════════════════
+function lib_render() {
+  const gradeData = LESSON_CATALOG.grades.find(g => g.grade === _grade);
+  const content   = document.getElementById('lib-content');
+  const noResults = document.getElementById('lib-no-results');
+  _firstResult = null;
+
+  if (!gradeData) { content.innerHTML = ''; noResults.style.display = 'block'; return; }
+
+  let totalShown = 0;
+
+  const html = gradeData.topics.map(topic => {
+    const matching = _query
+      ? topic.lessons.filter(l =>
+          ('bài ' + l.no).includes(_query) ||
+          ('b' + l.no).includes(_query) ||
+          String(l.no) === _query ||
+          l.title.toLowerCase().includes(_query) ||
+          topic.title.toLowerCase().includes(_query))
+      : topic.lessons;
+
+    if (_query && matching.length === 0) return '';
+    totalShown += matching.length;
+
+    const cards = matching.map(l => {
+      const avail = l.status === 'available';
+      if (avail && !_firstResult) _firstResult = { lesson: l, grade: gradeData };
+      const titleHtml = _query ? hl(l.title, _query) : esc(l.title);
+      return `<div class="lc ${avail ? 'avail' : 'soon'}"
+        style="--tc:${topic.color}"
+        ${avail ? `data-grade="${_grade}" data-topic="${topic.id}" data-no="${l.no}" onclick="lib_openCard(this)"` : ''}
+        title="${avail ? 'Mở Bài ' + l.no + ': ' + esc(l.title) : 'Bài ' + l.no + ' – sắp có'}">
+        <div class="lc-no">B${l.no}</div>
+        <div class="lc-title">${titleHtml}</div>
+        <div class="lc-foot">
+          <span class="lc-tiets">${l.tiets} tiết</span>
+          <span class="lc-badge ${avail ? 'avail' : 'soon'}">${avail ? '✓ Có sẵn' : 'Sắp có'}</span>
+        </div>
+      </div>`;
+    }).join('');
+
+    const availCnt = topic.lessons.filter(l => l.status === 'available').length;
+    const metaTxt  = (availCnt ? availCnt + ' có sẵn · ' : '') + topic.lessons.length + ' bài';
+
+    return `<div class="topic-section" id="ts-${topic.id}">
+      <div class="topic-hdr" style="--tc:${topic.color}" onclick="lib_toggleTopic('${topic.id}')">
+        <span class="topic-icon">${topic.icon}</span>
+        <span class="topic-name">${esc(topic.title)}</span>
+        <span class="topic-meta-txt">${metaTxt}</span>
+        <span class="topic-chev">▼</span>
+      </div>
+      <div class="lesson-grid">${cards}</div>
+    </div>`;
+  }).join('');
+
+  content.innerHTML = html;
+  noResults.style.display = totalShown === 0 ? 'block' : 'none';
+}
+
+function lib_toggleTopic(id) {
+  document.getElementById('ts-' + id)?.classList.toggle('collapsed');
+}
+
+// ══════════════════════════════════
+// FOOTER STATS
+// ══════════════════════════════════
+function lib_updateFooter() {
+  const gradeData = LESSON_CATALOG.grades.find(g => g.grade === _grade);
+  if (!gradeData) return;
+  const all   = gradeData.topics.flatMap(t => t.lessons);
+  const avail = all.filter(l => l.status === 'available').length;
+  document.getElementById('fst-avail').textContent = avail;
+  document.getElementById('fst-soon').textContent  = all.length - avail;
+}
+
+// ══════════════════════════════════
+// TAB BADGES (available/total per grade)
+// ══════════════════════════════════
+function lib_updateTabBadges() {
+  LESSON_CATALOG.grades.forEach(g => {
+    const all   = g.topics.flatMap(t => t.lessons);
+    const avail = all.filter(l => l.status === 'available').length;
+    const el = document.getElementById('tbadge-' + g.grade);
+    if (el) el.textContent = avail + '/' + all.length;
+  });
+}
+
+// ══════════════════════════════════
+// RECENTLY OPENED
+// ══════════════════════════════════
+function lib_renderRecent() {
+  try {
+    const recent = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    if (!recent.length) return;
+    const wrap = document.getElementById('lib-recent');
+    const list = document.getElementById('recent-list');
+    list.innerHTML = recent.map(r => `
+      <div class="recent-chip" onclick="navTo('${r.path}')" title="Mở lại: Bài ${r.no} – ${esc(r.title)}">
+        <span class="rc-grade">Lớp ${r.grade}</span>
+        <span class="rc-title">B${r.no} · ${esc(r.title)}</span>
+      </div>`).join('');
+    wrap.style.display = 'block';
+  } catch(e) {}
+}
+
+function navTo(path) {
+  if (window.navBridge) window.navBridge.openLesson(path);
+  else window.location.href = path;
+}
+
+// ══════════════════════════════════
+// HELPERS
+// ══════════════════════════════════
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function hl(text, q) {
+  if (!q) return esc(text);
+  const safe = esc(text);
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return safe.replace(re, '<mark>$1</mark>');
+}
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  lib_updateTabBadges();
+  lib_renderRecent();
+  lib_render();
+  lib_updateFooter();
+
+  // Phím tắt: Ctrl+F focus search
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+      e.preventDefault();
+      document.getElementById('lib-search').focus();
+    }
+  });
+});
+</script>
+<script src="./js/zoom-minimap.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">THỰC HÀNH MỞ RỘNG</span>
+    <h2>Bài tập 1d · Luyện tập · Phát hiện lỗi</h2>
+    <div class="practice-quiz">
+      <p class="pq-prompt">🤔 Bấm nút 👁 ở từng bài để hiện đáp án của bài đó.</p>
+      <ul class="task-list">
+        <li class="pq-item">
+          <span class="task-label">Bài 1d</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Gán <code>a=2, b=3, c=4</code>. Tính <strong>(a+b+c)(a+b−c)</strong>
+          <br><small>Gợi ý: <code>(a+b+c)*(a+b-c)</code> <span class="pq-hide">= 9 × 1 = <strong style="color:#4caf50">9</strong></span></small></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Luyện tập</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>In câu nhạc theo SGK tr.96 – Luyện tập:
+          <br><code style="font-family:var(--font-code);color:var(--py-yellow)">print("đồ rê mi " * 3 + "pha son la si đô " * 2)</code>
+          <br><small>Kết quả: <em class="pq-hide">đồ rê mi đồ rê mi đồ rê mi pha son la si đô pha son la si đô</em></small></div>
+        </li>
+        <li class="pq-item">
+          <span class="task-label">Phát hiện lỗi</span> <button class="pq-eye" onclick="pqEye(this)" title="Hiện đáp án">👁</button>
+          <div>Lệnh sau có lỗi gì? Sửa như thế nào? <code style="font-family:var(--font-code);color:#f87171">x=1 ; 123a = x+1</code>
+          <br><small class="pq-hide">→ <strong>SyntaxError</strong>: <code>123a</code> bắt đầu bằng số → Sửa: <code style="color:#4caf50">a123 = x + 1</code></small></div>
+        </li>
+      </ul>
+      <button class="pq-reveal-btn pq-show-btn" onclick="pqShowAll(this)">👁️ Hiện tất cả</button>
+      <button class="pq-reveal-btn" onclick="pqReset(this)">🙈 Ẩn tất cả</button>
+    </div>
+  </section>

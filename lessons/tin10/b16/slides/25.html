@@ -1,0 +1,28 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">VẬN DỤNG</span>
+    <h2>Triple quotes và vòng lặp <code style="font-size:0.85em">for</code></h2>
+    <div class="two-col" style="margin-top:12px;gap:20px">
+      <div class="info-box" style="border-color:rgba(255,212,59,0.35)">
+        <h4 style="color:#ffd43b">🔤 Xâu nhiều dòng – Triple quotes</h4>
+        <pre style="margin:8px 0"><code class="language-python">print("""Khong co viec gi kho
+Chi so long khong ben
+Dao nui va lap bien
+Quyet chi at lam nen""")</code></pre>
+        <p style="font-size:0.7em;color:#aaa">Cặp <code>"""..."""</code> cho phép xâu chứa nhiều dòng — nhấn <kbd>Enter</kbd> giữa xâu.</p>
+      </div>
+      <div class="info-box" style="border-color:rgba(79,195,247,0.35)">
+        <h4 style="color:#4fc3f7">🔄 Vòng lặp for – Bảng nhân 5</h4>
+        <pre style="margin:8px 0"><code class="language-python">for i in range(1, 11):
+    print("5 x", i, "=", 5*i)</code></pre>
+        <p style="font-size:0.7em;color:#aaa">
+          <code>range(1, 11)</code> → i chạy từ 1 đến 10<br>
+          Kết quả: 5×1=5, 5×2=10, ..., 5×10=50
+        </p>
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <button class="open-playground-btn" onclick="openPlayground('demo_vandung')">
+        <span class="icon">💻</span> Mở Playground – Vận dụng
+      </button>
+    </div>
+  </section>

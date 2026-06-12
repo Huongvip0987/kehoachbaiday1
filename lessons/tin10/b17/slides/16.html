@@ -1,0 +1,27 @@
+  <section data-background-color="#0a0f1e">
+    <span class="section-tag">KIẾN THỨC MỚI</span>
+    <h2>Gán nhiều biến = một giá trị · Toán tử kết hợp</h2>
+    <pre><code class="language-python"># Gán nhiều biến cùng MỘT giá trị
+a = b = 5          # Cả a và b đều bằng 5
+a = b * 2          # a = 10 (vế phải tính trước!)
+c = (a - b)**2     # c = (10-5)^2 = 25</code></pre>
+    <div class="two-col" style="margin-top:12px">
+      <div class="info-box">
+        <h4>🔄 Phân tích x = x + 1</h4>
+        <ul>
+          <li>Bước 1: Tính vế phải → <code>x + 1</code></li>
+          <li>Bước 2: Gán kết quả vào <code>x</code></li>
+          <li>Nên dù trông "vô nghĩa" về toán học, lệnh gán này <strong>hợp lệ</strong>!</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h4>⚡ Toán tử gán kết hợp</h4>
+        <ul>
+          <li><code>x += 1</code> &nbsp;≡&nbsp; <code>x = x + 1</code></li>
+          <li><code>x -= 2</code> &nbsp;≡&nbsp; <code>x = x - 2</code></li>
+          <li><code>x *= 3</code> &nbsp;≡&nbsp; <code>x = x * 3</code></li>
+          <li><code>x //= 2</code> ≡&nbsp; <code>x = x // 2</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>

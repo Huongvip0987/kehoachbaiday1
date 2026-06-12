@@ -1,0 +1,43 @@
+{
+  "name": "bai17-bien-lenh-gan",
+  "version": "1.0.0",
+  "description": "Bài 17: Biến và Lệnh Gán – Tin học 10 Kết nối tri thức",
+  "author": "Tin hoc 10",
+  "main": "main.js",
+  "scripts": {
+    "start": "set ELECTRON_RUN_AS_NODE=&& electron .",
+    "build": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^41.3.0",
+    "electron-builder": "^26.15.2"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1",
+    "reveal.js": "^5.1.0"
+  },
+  "build": {
+    "appId": "vn.edu.tinhoc10.bai17",
+    "productName": "Bai 17 - Bien va Lenh Gan",
+    "copyright": "Tin học 10 – Kết nối tri thức",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "asarUnpack": [
+      "step_runner.py"
+    ]
+  }
+}
