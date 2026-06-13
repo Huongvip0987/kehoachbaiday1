@@ -27,9 +27,9 @@
   ════════════════════════════════════ */
   const TIER1 = new Set(['ÔN TẬP', 'KHỞI ĐỘNG', 'HÌNH THÀNH KIẾN THỨC']);
 
-  /* v3: lộ trình/mục lục tái cấu trúc theo 41 slide thực tế → reset dữ liệu cũ */
-  const _LS_DEL_KEY   = 'kb_deleted_steps_b17_v3';
-  const _LS_EXTRA_KEY = 'kb_extra_steps_b17_v3';
+  /* v4: flat slide hv coordinates (41 horizontal, no vertical) → reset dữ liệu cũ */
+  const _LS_DEL_KEY   = 'kb_deleted_steps_b17_v4';
+  const _LS_EXTRA_KEY = 'kb_extra_steps_b17_v4';
   const _LS_TTS_KEY   = 'kb_tts_edits_b17_v1';
   const _LS_SCRIPT_KEY = 'kb_script_edits_b17_v1';
   const SCRIPT_EDITS = {};

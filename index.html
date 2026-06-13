@@ -39,10 +39,9 @@
 
 <script>
 var _LP = 'lessons/' + (new URLSearchParams(location.search).get('lesson') || 'tin10/b17');
-function _sx(p) { var x = new XMLHttpRequest(); x.open('GET', p, false); x.send(); return x.status === 200 ? x.responseText : ''; }
+function _sx(p) { var x = new XMLHttpRequest(); x.open('GET', p, false); x.setRequestHeader('Cache-Control','no-cache'); x.send(); return (x.status === 200 || (x.status === 0 && x.responseText)) ? x.responseText : ''; }
 (function(){
-  var _cb = (typeof performance !== 'undefined' ? Math.floor(performance.now()) : 1);
-  var mf = _sx(_LP + '/slides/manifest.json?_=' + _cb);
+  var mf = _sx(_LP + '/slides/manifest.json');
   if (mf) {
     document.querySelector('.reveal .slides').innerHTML =
       JSON.parse(mf).map(function(f){ return _sx(_LP + '/slides/' + f); }).join('\n');
