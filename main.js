@@ -10,6 +10,7 @@ if (process.env.ELECTRON_RUN_AS_NODE === '1') {
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { spawn } = require('child_process');
 let mainWin = null;
 
@@ -148,35 +149,38 @@ ipcMain.handle('ppt-open-native', async (_event, filePath) => {
   shell.openPath(filePath);
 
   // PowerShell: chờ cửa sổ PPT xuất hiện rồi đặt đúng vị trí slide
-  const ps = `
-Add-Type -TypeDefinition @'
-using System;
-using System.Runtime.InteropServices;
-public class PPTPos {
-    [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr i, int x, int y, int cx, int cy, uint f);
-    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);
-}
-'@
-$x=${sx}; $y=${sy}; $w=${sw}; $h=${sh}
-$hwnd=[IntPtr]::Zero; $i=0
-do {
-    Start-Sleep -Milliseconds 700
-    $p = Get-Process -EA SilentlyContinue |
-         Where-Object { $_.ProcessName -in 'POWERPNT','soffice','SOFFICE' -and $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -ne '' } |
-         Select-Object -First 1
-    if ($p) { $hwnd=$p.MainWindowHandle }
-    $i++
-} while ($hwnd -eq [IntPtr]::Zero -and $i -lt 20)
-if ($hwnd -ne [IntPtr]::Zero) {
-    [PPTPos]::ShowWindow($hwnd, 9)
-    [PPTPos]::SetWindowPos($hwnd, [IntPtr]::Zero, $x, $y, $w, $h, 0x0044)
-}`;
+  const psScript = [
+    'Add-Type -TypeDefinition @"',
+    'using System;',
+    'using System.Runtime.InteropServices;',
+    'public class PPTPos {',
+    '    [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr i, int x, int y, int cx, int cy, uint f);',
+    '    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);',
+    '}',
+    '"@',
+    `$x=${sx}; $y=${sy}; $w=${sw}; $h=${sh}`,
+    '$hwnd=[IntPtr]::Zero; $i=0',
+    'do {',
+    '    Start-Sleep -Milliseconds 700',
+    '    $p = Get-Process -EA SilentlyContinue | Where-Object { $_.ProcessName -in @("POWERPNT","soffice","SOFFICE") -and $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -ne "" } | Select-Object -First 1',
+    '    if ($p) { $hwnd=$p.MainWindowHandle }',
+    '    $i++',
+    '} while ($hwnd -eq [IntPtr]::Zero -and $i -lt 20)',
+    'if ($hwnd -ne [IntPtr]::Zero) {',
+    '    [PPTPos]::ShowWindow($hwnd, 9)',
+    '    [PPTPos]::SetWindowPos($hwnd, [IntPtr]::Zero, $x, $y, $w, $h, 0x0044)',
+    '}'
+  ].join('\r\n');
 
-  const ps1 = spawn('powershell', ['-NoProfile', '-NonInteractive', '-Command', ps], {
+  const psFile = path.join(os.tmpdir(), `ppt_pos_${Date.now()}.ps1`);
+  fs.writeFileSync(psFile, psScript, 'utf8');
+
+  const proc = spawn('powershell', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', psFile], {
     windowsHide: true,
     detached: true
   });
-  ps1.unref();
+  proc.on('close', () => { try { fs.unlinkSync(psFile); } catch (_) {} });
+  proc.unref();
 
   return true;
 });
