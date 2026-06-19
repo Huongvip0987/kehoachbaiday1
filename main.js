@@ -7,7 +7,7 @@ if (process.env.ELECTRON_RUN_AS_NODE === '1') {
   process.exit(0);
 }
 
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, screen } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -137,18 +137,21 @@ ipcMain.handle('ppt-open-dialog', async () => {
 });
 
 ipcMain.handle('ppt-open-native', async (_event, filePath) => {
-  // Tính toán vùng slide (content area trừ toolbar 44px)
-  const cb = mainWin.getContentBounds();
-  const TOOLBAR_H = 44;
-  const sx = cb.x;
-  const sy = cb.y + TOOLBAR_H;
-  const sw = cb.width;
-  const sh = cb.height - TOOLBAR_H;
+  // Tính tọa độ vật lý của vùng slide (bên dưới thanh công cụ 44px CSS)
+  const display = screen.getDisplayMatching(mainWin.getBounds());
+  const sf = display.scaleFactor;              // hệ số DPI (1.0, 1.25, 1.5, ...)
+  const cb = mainWin.getContentBounds();       // đơn vị: pixel vật lý
+  const TOOLBAR_H_PX = Math.round(44 * sf);   // 44px CSS → pixel vật lý
 
-  // Mở file bằng ứng dụng mặc định (PowerPoint / LibreOffice)
+  const sx = cb.x;
+  const sy = cb.y + TOOLBAR_H_PX;
+  const sw = cb.width;
+  const sh = cb.height - TOOLBAR_H_PX;
+
   shell.openPath(filePath);
 
-  // PowerShell: chờ cửa sổ PPT xuất hiện rồi đặt đúng vị trí slide
+  // PowerShell: chờ cửa sổ PPT xuất hiện → đặt vào đúng "ô slide"
+  // Gọi SetWindowPos 2 lần (cách nhau 1.5s) để tránh PPT tự khôi phục vị trí
   const psScript = [
     'Add-Type -TypeDefinition @"',
     'using System;',
@@ -161,13 +164,18 @@ ipcMain.handle('ppt-open-native', async (_event, filePath) => {
     `$x=${sx}; $y=${sy}; $w=${sw}; $h=${sh}`,
     '$hwnd=[IntPtr]::Zero; $i=0',
     'do {',
-    '    Start-Sleep -Milliseconds 700',
-    '    $p = Get-Process -EA SilentlyContinue | Where-Object { $_.ProcessName -in @("POWERPNT","soffice","SOFFICE") -and $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -ne "" } | Select-Object -First 1',
-    '    if ($p) { $hwnd=$p.MainWindowHandle }',
+    '    Start-Sleep -Milliseconds 600',
+    '    $p = Get-Process -EA SilentlyContinue | Where-Object {',
+    '        $_.ProcessName -in @("POWERPNT","soffice","SOFFICE") -and',
+    '        $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -ne ""',
+    '    } | Select-Object -First 1',
+    '    if ($p) { $hwnd = $p.MainWindowHandle }',
     '    $i++',
-    '} while ($hwnd -eq [IntPtr]::Zero -and $i -lt 20)',
+    '} while ($hwnd -eq [IntPtr]::Zero -and $i -lt 25)',
     'if ($hwnd -ne [IntPtr]::Zero) {',
     '    [PPTPos]::ShowWindow($hwnd, 9)',
+    '    [PPTPos]::SetWindowPos($hwnd, [IntPtr]::Zero, $x, $y, $w, $h, 0x0044)',
+    '    Start-Sleep -Milliseconds 1500',
     '    [PPTPos]::SetWindowPos($hwnd, [IntPtr]::Zero, $x, $y, $w, $h, 0x0044)',
     '}'
   ].join('\r\n');
