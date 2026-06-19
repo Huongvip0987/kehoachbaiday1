@@ -24,7 +24,7 @@
     '#mode-bar','#toolbar-show-tab','#speech-toggle-btn','#slide-nav-toggle',
     '#slide-nav','#kichban-overlay','#speech-panel','#game-list-modal',
     '#zoom-indicator','#obj-font-ctrl','#resize-overlay',
-    '#edit-toolbar','#edit-toast','#export-overlay','#history-panel',
+    '#edit-toolbar','#edit-toast','#history-panel',
     '#kb-slide-panel','#slide-nav-toggle'
   ].join(',')+'{display:none!important}';
   document.head.appendChild(s);
@@ -180,7 +180,6 @@ eval(_sx(_LP + '/js/init.js'));
   <button class="mode-btn tool-edit-only" id="btn-edit" onclick="document.body.classList.contains('mode-edit') ? setMode('slides') : setMode('edit')" title="Bật/tắt chỉnh sửa slide">✏️ Sửa</button>
   <button class="mode-btn tool-edit-only" id="btn-id-inspect" onclick="toggleIdInspector()" title="Bật/tắt xem mã định danh · Di chuột để xem · Chuột phải để copy">🔍 Mã định danh</button>
   <button class="font-btn tool-edit-only" onclick="location.reload()" title="Tải lại trang" style="margin-left:8px">🔄 Reload</button>
-  <button class="font-btn tool-edit-only" onclick="exportToPptx()" title="Xuất tất cả slide ra file PowerPoint (.pptx)" style="margin-left:4px;background:#1a2a4a;border-color:#4fc3f7;color:#4fc3f7;font-weight:700">📊 Xuất PPTX</button>
   <div id="lesson-timer" onclick="ltToggle()" ondblclick="ltReset()" title="Đồng hồ tiết học 45 phút · Nhấn: tạm dừng/tiếp · Nhấn đúp: reset">⏱ <span id="lt-display">45:00</span></div>
   <div id="font-ctrl" style="margin-left:auto;display:flex;align-items:center;gap:6px;">
     <button class="font-btn" onclick="adjustFontSize(-4)" title="Chữ nhỏ hơn">A−</button>
@@ -642,17 +641,6 @@ eval(_sx(_LP + '/js/init.js'));
     <button id="sn-btn-next" onclick="tf_next()">Tiếp theo →</button>
   </div>
 </div>
-
-<!-- Export PPTX overlay -->
-<div id="export-overlay">
-  <div id="export-box">
-    <h3>📊 Xuất PowerPoint</h3>
-    <div id="export-bar-wrap"><div id="export-bar"></div></div>
-    <div id="export-status">Chuẩn bị...</div>
-  </div>
-</div>
-
-<script src="./js/export-pptx.js"></script>
 
 <!-- Slide History Panel -->
 <div id="history-panel">

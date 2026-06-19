@@ -11,8 +11,6 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const PptxGenJS = require('pptxgenjs');
-
 let mainWin = null;
 
 function resolveSafeHtmlPath(filePath) {
@@ -82,39 +80,6 @@ app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   app.quit();
-});
-
-// ── IPC: Export to PPTX ──
-ipcMain.handle('pptx-save-dialog', async () => {
-  const { canceled, filePath } = await dialog.showSaveDialog(mainWin, {
-    title: 'Xuất file PowerPoint',
-    defaultPath: 'Bai17-Bien-Lenh-Gan.pptx',
-    filters: [{ name: 'PowerPoint Presentation', extensions: ['pptx'] }]
-  });
-  return canceled ? null : filePath;
-});
-
-ipcMain.handle('pptx-capture-slide', async () => {
-  const img = await mainWin.webContents.capturePage();
-  const buf = img.toJPEG(88);
-  return 'data:image/jpeg;base64,' + buf.toString('base64');
-});
-
-ipcMain.handle('pptx-save-file', async (_event, { filePath, slides, lessonTitle }) => {
-  try {
-    const pptx = new PptxGenJS();
-    pptx.layout = 'LAYOUT_WIDE';
-    pptx.title = lessonTitle || 'Bài giảng';
-    pptx.subject = lessonTitle || '';
-    for (const imgData of slides) {
-      const slide = pptx.addSlide();
-      slide.addImage({ data: imgData, x: 0, y: 0, w: '100%', h: '100%' });
-    }
-    await pptx.writeFile({ fileName: filePath });
-    return { ok: true };
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
 });
 
 // ── IPC: Open Windows Sound Settings ──

@@ -17,12 +17,6 @@ contextBridge.exposeInMainWorld('caroBridge', {
   openCaro: () => ipcRenderer.invoke('open-caro')
 });
 
-contextBridge.exposeInMainWorld('pptxBridge', {
-  showSaveDialog: ()     => ipcRenderer.invoke('pptx-save-dialog'),
-  captureSlide:   ()     => ipcRenderer.invoke('pptx-capture-slide'),
-  saveFile:       (data) => ipcRenderer.invoke('pptx-save-file', data)
-});
-
 contextBridge.exposeInMainWorld('audioBridge', {
   openSoundSettings: () => ipcRenderer.invoke('open-sound-settings')
 });

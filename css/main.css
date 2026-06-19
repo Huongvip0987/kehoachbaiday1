@@ -1370,25 +1370,6 @@ body.pg-as-slide #demo-tabs { display: none !important; }
   100% { opacity: 0; transform: translateY(-20px) scale(1.1); }
 }
 
-/* ── Export PPTX overlay ── */
-#export-overlay {
-  display: none; position: fixed; inset: 0; z-index: 99999;
-  background: rgba(0,0,0,0.78); align-items: center; justify-content: center;
-  font-family: var(--font-main);
-}
-#export-overlay.active { display: flex; }
-#export-box {
-  background: #1e1e2e; border: 1px solid #4fc3f7; border-radius: 14px;
-  padding: 32px 40px; min-width: 340px; text-align: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-}
-#export-box h3 { color: #4fc3f7; font-size: 1.1em; margin: 0 0 20px; }
-#export-bar-wrap {
-  background: #2a2a4a; border-radius: 6px; height: 8px; overflow: hidden; margin-bottom: 14px;
-}
-#export-bar { height: 100%; background: #4fc3f7; border-radius: 6px; width: 0%; transition: width 0.3s ease; }
-#export-status { color: #aaa; font-size: 0.85em; min-height: 1.4em; }
-
 /* ── Slide number ── */
 .reveal .slide-number {
   background: rgba(0,0,0,0.55) !important;
