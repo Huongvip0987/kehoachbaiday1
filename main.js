@@ -10,8 +10,19 @@ if (process.env.ELECTRON_RUN_AS_NODE === '1') {
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { spawn } = require('child_process');
 let mainWin = null;
+
+function findLibreOffice() {
+  const candidates = [
+    'C:\\Program Files\\LibreOffice\\program\\soffice.exe',
+    'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe',
+    'C:\\Program Files\\LibreOffice 7\\program\\soffice.exe',
+    'C:\\Program Files\\LibreOffice 6\\program\\soffice.exe',
+  ];
+  return candidates.find(p => fs.existsSync(p)) || null;
+}
 
 function resolveSafeHtmlPath(filePath) {
   const raw = String(filePath || '');
@@ -122,6 +133,74 @@ ipcMain.handle('open-quiz', async () => {
   });
   quizWin.once('ready-to-show', () => { quizWin.maximize(); quizWin.show(); });
   quizWin.loadFile('quiz_b17.html');
+  return true;
+});
+
+// ── IPC: PPT Viewer ──
+ipcMain.handle('ppt-open-dialog', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(mainWin, {
+    title: 'Chọn file PowerPoint',
+    filters: [{ name: 'PowerPoint', extensions: ['pptx', 'ppt'] }],
+    properties: ['openFile']
+  });
+  return canceled ? null : filePaths[0];
+});
+
+ipcMain.handle('ppt-convert-and-open', async (_event, filePath) => {
+  const libreOfficePath = findLibreOffice();
+  const tmpDir = path.join(os.tmpdir(), 'ppt-viewer-' + Date.now());
+  fs.mkdirSync(tmpDir, { recursive: true });
+
+  let pptWin = new BrowserWindow({
+    width: 1280, height: 720,
+    useContentSize: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    },
+    title: 'PPT Viewer',
+    backgroundColor: '#000',
+    show: false
+  });
+
+  pptWin.once('ready-to-show', () => pptWin.show());
+
+  pptWin.on('closed', () => {
+    fs.rm(tmpDir, { recursive: true, force: true }, () => {});
+    pptWin = null;
+  });
+
+  if (libreOfficePath) {
+    // Gửi trạng thái loading trước, rồi chuyển đổi
+    pptWin.loadFile('ppt-viewer.html', { query: { mode: 'loading' } });
+
+    const soffice = spawn(libreOfficePath, [
+      '--headless', '--convert-to', 'png', '--outdir', tmpDir, filePath
+    ], { windowsHide: true });
+
+    soffice.on('close', () => {
+      const files = fs.readdirSync(tmpDir)
+        .filter(f => f.toLowerCase().endsWith('.png'))
+        .sort((a, b) => {
+          const numA = parseInt(a.match(/\d+/) || ['0']) || 0;
+          const numB = parseInt(b.match(/\d+/) || ['0']) || 0;
+          return numA - numB;
+        })
+        .map(f => path.join(tmpDir, f).replace(/\\/g, '/'));
+
+      if (pptWin && !pptWin.isDestroyed()) {
+        pptWin.loadFile('ppt-viewer.html', {
+          query: { mode: 'slides', slides: JSON.stringify(files) }
+        });
+      }
+    });
+  } else {
+    // Fallback: JS renderer
+    pptWin.loadFile('ppt-viewer.html', {
+      query: { mode: 'js', file: filePath.replace(/\\/g, '/') }
+    });
+  }
+
   return true;
 });
 

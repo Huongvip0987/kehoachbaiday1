@@ -20,3 +20,8 @@ contextBridge.exposeInMainWorld('caroBridge', {
 contextBridge.exposeInMainWorld('audioBridge', {
   openSoundSettings: () => ipcRenderer.invoke('open-sound-settings')
 });
+
+contextBridge.exposeInMainWorld('pptViewBridge', {
+  openDialog:       ()     => ipcRenderer.invoke('ppt-open-dialog'),
+  convertAndOpen:   (path) => ipcRenderer.invoke('ppt-convert-and-open', path)
+});

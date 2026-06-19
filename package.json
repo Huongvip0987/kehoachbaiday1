@@ -13,6 +13,7 @@
     "electron-builder": "^26.15.2"
   },
   "dependencies": {
+    "jszip": "^3.10.1",
     "reveal.js": "^5.1.0"
   },
   "build": {

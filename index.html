@@ -177,6 +177,7 @@ eval(_sx(_LP + '/js/init.js'));
   <button class="mode-btn" id="btn-game" onclick="setMode('game')">🎮 Trò Chơi</button>
   <button class="mode-btn" id="btn-chon" onclick="setMode('chon')">🎲 Chọn người</button>
   <button class="mode-btn" id="btn-kichban" onclick="setMode('kichban')">📋 Kịch bản</button>
+  <button class="mode-btn" id="btn-ppt" onclick="openPptViewer()" title="Mở file PowerPoint để chiếu (1280×720)">📂 PPT</button>
   <button class="mode-btn tool-edit-only" id="btn-edit" onclick="document.body.classList.contains('mode-edit') ? setMode('slides') : setMode('edit')" title="Bật/tắt chỉnh sửa slide">✏️ Sửa</button>
   <button class="mode-btn tool-edit-only" id="btn-id-inspect" onclick="toggleIdInspector()" title="Bật/tắt xem mã định danh · Di chuột để xem · Chuột phải để copy">🔍 Mã định danh</button>
   <button class="font-btn tool-edit-only" onclick="location.reload()" title="Tải lại trang" style="margin-left:8px">🔄 Reload</button>
@@ -797,5 +798,12 @@ eval(_sx(_LP + '/js/init.js'));
 <div id="id-inspector-tip"></div>
 <div id="id-drag-rect"></div>
 
+<script>
+async function openPptViewer() {
+  if (!window.pptViewBridge) return;
+  const filePath = await window.pptViewBridge.openDialog();
+  if (filePath) window.pptViewBridge.convertAndOpen(filePath);
+}
+</script>
 </body>
 </html>
