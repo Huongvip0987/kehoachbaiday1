@@ -10,19 +10,8 @@ if (process.env.ELECTRON_RUN_AS_NODE === '1') {
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 const { spawn } = require('child_process');
 let mainWin = null;
-
-function findLibreOffice() {
-  const candidates = [
-    'C:\\Program Files\\LibreOffice\\program\\soffice.exe',
-    'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe',
-    'C:\\Program Files\\LibreOffice 7\\program\\soffice.exe',
-    'C:\\Program Files\\LibreOffice 6\\program\\soffice.exe',
-  ];
-  return candidates.find(p => fs.existsSync(p)) || null;
-}
 
 function resolveSafeHtmlPath(filePath) {
   const raw = String(filePath || '');
@@ -136,7 +125,7 @@ ipcMain.handle('open-quiz', async () => {
   return true;
 });
 
-// ── IPC: PPT Viewer ──
+// ── IPC: PPT – mở bằng app gốc và đặt vào vị trí slide ──
 ipcMain.handle('ppt-open-dialog', async () => {
   const { canceled, filePaths } = await dialog.showOpenDialog(mainWin, {
     title: 'Chọn file PowerPoint',
@@ -146,60 +135,48 @@ ipcMain.handle('ppt-open-dialog', async () => {
   return canceled ? null : filePaths[0];
 });
 
-ipcMain.handle('ppt-convert-and-open', async (_event, filePath) => {
-  const libreOfficePath = findLibreOffice();
-  const tmpDir = path.join(os.tmpdir(), 'ppt-viewer-' + Date.now());
-  fs.mkdirSync(tmpDir, { recursive: true });
+ipcMain.handle('ppt-open-native', async (_event, filePath) => {
+  // Tính toán vùng slide (content area trừ toolbar 44px)
+  const cb = mainWin.getContentBounds();
+  const TOOLBAR_H = 44;
+  const sx = cb.x;
+  const sy = cb.y + TOOLBAR_H;
+  const sw = cb.width;
+  const sh = cb.height - TOOLBAR_H;
 
-  let pptWin = new BrowserWindow({
-    width: 1280, height: 720,
-    useContentSize: true,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    },
-    title: 'PPT Viewer',
-    backgroundColor: '#000',
-    show: false
+  // Mở file bằng ứng dụng mặc định (PowerPoint / LibreOffice)
+  shell.openPath(filePath);
+
+  // PowerShell: chờ cửa sổ PPT xuất hiện rồi đặt đúng vị trí slide
+  const ps = `
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public class PPTPos {
+    [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr i, int x, int y, int cx, int cy, uint f);
+    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int n);
+}
+'@
+$x=${sx}; $y=${sy}; $w=${sw}; $h=${sh}
+$hwnd=[IntPtr]::Zero; $i=0
+do {
+    Start-Sleep -Milliseconds 700
+    $p = Get-Process -EA SilentlyContinue |
+         Where-Object { $_.ProcessName -in 'POWERPNT','soffice','SOFFICE' -and $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -ne '' } |
+         Select-Object -First 1
+    if ($p) { $hwnd=$p.MainWindowHandle }
+    $i++
+} while ($hwnd -eq [IntPtr]::Zero -and $i -lt 20)
+if ($hwnd -ne [IntPtr]::Zero) {
+    [PPTPos]::ShowWindow($hwnd, 9)
+    [PPTPos]::SetWindowPos($hwnd, [IntPtr]::Zero, $x, $y, $w, $h, 0x0044)
+}`;
+
+  const ps1 = spawn('powershell', ['-NoProfile', '-NonInteractive', '-Command', ps], {
+    windowsHide: true,
+    detached: true
   });
-
-  pptWin.once('ready-to-show', () => pptWin.show());
-
-  pptWin.on('closed', () => {
-    fs.rm(tmpDir, { recursive: true, force: true }, () => {});
-    pptWin = null;
-  });
-
-  if (libreOfficePath) {
-    // Gửi trạng thái loading trước, rồi chuyển đổi
-    pptWin.loadFile('ppt-viewer.html', { query: { mode: 'loading' } });
-
-    const soffice = spawn(libreOfficePath, [
-      '--headless', '--convert-to', 'png', '--outdir', tmpDir, filePath
-    ], { windowsHide: true });
-
-    soffice.on('close', () => {
-      const files = fs.readdirSync(tmpDir)
-        .filter(f => f.toLowerCase().endsWith('.png'))
-        .sort((a, b) => {
-          const numA = parseInt(a.match(/\d+/) || ['0']) || 0;
-          const numB = parseInt(b.match(/\d+/) || ['0']) || 0;
-          return numA - numB;
-        })
-        .map(f => path.join(tmpDir, f).replace(/\\/g, '/'));
-
-      if (pptWin && !pptWin.isDestroyed()) {
-        pptWin.loadFile('ppt-viewer.html', {
-          query: { mode: 'slides', slides: JSON.stringify(files) }
-        });
-      }
-    });
-  } else {
-    // Fallback: JS renderer
-    pptWin.loadFile('ppt-viewer.html', {
-      query: { mode: 'js', file: filePath.replace(/\\/g, '/') }
-    });
-  }
+  ps1.unref();
 
   return true;
 });

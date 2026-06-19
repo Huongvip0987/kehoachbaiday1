@@ -802,7 +802,7 @@ eval(_sx(_LP + '/js/init.js'));
 async function openPptViewer() {
   if (!window.pptViewBridge) return;
   const filePath = await window.pptViewBridge.openDialog();
-  if (filePath) window.pptViewBridge.convertAndOpen(filePath);
+  if (filePath) window.pptViewBridge.openNative(filePath);
 }
 </script>
 </body>

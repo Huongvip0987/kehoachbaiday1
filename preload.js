@@ -22,6 +22,6 @@ contextBridge.exposeInMainWorld('audioBridge', {
 });
 
 contextBridge.exposeInMainWorld('pptViewBridge', {
-  openDialog:       ()     => ipcRenderer.invoke('ppt-open-dialog'),
-  convertAndOpen:   (path) => ipcRenderer.invoke('ppt-convert-and-open', path)
+  openDialog: ()     => ipcRenderer.invoke('ppt-open-dialog'),
+  openNative: (path) => ipcRenderer.invoke('ppt-open-native', path)
 });
